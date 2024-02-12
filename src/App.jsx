@@ -1,10 +1,13 @@
 import './index.css'
+import Hero from "./components/Hero";
+import About from "./components/About";
 
 function App() {
 
   return (
-   <main>
-    <p className ="text-red-700" >Hi</p>
+   <main className="app">    
+   <Hero />
+   <About />
    </main>
   )
 }
