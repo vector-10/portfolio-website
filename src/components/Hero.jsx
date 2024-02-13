@@ -15,7 +15,7 @@ const Hero = () => {
         <h1 className="mt-5 introduce1 text-5xl font-bold">I'm a Software Developer</h1>
         <p className=" introduce1 mt-5">I major in Building Functional <br />of Web Applications with the MERN STACK.</p>
        <div className='mt-10'>        
-       <a href='#' className='about-button py-3 px-5 rounded '>More About Me</a> 
+       <a href='#' className='about-button py-3 px-5 rounded '> About Me</a> 
       </div>       
     </div>    
     </div>

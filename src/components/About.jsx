@@ -3,12 +3,12 @@ import aboutImage from "../assets/images/about.jpg"
 
 const About = () => {
   return (
-    <div className='about-section '>
-      <div className='about-header pt-20 pl-40'>
-        <h1 className='introduce text-3xl font-bold'>About Me</h1>
-        <p className='text-lg'>A brief description of Myself and Skillset.</p>
+    <div className='about-section flex flex-col '>
+      <div className='about-header h-28 px-40 py-16'>
+        <h1 className='introduce text-2xl font-bold'>About Me</h1>
+        <p className='text-sm introduce'>A brief description of Myself and Skillset.</p>
       </div>
-     <div className='flex items-center justify-evenly'>
+     <div className='flex flex-col md:flex-row md:flex-wrap items-center justify-evenly '>
      <div className='about-image pt-10'>
        <img src={aboutImage} alt='about me' className='about-image1' width={300} height={700}/>
        </div>
@@ -18,7 +18,9 @@ const About = () => {
           <br />A software developer who specializes in building web applications and has an eye for meaningful projects that solve problems.
           I work with the MERN( MongoDB, Express.js, React.js and Node.js) to build software with good user interfaces and functional server APIs, 
           I have had the privilege of working for two Startups where I played a key role in developing and launching cutting-edge applications.
-          With my great attention to detail, I always ensure that all projects are completed to full accuracy
+          With my great attention to detail, I always ensure that all projects are completed to full accuracy.
+          <br />
+         <p className='mt-5'> I have participated in and won the Biggest Hackthon in the South-East Hack4Futo, as a proof of competence.</p>
         </p>
  
        </div>
