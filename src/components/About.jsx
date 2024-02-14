@@ -5,8 +5,8 @@ const About = () => {
   return (
     <div className='about-section flex flex-col '>
       <div className='about-header h-28 px-40 py-16'>
-        <h1 className='introduce text-2xl font-bold'>About Me</h1>
-        <p className='text-sm introduce'>A brief description of Myself and Skillset.</p>
+        <h1 className='introduce text-4xl font-bold block-text'>About Me</h1>
+        <p className='text-md introduce1'>A brief description of Myself and Skillset.</p>
       </div>
      <div className='flex flex-col md:flex-row md:flex-wrap items-center justify-evenly '>
      <div className='about-image pt-10'>

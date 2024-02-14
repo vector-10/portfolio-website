@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
 
@@ -24,6 +25,12 @@
 
 .introduce1{
   font-family: 'Raleway', sans-serif;
+}
+
+.block-text{
+  font-family: "Protest Guerrilla", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .about-button{
