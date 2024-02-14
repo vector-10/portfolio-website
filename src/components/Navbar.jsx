@@ -1,16 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom'; // If using React Router for navigation
 
-const Navbar = () => {
+const Sidebar = () => {
   return (
-    <div className ="navbar h-screen w-1/4">
-     <ul>
-      <li><a href='#'>About</a></li>
-      <li><a href='#'>Project</a></li>
-      <li><a href='#'>Laurels</a></li>
-      <li><a href='#'>Contact</a></li>
-     </ul>
+    <div className="fixed top-0 left-0 h-screen w-56 bg-gray-900 text-white">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Sidebar;
