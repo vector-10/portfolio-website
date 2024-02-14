@@ -35,9 +35,12 @@
     ];
 
     return (  
-
-      <div className='flex flex-col justify-center items-center'>
-        <h1 className='p-10 font-bold block-text text-4xl'>Projects</h1>
+      <div>
+       <div className='project-header h-28 px-40 py-16'>
+        <h1 className='introduce text-4xl font-bold block-text'> Projects </h1>
+        <p className='text-md introduce1'> FullStack and backend Projects I have worked on personally.</p>
+      </div>
+      <div className='flex flex-col justify-center items-center m-10'>      
         <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
         {projectDetails.map((project, index) => (
           <ProjectCard
@@ -50,7 +53,10 @@
         ))}
         </div>      
       </div>
+      </div> 
     )
   }
 
   export default Projects
+
+
