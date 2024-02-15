@@ -1,6 +1,9 @@
   import React from 'react'
   import ProjectCard from './ProjectCard'
-  import heroImage from "../assets/images/portfolio-blaize.jpg";
+  import chatapp from "../assets/images/chat-app.png"
+  import blaizemall from "../assets/images/blaizemall.png"
+  import promptstore from "../assets/images/prompstore.png"
+  import alexander from "../assets/images/ai-bot.png"
 
 
 
@@ -9,27 +12,27 @@
     const projectDetails = [
       {
       title:"Chat-app",
-      description : "A web application that leverages socket.io",
+      description : "A web chat application that leverages socket.io for bi-directional communication.",
       stack :"socket.io",
-      imageSrc: heroImage,
+      imageSrc: chatapp,
       },
       {
-      title:"Chat-app",
-      description : "A web application that leverages socket.io",
+      title:"BlaizeMall",
+      description : "A Multi vendor E-commerce platform that enables anyone buy anything.",
       stack :"socket.io",
-      imageSrc: "",
+      imageSrc: blaizemall,
       },
       {
-      title:"Chat-app",
-      description : "A web application that leverages socket.io",
+      title:"Promptstore",
+      description : "A web application that enables users to store and share AI prompts for search results.",
       stack :"socket.io",
-      imageSrc: "",
+      imageSrc: promptstore,
       },
       {
-      title:"Chat-app",
-      description : "A web application that leverages socket.io",
+      title:"Alexander AI",
+      description : "An AI chatbot built by leveraging openAIs API for responses and research by users.",
       stack :"socket.io",
-      imageSrc: "",
+      imageSrc: alexander,
       },
 
     ];
@@ -41,7 +44,7 @@
         <p className='text-md introduce1'> FullStack and backend Projects I have worked on personally.</p>
       </div>
       <div className='flex flex-col justify-center items-center m-10'>      
-        <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+        
         {projectDetails.map((project, index) => (
           <ProjectCard
             key={index}
@@ -53,7 +56,7 @@
         ))}
         </div>      
       </div>
-      </div> 
+    
     )
   }
 
