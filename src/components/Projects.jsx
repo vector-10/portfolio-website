@@ -1,38 +1,33 @@
   import React from 'react'
   import ProjectCard from './ProjectCard'
-  import chatapp from "../assets/images/chat-app.png"
-  import blaizemall from "../assets/images/blaizemall.png"
-  import promptstore from "../assets/images/prompstore.png"
-  import alexander from "../assets/images/ai-bot.png"
+  
 
-
-
-  const Projects = ({ title, description, stack, imageSrc, alt  }) => {
+  const Projects = ({ title, description, stack, alt  }) => {
 
     const projectDetails = [
       {
       title:"Chat-app",
       description : "A web chat application that leverages socket.io for bi-directional communication.",
       stack :"socket.io",
-      imageSrc: chatapp,
+      
       },
       {
       title:"BlaizeMall",
       description : "A Multi vendor E-commerce platform that enables anyone buy anything.",
       stack :"socket.io",
-      imageSrc: blaizemall,
+      
       },
       {
       title:"Promptstore",
       description : "A web application that enables users to store and share AI prompts for search results.",
       stack :"socket.io",
-      imageSrc: promptstore,
+      
       },
       {
       title:"Alexander AI",
       description : "An AI chatbot built by leveraging openAIs API for responses and research by users.",
       stack :"socket.io",
-      imageSrc: alexander,
+     
       },
 
     ];
