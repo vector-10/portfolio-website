@@ -1,5 +1,6 @@
 import React from 'react'
 import devfest from "../assets/images/devfest.jpg"
+import hack4futo from"../assets/images/hack4futo.jpg"
 
 const Laurels = () => {
   return (
@@ -10,7 +11,7 @@ const Laurels = () => {
       </div>
       <div className='m-10 flex flex-col justify-center items-center'>    
     <figure className="md:flex rounded-l p-8 md:p-0 ">
-      <img className="w-24 h-24 md:w-60 md:h-auto md:rounded-none rounded-full mx-auto" src={devfest} alt="projects" />
+      <img className="w-24 h-24 md:w-60 md:h-auto md:rounded-none rounded-full mx-auto" src={hack4futo} alt="awards and events" />
       <div className="pt-6 md:p-8 text-center md:text-left space-y-4">          
         <figcaption className="font-medium">
           <div className="text-lg block-text">

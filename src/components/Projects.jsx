@@ -39,7 +39,7 @@
 
     return (  
       <div>
-       <div className='project-header h-28 px-40 py-16'>
+       <div className='project-header h-28 py-16 px-40'>
         <h1 className='introduce text-4xl font-bold block-text'> Projects </h1>
         <p className='text-md introduce1'> FullStack and backend Projects I have worked on personally.</p>
       </div>
