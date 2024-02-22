@@ -4,7 +4,7 @@ const ProjectCard = ({ title, description, stack }) => {
     // created props of imagesrc, title, description and tags for reusability
   return (
    <div>
-      <figure className="md:flex p-8 md:p-0 ">
+      <figure className="md:flex p-8 md:p-0 w-11/12 ">
        <div className="pt-6 md:p-8 text-center md:text-left space-y-4">          
         <figcaption className="font-medium">
           <div className="text-lg block-text">

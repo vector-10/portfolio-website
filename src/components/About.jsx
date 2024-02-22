@@ -3,7 +3,7 @@ import aboutImage from "../assets/images/about.jpg"
 
 const About = () => {
   return (
-    <div className='about-section flex flex-col '>
+    <div className='about-section flex flex-col w-11/12'>
       <div className='about-header h-28 py-16  px-40'>
         <h1 className='introduce text-4xl font-bold block-text '>About Me</h1>
         <p className='text-md introduce1'>A brief description of Myself and Skillset.</p>

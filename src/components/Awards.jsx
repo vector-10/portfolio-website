@@ -4,7 +4,7 @@ import hack4futo from"../assets/images/hack4futo.jpg"
 
 const Laurels = () => {
   return (
-    <div>
+    <div className='w-11/12'>
       <div className='awards-header h-28 px-40 py-16'>
         <h1 className='introduce text-4xl font-bold block-text'>Awards and Events</h1>
         <p className='text-md introduce1'>Hackathons and Events I have Won/Attended.</p>
