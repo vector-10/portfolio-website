@@ -61,6 +61,12 @@
   border-bottom: solid 2px #fb923c;
 }
 
+.nav-icon:hover{
+  color: #fb923c;
+  cursor: pointer;
+  transition: background-color 0.7s ease, color 0.5s ease; 
+}
+
 svg{
   height: 70px ;
   width: 70px;

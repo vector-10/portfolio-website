@@ -16,9 +16,9 @@ const Sidebar = () => {
       </ul>
 
       <ul className='flex flex-col items-center mt-5'>
-        <li><GitHubIcon /></li>
-        <li><LinkedInIcon /></li>
-        <li><XIcon /></li>
+        <a href='https://github.com/vector-10'><li className='nav-icon'><GitHubIcon style={{ fontSize: "35" }}/></li></a>
+        <a href='https://www.linkedin.com/in/chukwuduzie-akalonu-46811026b/'><li className='nav-icon'><LinkedInIcon style={{ fontSize: "35" }}/></li></a>
+        <a href='https://twitter.com/vector_ware'><li><XIcon className='nav-icon' style={{ fontSize: "35",  }}/></li></a>
       </ul>
     </div>
   );
