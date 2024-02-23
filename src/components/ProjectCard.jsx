@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from "react-router-dom"
 
-const ProjectCard = ({ title, description, stack }) => {
+const ProjectCard = ({ title, description, stack, url }) => {
     // created props of imagesrc, title, description and tags for reusability
   return (
    <div>
-      <figure className="md:flex p-8 md:p-0 w-11/12 ">
-       <div className="pt-6 md:p-8 text-center md:text-left space-y-4">          
+      <figure className="md:flex p-8 md:p-0 md:w-11/12 ">
+       <div className="pt-6 md:p-8 md:px-40 text-center md:text-left space-y-4">          
         <figcaption className="font-medium">
           <div className="text-lg block-text">
             {title}
@@ -16,11 +17,11 @@ const ProjectCard = ({ title, description, stack }) => {
              {description}
           </p>
         </blockquote>        
-          <ul className='flex text-sm introduce'>
-            <li className='p-2'>{stack}</li>
-            <li className='p-2'>{stack}</li>
-            <li className='p-2'>{stack}</li>
-          </ul>        
+          <ul className='flex text-xs introduce'>
+            <li className='p-2 '>{stack}</li>
+            
+          </ul> 
+              <Link  className="github-link bg-orange-400 p-2 text-xs hover:rounded" to={url}> Github Link</Link>
       </div>
     </figure>    
    </div>

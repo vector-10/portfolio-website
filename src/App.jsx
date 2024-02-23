@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className='app flex'>
-      <div className='w-1/12'>
+      <div className='md:w-1/12'>
       <Navbar />
       </div>          
       <Routes>
