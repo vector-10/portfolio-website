@@ -8,25 +8,25 @@
       {
       title:"Chat-app",
       description : "A web chat application that leverages socket.io for bi-directional communication.",
-      stack :["Socket.io", " ", "React.js", " ", ""],
+      stack :["Socket.io", " ", "React.js", " ", "Node.js"],
       url: "https://github.com/vector-10/Chat-app"      
       },
       {
       title:"BlaizeMall",
       description : "A Multi vendor E-commerce platform that enables anyone buy anything.",
-      stack :"socket.io",
+      stack :["Redux", " ", "React.js", " ", "Node.js"],
       url: "https://github.com/vector-10/Blaize-Mall_API"   
       },
       {
       title:"Promptstore",
       description : "A web application that enables users to store and share AI prompts for search results.",
-      stack :"socket.io",
+      stack :["Next.js", " ", "React.js", " ", "Node.js"],
       url: "https://promptstore.vercel.app/"   
       },
       {
       title:"Alexander AI",
       description : "An AI chatbot built by leveraging openAIs API for responses and research by users.",
-      stack :"socket.io",
+      stack :["OPEN AI", " ", "React.js", " ", "Node.js"],
       url: "https://github.com/vector-10/Alexander-AI"   
       },
 
