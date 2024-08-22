@@ -6,26 +6,26 @@
 
     const projectDetails = [
       {
-      title:"Chat-app",
-      description : "A web chat application that leverages socket.io for bi-directional communication.",
-      stack :["Socket.io", " ", "React.js", " ", "Node.js"],
-      url: "https://github.com/vector-10/Chat-app"      
+      title:"Frysk Protocol",
+      description : "A fiat-on-ramp user interface that leverages the Fraxtal protocol eo enable users purchase crypto with fiat currency.",
+      stack :["Chainlink", " ", "React.js", " ", "Node.js"],
+      url: "https://fiat-on-ramp.vercel.app/"      
       },
       {
       title:"BlaizeMall",
-      description : "A Multi vendor E-commerce platform that enables anyone buy anything.",
+      description : "A Multi vendor E-commerce platform enabling all entities from brands to corporate organizations to digitize their commercial activities.",
       stack :["Redux", " ", "React.js", " ", "Node.js"],
       url: "https://github.com/vector-10/Blaize-Mall_API"   
       },
       {
       title:"Promptstore",
-      description : "A web application that enables users to store and share AI prompts for search results.",
+      description : "A comprehensive web application tha enables users create, store and share prompts in real-time for the specific results from LLM's onlilne.",
       stack :["Next.js", " ", "React.js", " ", "Node.js"],
       url: "https://promptstore.vercel.app/"   
       },
       {
-      title:"Alexander AI",
-      description : "An AI chatbot built by leveraging openAIs API for responses and research by users.",
+      title:"School Aid",
+      description : "A comprehensive school management software that incorporates all services to run an academic institution online, with email marketing, result organization and more",
       stack :["OPEN AI", " ", "React.js", " ", "Node.js"],
       url: "https://github.com/vector-10/Alexander-AI"   
       },
@@ -36,7 +36,7 @@
       <div>
        <div className='project-header h-28 py-16 px-40'>
         <h1 className='introduce text-4xl font-bold block-text'> Projects </h1>
-        <p className='text-md introduce1'> FullStack and backend Projects I have worked on personally.</p>
+        <p className='text-md introduce1'> Profesional Software i have built to solve certain problems I observed.</p>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 '>      
         
