@@ -41,7 +41,7 @@ const Laurels = () => {
         </figcaption>
         <blockquote>
             <p className="text-md font-medium w-70 ">
-             I volunteered in the for Devfest and equally gave a speech on Web Socket Communication.
+             I delivered a technical speech on leveraging socket communication for real-time functionality on the web in the usecases of collaborative activity.
           </p>
         </blockquote>        
           <ul className='flex text-sm introduce '>
