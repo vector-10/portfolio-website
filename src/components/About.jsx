@@ -15,7 +15,7 @@ const About = () => {
  
        <div className='about-text w-1/2 text-sm flex flex-col'>
         <p> <span className='font-bold introduce1 text-md md:text-lg'> I'm Akalonu Chukwuduzie Blaise, </span>
-          <br />A software developer who specializes in building web applications and has an eye for meaningful projects that solve problems.
+          <br />A software Engineer who specializes in building web applications and has an eye for meaningful projects that solve problems.
           I work with the MERN stack (MongoDB, Express.js, React.js and Node.js) to build software with good user interfaces and functional server APIs, 
           I have had the privilege of working for two Startups where I played a key role in developing and deploying cutting-edge applications.
           With my great attention to detail, I always ensure that all projects are completed to full accuracy.
