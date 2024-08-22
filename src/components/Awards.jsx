@@ -20,11 +20,12 @@ const Laurels = () => {
         </figcaption>
         <blockquote>
             <p className="text-md font-medium w-70">
-             Together with my team members, I won the biggest Hackathon is South-East Nigeria in 2023. 
+             Together with my team members "Alpha-Devlopers". We built a production software that facilitated the transfer of skills from Senior and more experienced to Junior Professionals especially among students.
           </p>
         </blockquote>        
           <ul className='flex text-sm introduce'>
             <li className='p-2'>Next.js</li>
+            <li className='p-2'>React.js</li>
             <li className='p-2'>Node.js</li>
             <li className='p-2'>Socket.io</li>
           </ul>        
@@ -47,7 +48,7 @@ const Laurels = () => {
           <ul className='flex text-sm introduce '>
             <li className='p-2'>websockets</li>
             <li className='p-2'>public speaking</li>
-            <li className='p-2'>volunteering</li>
+            <li className='p-2'>Technical Content</li>
           </ul>        
       </div>
     </figure>    
