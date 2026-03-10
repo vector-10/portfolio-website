@@ -1,6 +1,6 @@
 const highlights = [
   { label: "Location", value: "Lagos, Nigeria" },
-  { label: "Experience", value: "5+ Years" },
+  { label: "Experience", value: "3+ Years" },
   { label: "Focus", value: "Backend · Fintech" },
   { label: "Status", value: "Open to Offers" },
 ];
@@ -26,17 +26,17 @@ export default function About() {
           {/* Right: bio */}
           <div className="flex flex-col gap-5 text-mist text-base leading-relaxed">
             <p>
-              With 4+ years of Experience, I specialize in building Fintech systems
+              With 3+ years of Experience, I specialize in building Fintech systems
               that are data-intensive.         
               I design and develop robust backend APIs that power transactions and payments systems 
-              with a good eeye for quality and clean code principles.
+              with a good eye for quality and clean code principles.
               I pay attention to details and adhere to industry best practices
                like ACID compliance, data integrity, and security.
             </p>
             <p>
               I have deep expertise in wallet systems , enforcing double-entry ledger, 
               idempotency, asynchronous processing to handle high loads without downtime while maintaining security.
-              I ensure reliability of systems through unit Tests, E2E testing for full application flows and 
+              I ensure reliability of systems through unit Tests, E2E testing for full application flows.
             </p>
             <p>
               When I&apos;m not thinking about idempotency keys or row-level

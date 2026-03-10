@@ -1,33 +1,34 @@
 const projects = [
   {
-    name: "WalletCore API",
+    name: "Mono-Parser",
     status: "Production",
     description:
-      "Distributed wallet management system supporting multi-currency operations across 30+ countries. Handles account creation, balance management, and fund transfers with full audit trails.",
-    tags: ["Node.js", "MySQL", "Redis", "REST"],
+      "A B2B API-first credit scoring and decisioning engine. Mono Parser helps loan officers at fintech companies make better-informed lending decisions by processing bank data through a rule-based scoring engine and returning clear, it is an event driven system with Webhook delivery.",
+    tags: ["Node.js", "PostgreSQL", "Redis", "REST APIs", "Webhooks"],
     architecture: [
-      "ACID transactions with row-level locking for concurrent writes",
-      "Horizontal sharding by user_id across 4 read replicas",
-      "Redis cache layer → p99 latency under 12ms",
-      "Event sourcing for tamper-proof transaction audit trail",
+      "Microservices: NestJS gateway layer + FastAPI scoring engine",
+      "Async job queues (BullMQ) end-to-end pipeline under 30s latency",
+      "Webhook system with retry mechanisms + signature-based authentication",
+      "Gemini AI integration for explainable loan decision generation",
+      "Rule-based decisioning engine with knockout rules + affordability checks",
     ],
-    github: "#",
-    live: "#",
+    github: "https://github.com/vector-10/mono-parser",
+    live: "https://mono-parser.shop",
   },
   {
-    name: "PayDispatch Service",
-    status: "Production",
+    name: "Pera Wallet Service",
+    status: "Github",
     description:
-      "Real-time disbursement orchestration service routing payouts to 50+ banking integrations globally. Handles retry logic, failure recovery, and compliance checks end-to-end.",
-    tags: ["Node.js", "Kafka", "AWS EventBridge", "TypeScript"],
+      "A secure wallet system built for fintech operations and Lending, users can fund, transfer, withdraw and  view transaction history for disputes and review.",
+    tags: ["Node.js(Express)", "MySQL", "Knex.js", "TypeScript", "Jest"],
     architecture: [
-      "Event-driven architecture with at-least-once delivery guarantees",
+      "ACID compliant wallet infrastructure for Lending and Fintech Transactions",
       "Idempotency keys prevent duplicate disbursements on retry",
-      "Dead-letter queues + exponential backoff for failed events",
-      "Sub-200ms p95 processing latency at 10k req/min",
+      "Row-level locking for finance transactions to prevent dead locks and ensure data consistent fund transfers",
+      "",
     ],
-    github: "#",
-    live: "#",
+    github: "https://github.com/vector-10/wallet-service-lendsqr",
+    
   },
   {
     name: "ReconcileEngine",
@@ -56,7 +57,12 @@ function GitHubIcon() {
 
 function ExternalLinkIcon() {
   return (
-    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
