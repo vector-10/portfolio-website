@@ -34,7 +34,6 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("dark");
 
-  // Read the theme the blocking script already applied
   useEffect(() => {
     const current = document.documentElement.dataset.theme as "light" | "dark";
     setTheme(current ?? "dark");
@@ -66,13 +65,13 @@ export default function Nav() {
           href="#"
           className="font-display font-bold text-snow text-xl tracking-tight"
         >
-          AM<span className="text-neon">.</span>
+          Engineering Portfolio
         </a>
 
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
-              key={link}
+              key={link}  
               href={`#${link.toLowerCase()}`}
               className="text-sm text-mist hover:text-snow transition-colors duration-200"
             >
@@ -82,7 +81,6 @@ export default function Nav() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Theme toggle */}
           <button
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
@@ -93,9 +91,9 @@ export default function Nav() {
 
           <a
             href="#"
-            className="text-sm font-medium px-5 py-2 rounded-full border border-gold/60 text-gold hover:bg-gold/10 transition-colors duration-200"
+            className="text-sm font-medium px-5 py-2 rounded-xs border border-gold/60 text-gold hover:bg-gold/10 transition-colors duration-200"
           >
-            Download CV
+            Resume
           </a>
         </div>
       </nav>

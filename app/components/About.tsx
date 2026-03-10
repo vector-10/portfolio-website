@@ -26,17 +26,17 @@ export default function About() {
           {/* Right: bio */}
           <div className="flex flex-col gap-5 text-mist text-base leading-relaxed">
             <p>
-              I build the systems that move money. For the past 5+ years I&apos;ve
-              been deep in backend infrastructure — designing APIs that process
-              thousands of transactions per second, building microservices that
-              stay up, and writing code that accountants can audit.
+              With 4+ years of Experience, I specialize in building Fintech systems
+              that are data-intensive.         
+              I design and develop robust backend APIs that power transactions and payments systems 
+              with a good eeye for quality and clean code principles.
+              I pay attention to details and adhere to industry best practices
+               like ACID compliance, data integrity, and security.
             </p>
             <p>
-              My work sits at the intersection of distributed systems and
-              financial precision. I care about data integrity above everything
-              else. A bug in a payment system isn&apos;t just a bug — it&apos;s a
-              liability, a broken trust, and a 3am incident. I engineer to
-              prevent those.
+              I have deep expertise in wallet systems , enforcing double-entry ledger, 
+              idempotency, asynchronous processing to handle high loads without downtime while maintaining security.
+              I ensure reliability of systems through unit Tests, E2E testing for full application flows and 
             </p>
             <p>
               When I&apos;m not thinking about idempotency keys or row-level

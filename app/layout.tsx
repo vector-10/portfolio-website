@@ -21,13 +21,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alex Mercer — Backend Engineer",
+  title: "Chukwuduzie Blaise — Backend Engineer",
   description:
     "Full-Stack Engineer specialising in backend systems, financial APIs, and distributed infrastructure for fintech platforms.",
 };
 
-// Runs before React hydrates — reads localStorage, falls back to system
-// preference, and sets data-theme on <html> to prevent any flash.
+
 const themeScript = `
   try {
     var stored = localStorage.getItem('theme');
@@ -44,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Blocking script: must run before first paint */}
+
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
