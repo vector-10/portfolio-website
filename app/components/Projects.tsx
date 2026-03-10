@@ -91,19 +91,19 @@ export default function Projects() {
           {projects.map((project) => (
             <article
               key={project.name}
-              className="bg-surface border border-wire rounded-2xl p-8 hover:border-neon/40 transition-colors duration-300 group"
+              className="bg-surface border border-wire rounded-xs p-8 hover:border-neon/40 transition-colors duration-300 group"
             >
               {/* Status + tags */}
               <div className="flex flex-wrap items-center gap-3 mb-6">
                 <span className="flex items-center gap-2 font-mono text-xs text-mist">
-                  <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
+                  <span className="w-2 h-2 rounded-xs bg-green-400 inline-block" />
                   {project.status}
                 </span>
                 <span className="text-wire text-xs">·</span>
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 rounded-full font-mono text-xs bg-panel border border-wire text-gold"
+                    className="px-3 py-1 rounded-xs font-mono text-xs bg-panel border border-wire text-gold"
                   >
                     {tag}
                   </span>
@@ -138,9 +138,9 @@ export default function Projects() {
                 </div>
 
                 {/* Right: architecture callout */}
-                <div className="bg-panel rounded-xl p-5 border-l-2 border-neon/50">
+                <div className="bg-panel rounded-xs p-5 border-l-2 border-neon/50">
                   <p className="font-mono text-xs text-neon/60 mb-4">
-                    // Architecture
+                     Architecture
                   </p>
                   <ul className="space-y-2.5">
                     {project.architecture.map((point, i) => (

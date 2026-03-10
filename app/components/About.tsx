@@ -49,7 +49,7 @@ export default function About() {
               {highlights.map(({ label, value }) => (
                 <div
                   key={label}
-                  className="bg-surface border border-wire rounded-xl p-4"
+                  className="bg-surface border border-wire rounded-xs p-4"
                 >
                   <p className="font-mono text-xs text-mist/50 mb-1.5 tracking-widest uppercase">
                     {label}

@@ -1,7 +1,7 @@
 const socialLinks = [
-  { label: "GitHub", href: "https://github.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Twitter / X", href: "https://twitter.com" },
+  { label: "GitHub", href: "https://github.com/vector-10" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/chukwuduzie-blaise-46811026b/" },
+  { label: "X", href: "https://x.com/vector_ware" },
 ];
 
 export default function Contact() {
@@ -10,7 +10,7 @@ export default function Contact() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="max-w-2xl">
           <p className="font-mono text-neon text-xs tracking-[0.35em] uppercase mb-6">
-            05. Contact
+            04. Contact
           </p>
           <h2 className="font-display font-bold text-snow leading-tight mb-6"
             style={{ fontSize: "clamp(2.75rem, 6vw, 4rem)" }}
@@ -29,7 +29,7 @@ export default function Contact() {
             href="mailto:alex.mercer@example.com"
             className="inline-flex items-center gap-3 text-neon font-display text-xl lg:text-2xl font-semibold hover:opacity-75 transition-opacity group"
           >
-            alex.mercer@example.com
+            duzieblaise10@gmail.com
             <svg
               className="w-5 h-5 group-hover:translate-x-1.5 transition-transform"
               fill="none"
@@ -66,11 +66,9 @@ export default function Contact() {
       <div className="max-w-6xl mx-auto px-6 mt-24 pt-8 border-t border-wire">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="font-mono text-xs text-wire">
-            Designed &amp; built by Alex Mercer
+            Designed &amp; built by Akalonu Chukwuduzie Blaise
           </p>
-          <p className="font-mono text-xs text-wire">
-            © 2025 · All rights reserved
-          </p>
+            
         </div>
       </div>
     </section>

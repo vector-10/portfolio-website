@@ -53,7 +53,7 @@ export default function TechStack() {
           {stack.map(({ category, color, items }) => (
             <div
               key={category}
-              className="bg-surface border border-wire rounded-2xl p-6 hover:border-wire/60 transition-colors"
+              className="bg-surface border border-wire rounded-xs p-6 hover:border-wire/60 transition-colors"
             >
               <p
                 className={`font-mono text-xs tracking-[0.25em] uppercase mb-6 ${color}`}
