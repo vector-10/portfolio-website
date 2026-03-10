@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const navLinks = ["About", "Projects", "Experience", "Contact"];
+const navLinks = ["About", "Projects", "Contact"];
 
 function SunIcon() {
   return (
