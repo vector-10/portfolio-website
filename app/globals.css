@@ -1,26 +1,128 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────────────────────
+   Color tokens — static defaults in @theme so Tailwind
+   generates utilities as background-color: var(--color-*)
+   Those CSS variable names are then overridable at runtime.
+───────────────────────────────────────────────────────── */
+@theme {
+  /* Light mode defaults */
+  --color-canvas:  #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-panel:   #EEF1F5;
+  --color-neon:    #006B5F;
+  --color-gold:    #B45309;
+  --color-snow:    #0F172A;
+  --color-mist:    #475569;
+  --color-wire:    #CBD5E1;
 }
 
+/* ─────────────────────────────────────────────────────────
+   Fonts and animations — these DO need @theme inline
+   because they reference Next.js runtime CSS variables.
+───────────────────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans:    var(--font-inter);
+  --font-display: var(--font-space-grotesk);
+  --font-mono:    var(--font-jetbrains-mono);
+
+  --animate-fade-up: fadeUp 0.6s ease both;
+  --animate-fade-in: fadeIn 0.7s ease both;
 }
 
+/* ─────────────────────────────────────────────────────────
+   Hero-specific helpers (not Tailwind tokens, used via
+   inline styles in Hero.tsx — flip with each theme).
+───────────────────────────────────────────────────────── */
+:root {
+  --grid-line: rgba(203, 213, 225, 0.6);
+  --vignette:  rgba(247, 248, 250, 0.75);
+}
+
+/* ─────────────────────────────────────────────────────────
+   Dark mode via system preference.
+   Overrides --color-* (same names Tailwind uses) so all
+   generated utilities automatically pick up the new values.
+───────────────────────────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-canvas:  #080B0F;
+    --color-surface: #0F1419;
+    --color-panel:   #161D27;
+    --color-neon:    #00E5BF;
+    --color-gold:    #F0B429;
+    --color-snow:    #F0F6FC;
+    --color-mist:    #7D8FA9;
+    --color-wire:    #1E2D3D;
+    --grid-line: rgba(30, 45, 61, 0.35);
+    --vignette:  rgba(8, 11, 15, 0.75);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─────────────────────────────────────────────────────────
+   Manual overrides — set by the JS toggle via
+   document.documentElement.dataset.theme = 'dark'|'light'.
+   Same --color-* names so utilities respond instantly.
+───────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --color-canvas:  #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-panel:   #EEF1F5;
+  --color-neon:    #006B5F;
+  --color-gold:    #B45309;
+  --color-snow:    #0F172A;
+  --color-mist:    #475569;
+  --color-wire:    #CBD5E1;
+  --grid-line: rgba(203, 213, 225, 0.6);
+  --vignette:  rgba(247, 248, 250, 0.75);
 }
+
+[data-theme="dark"] {
+  --color-canvas:  #080B0F;
+  --color-surface: #0F1419;
+  --color-panel:   #161D27;
+  --color-neon:    #00E5BF;
+  --color-gold:    #F0B429;
+  --color-snow:    #F0F6FC;
+  --color-mist:    #7D8FA9;
+  --color-wire:    #1E2D3D;
+  --grid-line: rgba(30, 45, 61, 0.35);
+  --vignette:  rgba(8, 11, 15, 0.75);
+}
+
+/* ─────────────────────────────────────────────────────────
+   Keyframes
+───────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Base
+───────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background-color: var(--color-neon);
+  color: var(--color-canvas);
+}
+
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--color-canvas); }
+::-webkit-scrollbar-thumb { background: var(--color-wire); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-mist); }
