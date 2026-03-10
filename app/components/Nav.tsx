@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 
+function getInitialTheme(): "light" | "dark" {
+  if (typeof document === "undefined") return "dark";
+  return (document.documentElement.dataset.theme as "light" | "dark") ?? "dark";
+}
+
 const navLinks = ["About", "Projects", "Contact"];
 
 function SunIcon() {
@@ -32,12 +37,7 @@ function MoonIcon() {
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-
-  useEffect(() => {
-    const current = document.documentElement.dataset.theme as "light" | "dark";
-    setTheme(current ?? "dark");
-  }, []);
+  const [theme, setTheme] = useState<"light" | "dark">(getInitialTheme);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -49,7 +49,7 @@ export default function Nav() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.dataset.theme = next;
-    try { localStorage.setItem("theme", next); } catch (_) {}
+    try { localStorage.setItem("theme", next); } catch {}
   }
 
   return (
