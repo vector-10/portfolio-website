@@ -25,25 +25,24 @@ const projects = [
       "ACID compliant wallet infrastructure for Lending and Fintech Transactions",
       "Idempotency keys prevent duplicate disbursements on retry",
       "Row-level locking for finance transactions to prevent dead locks and ensure data consistent fund transfers",
-      "",
+      "Transaction history logs with references tied to senders and receivers enforced on database level to avoid Transaction Disputes",
     ],
     github: "https://github.com/vector-10/wallet-service-lendsqr",
     
   },
   {
-    name: "ReconcileEngine",
-    status: "Internal Tool",
+    name: "Merez Logistics",
+    status: "Client project",
     description:
-      "Automated financial reconciliation system that matches ledger entries against bank statements, flags discrepancies, and generates compliance reports with a React dashboard.",
-    tags: ["Node.js", "MySQL", "React", "AWS Lambda"],
+      "A B2B Logistics Web application desgined to handle 10,000 concurrent food deliveries daily between customers and businesses with their Dispatch Riders",
+    tags: ["Node.js", "MongoDB", "React", "AWS EC2"],
     architecture: [
-      "Double-entry bookkeeping validation across multiple ledgers",
-      "Batch processing 500k+ records nightly via scheduled Lambda",
-      "Configurable discrepancy detection with tolerance thresholds",
-      "React dashboard with real-time reconciliation status + exports",
+      "Multi-tenant backend architecture on MongoDB powering web and Mobile applications between riders, food vendors and customers",
+      "Websockets for real-time chatting and customer support",
+      "Rider tracking and realtime map usage for customers",
+      "React dashboard with real-time updates for vendors and Admin to monitor application statistics.",
     ],
-    github: "#",
-    live: "#",
+    live: "https://merezglobal.com/",
   },
 ];
 

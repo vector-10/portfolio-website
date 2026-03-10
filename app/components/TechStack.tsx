@@ -6,10 +6,11 @@ const stack = [
       "Node.js",
       "TypeScript",
       "MySQL",
+      "PosstgreSQL",
+      "MongoDB",
       "Redis",
       "REST APIs",
       "Microservices",
-      "GraphQL",
     ],
   },
   {
@@ -20,16 +21,16 @@ const stack = [
   {
     category: "Infrastructure",
     color: "text-neon",
-    items: ["AWS", "Docker", "Kafka", "EventBridge", "Lambda", "CI/CD"],
+    items: ["AWS", "Docker", "Kafka", "EventBridge", "Lambda Functions", "Github Actions(CI/CD)"],
   },
   {
     category: "Practices",
     color: "text-gold",
     items: [
+      "Communication",
       "TDD",
       "ACID Transactions",
       "Event-Driven",
-      "DDD",
       "Agile / Scrum",
     ],
   },
