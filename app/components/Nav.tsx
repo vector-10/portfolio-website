@@ -90,7 +90,9 @@ export default function Nav() {
           </button>
 
           <a
-            href="#"
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-sm font-medium px-5 py-2 rounded-xs border border-gold/60 text-gold hover:bg-gold/10 transition-colors duration-200"
           >
             Resume
