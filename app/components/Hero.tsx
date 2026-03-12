@@ -100,7 +100,7 @@ export default function Hero() {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/chukwuduzie-blaise-46811026b/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
