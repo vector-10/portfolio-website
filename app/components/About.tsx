@@ -1,7 +1,7 @@
 const highlights = [
   { label: "Location", value: "Lagos, Nigeria" },
-  { label: "Experience", value: "3+ Years" },
-  { label: "Focus", value: "Backend · Fintech" },
+  { label: "Experience", value: "4+ Years" },
+  { label: "Focus", value: "Backend · Fintech · Payments" },
   { label: "Status", value: "Open to Offers" },
 ];
 
@@ -26,7 +26,7 @@ export default function About() {
           {/* Right: bio */}
           <div className="flex flex-col gap-5 text-mist text-base leading-relaxed">
             <p>
-              With 3+ years of Experience, I specialize in building Fintech systems
+              With 4+ years of Experience, I specialize in building Fintech systems
               that are data-intensive.         
               I design and develop robust backend APIs that power transactions and payments systems 
               with a good eye for quality and clean code principles.

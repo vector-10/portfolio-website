@@ -3,14 +3,14 @@ const projects = [
     name: "Mono-Parser",
     status: "Production",
     description:
-      "A B2B API-first credit scoring and decisioning engine. Mono Parser helps loan officers at fintech companies make better-informed lending decisions by processing bank data through a rule-based scoring engine and returning clear, it is an event driven system with Webhook delivery.",
-    tags: ["Node.js", "PostgreSQL", "Redis", "REST APIs", "Webhooks"],
+      "A B2B API-first credit scoring and decisioning engine. Mono-Parser helps loan officers at fintech companies make better-informed lending decisions by processing bank data through a rule-based scoring engine, returning clear explainable decisions. Built as an event-driven system with at-least-once webhook delivery guarantees.",
+    tags: ["NestJS", "FastAPI", "BullMQ", "PostgreSQL", "Redis", "Webhooks"],
     architecture: [
-      "Microservices: NestJS gateway layer + FastAPI scoring engine",
-      "Async job queues (BullMQ) end-to-end pipeline under 30s latency",
-      "Webhook system with retry mechanisms + signature-based authentication",
-      "Gemini AI integration for explainable loan decision generation",
-      "Rule-based decisioning engine with knockout rules + affordability checks",
+      "Microservices: NestJS gateway layer + FastAPI scoring engine aggregating 6+ Mono API data sources",
+      "Event-driven pipeline using BullMQ: account linking → data aggregation → scoring → decisioning under 30s latency",
+      "Outbound webhook delivery system with retry mechanisms, signature-based authentication, and at-least-once delivery guarantees",
+      "Rule-based decisioning engine with knockout rules, affordability checks, and manual review triggers for regulatory compliance",
+      "Gemini AI integration for explainable loan decision summaries, helping fintechs justify approvals and rejections",
     ],
     github: "https://github.com/vector-10/mono-parser",
     live: "https://mono-parser.shop",
@@ -19,28 +19,29 @@ const projects = [
     name: "Pera Wallet Service",
     status: "Github",
     description:
-      "A secure wallet system built for fintech operations and Lending, users can fund, transfer, withdraw and  view transaction history for disputes and review.",
-    tags: ["Node.js(Express)", "MySQL", "Knex.js", "TypeScript", "Jest"],
+      "A production-grade fintech wallet REST API built for lending and financial operations. Users can fund, transfer, withdraw, and view full transaction history for disputes and review — backed by core banking primitives.",
+    tags: ["Node.js", "TypeScript", "MySQL", "Knex.js", "Zod", "Jest"],
     architecture: [
-      "ACID compliant wallet infrastructure for Lending and Fintech Transactions",
-      "Idempotency keys prevent duplicate disbursements on retry",
-      "Row-level locking for finance transactions to prevent dead locks and ensure data consistent fund transfers",
-      "Transaction history logs with references tied to senders and receivers enforced on database level to avoid Transaction Disputes",
+      "ACID-compliant wallet infrastructure with atomic MySQL transactions, pessimistic row locking, and deadlock prevention via sorted lock acquisition",
+      "Double-entry ledger system with immutable ledger_entries ensuring every debit has a corresponding credit — mathematically balanced books with full audit trail",
+      "Idempotency key middleware scoped per user with 24-hour TTL response caching, preventing duplicate disbursements on retries",
+      "BVN-based blacklist screening via Lendsqr Adjutor Karma API with AES-256-CBC encryption at rest and NUBAN-style wallet account generation",
+      "Configurable minimum balance floor (default NGN 100) checked atomically within transactions to prevent race conditions on debit operations",
     ],
     github: "https://github.com/vector-10/wallet-service-lendsqr",
-    
   },
   {
     name: "Merez Logistics",
     status: "Client project",
     description:
-      "A B2B Logistics Web application desgined to handle 10,000 concurrent food deliveries daily between customers and businesses with their Dispatch Riders",
+      "A B2B logistics web application designed to handle thousands of daily food delivery orders between customers, businesses, and dispatch riders.",
     tags: ["Node.js", "MongoDB", "React", "AWS EC2"],
     architecture: [
-      "Multi-tenant backend architecture on MongoDB powering web and Mobile applications between riders, food vendors and customers",
-      "Websockets for real-time chatting and customer support",
-      "Rider tracking and realtime map usage for customers",
-      "React dashboard with real-time updates for vendors and Admin to monitor application statistics.",
+      "Multi-tenant MongoDB backend powering web and mobile applications across riders, food vendors, and customers",
+      "Paystack webhook integration with HMAC verification for real-time order payment confirmation",
+      "WebSockets for real-time chat and customer support under high concurrent connections",
+      "Rider tracking with real-time map updates for customers",
+      "React dashboard with live statistics for vendors and admins",
     ],
     live: "https://merezglobal.com/",
   },
@@ -120,27 +121,31 @@ export default function Projects() {
                     {project.description}
                   </p>
                   <div className="flex gap-5">
-                    <a
-                      href={project.github}
-                      className="flex items-center gap-2 font-mono text-xs text-mist hover:text-snow transition-colors"
-                    >
-                      <GitHubIcon />
-                      GitHub
-                    </a>
-                    <a
-                      href={project.live}
-                      className="flex items-center gap-2 font-mono text-xs text-mist hover:text-snow transition-colors"
-                    >
-                      <ExternalLinkIcon />
-                      Live
-                    </a>
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        className="flex items-center gap-2 font-mono text-xs text-mist hover:text-snow transition-colors"
+                      >
+                        <GitHubIcon />
+                        GitHub
+                      </a>
+                    )}
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        className="flex items-center gap-2 font-mono text-xs text-mist hover:text-snow transition-colors"
+                      >
+                        <ExternalLinkIcon />
+                        Live
+                      </a>
+                    )}
                   </div>
                 </div>
 
                 {/* Right: architecture callout */}
                 <div className="bg-panel rounded-xs p-5 border-l-2 border-neon/50">
                   <p className="font-mono text-xs text-neon/60 mb-4">
-                     Architecture
+                    Architecture
                   </p>
                   <ul className="space-y-2.5">
                     {project.architecture.map((point, i) => (
