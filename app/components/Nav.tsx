@@ -7,7 +7,7 @@ function getInitialTheme(): "light" | "dark" {
   return (document.documentElement.dataset.theme as "light" | "dark") ?? "dark";
 }
 
-const navLinks = ["About", "Projects", "Contact"];
+const navLinks = ["About", "Projects", "Email Me"];
 
 function SunIcon() {
   return (
