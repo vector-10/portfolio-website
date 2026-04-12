@@ -76,7 +76,7 @@ export default function Hero() {
                 href="#contact"
                 className="px-6 py-3 rounded-xs border border-wire text-snow text-sm hover:border-mist transition-colors"
               >
-                Send An Email
+                Email Me
               </a>
             </div>
 
