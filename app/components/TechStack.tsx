@@ -24,7 +24,7 @@ const stack = [
   {
     category: "Infrastructure",
     color: "text-neon",
-    items: ["AWS", "Docker", "Kafka", "Grafana", "gRPC", "Lambda Functions", "Github Actions"],
+    items: ["AWS", "Docker", "Kafka", "RabbitMQ", "Grafana", "gRPC", "Lambda Functions", "Github Actions"],
   },
   {
     category: "Practices",
