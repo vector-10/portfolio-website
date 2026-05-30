@@ -16,10 +16,10 @@ const projects = [
     live: "https://mono-parser.shop",
   },
   {
-    name: "Pera Wallet Service",
+    name: "Credwallet Service",
     status: "Github",
     description:
-      "A production-grade fintech wallet REST API built for lending and financial operations. Users can fund, transfer, withdraw, and view full transaction history for disputes and review — backed by core banking primitives.",
+      "A production-grade fintech wallet REST API built for lending and financial operations. Users can fund, transfer, withdraw, and view full transaction history for disputes and review backed by core banking primitives.",
     tags: ["Node.js", "TypeScript", "MySQL", "Knex.js", "Zod", "Jest"],
     architecture: [
       "ACID-compliant wallet infrastructure with atomic MySQL transactions, pessimistic row locking, and deadlock prevention via sorted lock acquisition",
@@ -40,7 +40,7 @@ const projects = [
       "Multi-tenant MongoDB backend powering web and mobile applications across riders, food vendors, and customers",
       "Paystack webhook integration with HMAC verification for real-time order payment confirmation",
       "WebSockets for real-time chat and customer support under high concurrent connections",
-      "Rider tracking with real-time map updates for customers",
+      "Rider to Customer matching Algorithm optimizing for proximity and swift delivery",
       "React dashboard with live statistics for vendors and admins",
     ],
     live: "https://merezglobal.com/",
