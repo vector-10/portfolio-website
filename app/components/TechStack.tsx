@@ -6,6 +6,8 @@ const stack = [
       "Node.js",
       "TypeScript",
       "Go",
+      "Python",
+      "Celery",
       "MySQL",
       "PostgreSQL",
       "MongoDB",
@@ -27,8 +29,7 @@ const stack = [
   {
     category: "Practices",
     color: "text-gold",
-    items: [
-      "",
+    items: [      
       "TDD",
       "ACID Transactions",
       "Event-Driven Systems",
