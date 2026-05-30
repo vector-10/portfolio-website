@@ -36,12 +36,13 @@ export default function About() {
             <p>
               I have deep expertise in wallet systems , enforcing double-entry ledger, 
               idempotency, asynchronous processing to handle high loads without downtime while maintaining security.
-              I ensure reliability of systems through unit Tests, E2E testing for full application flows.
+              I ensure correctness of systems through unit and Integration Tests, E2E testing for full user journey flows.
             </p>
             <p>
-              When I&apos;m not thinking about idempotency keys or row-level
-              locking, I work on the frontend too. React feels different when
-              you&apos;ve built the API it&apos;s calling.
+              Beyond code, I obsses over monitoring and observability. 
+              Working to improve application performance and improve systems 
+              to survive the chaos that comes with Scale or "success" as some call it.
+              
             </p>
 
             {/* Highlight cards */}
