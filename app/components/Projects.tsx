@@ -28,7 +28,7 @@ const projects = [
       "BVN-based blacklist screening via Lendsqr Adjutor Karma API with AES-256-CBC encryption at rest and NUBAN-style wallet account generation",
       "Configurable minimum balance floor (default NGN 100) checked atomically within transactions to prevent race conditions on debit operations",
     ],
-    github: "https://github.com/vector-10/wallet-service-lendsqr",
+    github: "https://github.com/vector-10/credwallet-service",
   },
   {
     name: "Merez Logistics",
