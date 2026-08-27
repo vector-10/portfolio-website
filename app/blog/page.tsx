@@ -3,13 +3,27 @@ import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { Nav } from "@/components/nav";
 import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { Reveal } from "@/components/reveal";
-import { getAllPosts, getReadingTime, tagLabels } from "@/lib/posts";
+import {
+  getAllPosts,
+  getPostsByTag,
+  getReadingTime,
+  tagLabels,
+  tagOrder,
+  type Post,
+} from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "Articles — Chukwuduzie Blaise",
   description:
-    "Articles on fintech engineering, distributed systems, and project deep-dives.",
+    "Articles on system design, project architecture, career notes, and the business case for software.",
 };
 
 function formatDate(date: string) {
@@ -20,9 +34,36 @@ function formatDate(date: string) {
   });
 }
 
+function PostCard({ post }: { post: Post }) {
+  return (
+    <Link href={`/blog/${post.slug}`} className="group block h-full">
+      <Card className="h-full transition-colors group-hover:border-accent-warm/40">
+        <CardHeader>
+          <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+            <time>{formatDate(post.date)}</time>
+            <span aria-hidden>·</span>
+            <span>{getReadingTime(post.content)} min read</span>
+          </div>
+          <CardTitle className="mt-1 text-lg group-hover:text-accent-warm">
+            {post.title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CardDescription className="leading-relaxed">
+            {post.summary}
+          </CardDescription>
+          <div className="mt-4 flex items-center justify-end">
+            <ArrowUpRight className="size-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent-warm group-hover:opacity-100" />
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+}
+
 export default function BlogIndex() {
   const posts = getAllPosts();
-  const [featured, ...rest] = posts;
+  const [featured] = posts;
 
   return (
     <>
@@ -31,7 +72,7 @@ export default function BlogIndex() {
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-accent-warm/20 blur-3xl" />
 
-        <div className="relative mx-auto max-w-3xl px-6 pt-24 pb-16">
+        <div className="relative mx-auto max-w-5xl px-6 pt-24 pb-16">
           <Reveal>
             <p className="font-mono text-sm tracking-widest text-accent-warm uppercase">
               Articles
@@ -40,21 +81,21 @@ export default function BlogIndex() {
               Notes on backend systems &amp; fintech
             </h1>
             <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-              Case studies, decisions, and the reasoning behind them — fintech
-              engineering, distributed systems, and project deep-dives.
+              System design, project architecture, career notes, and the
+              business case for software.
             </p>
           </Reveal>
         </div>
       </section>
 
       {featured && (
-        <div className="relative mx-auto max-w-3xl px-6">
+        <div className="relative mx-auto max-w-5xl px-6">
           <Reveal>
             <div className="relative">
               <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-accent-warm/10 blur-2xl" />
               <Link
                 href={`/blog/${featured.slug}`}
-                className="group relative block overflow-hidden rounded-2xl border border-border bg-card p-8 transition-colors hover:border-accent-warm/40"
+                className="group relative block overflow-hidden rounded-2xl border border-border bg-card p-8 transition-colors hover:border-accent-warm/40 sm:p-10"
               >
                 <p className="font-mono text-xs tracking-widest text-accent-warm uppercase">
                   Latest
@@ -67,10 +108,10 @@ export default function BlogIndex() {
                     {tagLabels[featured.tag] ?? featured.tag}
                   </Badge>
                 </div>
-                <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+                <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-tight sm:text-3xl">
                   {featured.title}
                 </h2>
-                <p className="mt-3 text-muted-foreground">
+                <p className="mt-3 max-w-2xl text-muted-foreground">
                   {featured.summary}
                 </p>
                 <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground">
@@ -83,33 +124,28 @@ export default function BlogIndex() {
         </div>
       )}
 
-      <div className="mx-auto max-w-3xl px-6 py-20">
-        <div className="flex flex-col divide-y divide-border">
-          {rest.map((post, index) => (
-            <Reveal key={post.slug} delay={index * 0.05}>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="group flex items-center justify-between gap-6 py-6"
-              >
-                <div>
-                  <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                    <time>{formatDate(post.date)}</time>
-                    <span aria-hidden>·</span>
-                    <span>{getReadingTime(post.content)} min read</span>
-                    <Badge variant="outline">
-                      {tagLabels[post.tag] ?? post.tag}
-                    </Badge>
-                  </div>
-                  <h2 className="mt-2 text-xl font-medium group-hover:text-accent-warm">
-                    {post.title}
-                  </h2>
-                  <p className="mt-1 text-muted-foreground">{post.summary}</p>
-                </div>
-                <ArrowUpRight className="size-5 shrink-0 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent-warm group-hover:opacity-100" />
-              </Link>
-            </Reveal>
-          ))}
-        </div>
+      <div className="mx-auto max-w-5xl px-6 py-20">
+        {tagOrder.map((tag) => {
+          const tagPosts = getPostsByTag(tag, featured?.slug).slice(0, 2);
+          if (tagPosts.length === 0) return null;
+
+          return (
+            <div key={tag} className="mb-16 last:mb-0">
+              <Reveal>
+                <h2 className="text-2xl font-semibold tracking-tight">
+                  {tagLabels[tag]}
+                </h2>
+              </Reveal>
+              <div className="mt-6 grid gap-6 sm:grid-cols-2">
+                {tagPosts.map((post, index) => (
+                  <Reveal key={post.slug} delay={index * 0.05}>
+                    <PostCard post={post} />
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </>
   );

@@ -65,7 +65,7 @@ export default async function BlogPost({
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-accent-warm"
         >
           <ArrowLeft className="size-4" />
-          Back to Writing
+          Back to Articles
         </Link>
 
         <div className="mt-8 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">

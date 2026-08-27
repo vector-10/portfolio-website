@@ -1,0 +1,20 @@
+---
+title: "What I Actually Got Asked in System Design Interviews"
+summary: "Patterns across several system design interviews — what gets probed beyond the whiteboard architecture, and where most answers fall apart."
+date: "2026-08-15"
+tag: "career-notes"
+---
+
+## It's rarely the diagram that fails
+
+Most candidates can draw a reasonable high-level architecture. Where interviews actually diverge is the follow-up: "what happens when this component goes down," "how do you handle two of these arriving at the same time," "why this database over that one, specifically for this access pattern."
+
+## The questions that kept coming back
+
+- How do you handle a duplicate request from a retry?
+- What's your consistency model, and did you choose it deliberately or by default?
+- Where's the single point of failure in what you just drew, and what's the blast radius if it fails?
+
+## What helped
+
+Treating every design as if a skeptical senior engineer was going to ask "what breaks first" — and having an actual answer, not a hand-wave — mattered more than the initial diagram being impressive.

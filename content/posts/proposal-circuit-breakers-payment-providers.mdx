@@ -1,0 +1,22 @@
+---
+title: "Proposal: Circuit Breakers for Third-Party Payment Providers"
+summary: "A proposal for wrapping every outbound payment-provider call in a circuit breaker, after a slow provider degraded checkout for all customers instead of just its own traffic."
+date: "2026-08-08"
+tag: "software-proposals"
+---
+
+## Current state
+
+Outbound calls to third-party payment providers have no circuit breaker. A slow provider currently degrades the entire checkout path, since requests queue up behind it with no fast-fail mechanism.
+
+## Proposal
+
+Wrap every provider call in a circuit breaker with an aggressive timeout. After a threshold of failures or timeouts, the breaker opens and routes new requests to a fallback provider or a "try again shortly" response, instead of letting them queue.
+
+## Expected impact
+
+Provider slowness becomes isolated to that provider's traffic instead of degrading checkout site-wide. Recovery is also faster — a half-open breaker can test the provider periodically instead of waiting for a manual intervention.
+
+## Cost
+
+One additional dependency (a circuit breaker library) and some new failure-path testing. Small compared to the blast radius of the current all-or-nothing behavior.

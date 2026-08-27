@@ -1,0 +1,18 @@
+---
+title: "What Changed When I Started Reviewing My Own PRs Like an Interviewer Would"
+summary: "Treating your own pull request like a skeptical reviewer would, before anyone else sees it, catches a different class of problem than just re-reading your code."
+date: "2026-08-06"
+tag: "career-notes"
+---
+
+## The habit
+
+Before requesting review, read the diff as if you were the one being asked "why did you do it this way" in an interview — not "does this look right," but "can I defend every decision in here out loud."
+
+## What it actually catches
+
+Not syntax errors — those get caught by linters anyway. It catches the decisions made on autopilot: an error case silently swallowed, a magic number with no explanation, an edge case that "probably won't happen." Those are exactly the things an interviewer, or a sharp reviewer, will ask about.
+
+## Why it matters beyond the PR itself
+
+It's the same muscle a system design interview exercises: can you explain the *why* behind a decision, not just describe the *what*. Practicing it on real work is more useful than practicing it only under interview pressure.

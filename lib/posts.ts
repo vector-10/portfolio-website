@@ -4,7 +4,18 @@ import matter from "gray-matter";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
-export type PostTag = "fintech" | "distributed-systems" | "project-deepdive";
+export type PostTag =
+  | "system-design-review"
+  | "software-proposals"
+  | "career-notes"
+  | "business-case-study";
+
+export const tagOrder: PostTag[] = [
+  "system-design-review",
+  "software-proposals",
+  "career-notes",
+  "business-case-study",
+];
 
 export interface PostFrontmatter {
   title: string;
@@ -47,7 +58,14 @@ export function getReadingTime(content: string): number {
 }
 
 export const tagLabels: Record<PostTag, string> = {
-  fintech: "Fintech",
-  "distributed-systems": "Distributed Systems",
-  "project-deepdive": "Project Deep-Dive",
+  "system-design-review": "System Design Review",
+  "software-proposals": "Software Proposals",
+  "career-notes": "Career Notes",
+  "business-case-study": "Business Case Study",
 };
+
+export function getPostsByTag(tag: PostTag, excludeSlug?: string): Post[] {
+  return getAllPosts().filter(
+    (post) => post.tag === tag && post.slug !== excludeSlug
+  );
+}

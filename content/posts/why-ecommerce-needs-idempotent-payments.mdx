@@ -1,0 +1,22 @@
+---
+title: "Why Growing E-Commerce Platforms Need Idempotent Payment Handling"
+summary: "Duplicate charges usually show up right as an e-commerce platform starts scaling — here's why, and what it costs to ignore."
+date: "2026-08-12"
+tag: "business-case-study"
+---
+
+## The pattern
+
+Below a certain order volume, duplicate charges from network retries are rare enough to handle manually — a support ticket here and there, refunded by hand. Past a certain scale, the same retry behavior happens often enough that manual refunds become a real support cost, and repeat customers start noticing.
+
+## Why it gets missed early
+
+Idempotency isn't visible in a demo. It only shows up under real-world conditions: flaky mobile networks, client-side timeouts, retried requests. A platform can look completely correct in testing and still duplicate-charge customers in production once real traffic hits it.
+
+## The actual cost
+
+Beyond the refunds themselves, duplicate charges erode trust in a way that's hard to win back — a customer who gets double-charged once tends to double-check every future order, or leaves for a competitor.
+
+## What it takes to fix
+
+An idempotency-key layer on the payment path, enforced at the database level rather than just in application logic. It's a contained, well-understood piece of engineering — the expensive part is not doing it before scale exposes the gap.

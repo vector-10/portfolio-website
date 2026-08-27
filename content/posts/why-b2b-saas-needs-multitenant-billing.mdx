@@ -1,0 +1,18 @@
+---
+title: "Why B2B SaaS Platforms Need Multi-Tenant Billing From Day One"
+summary: "Retrofitting proper tenant isolation into a billing system after the first few enterprise customers sign is far more expensive than designing it in from the start."
+date: "2026-08-04"
+tag: "business-case-study"
+---
+
+## The pattern
+
+Early on, a single flat-rate plan is enough, and billing logic stays simple. The moment a second enterprise customer wants usage-based pricing, or a discount schedule, or invoicing on their own terms, that simple billing logic starts accumulating special cases per customer.
+
+## Why it gets expensive later
+
+Without tenant isolation designed in from the start, billing logic ends up scattered with per-customer conditionals. Every new enterprise deal risks breaking an existing customer's billing, and auditing "what does customer X actually get charged" becomes a manual, error-prone exercise.
+
+## The fix, done early
+
+Multi-tenant billing with tenant-level plan configuration, enforced at the schema level rather than in scattered application logic. It costs more upfront than a flat-rate table, but it's a fixed cost paid once — not a growing one paid on every new enterprise deal.
