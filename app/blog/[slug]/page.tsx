@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Nav } from "@/components/nav";
 import { Badge } from "@/components/ui/badge";
@@ -58,7 +60,15 @@ export default async function BlogPost({
     <>
       <Nav />
       <article className="mx-auto max-w-3xl px-6 py-24">
-        <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-accent-warm"
+        >
+          <ArrowLeft className="size-4" />
+          Back to Writing
+        </Link>
+
+        <div className="mt-8 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <time>
             {new Date(post.date).toLocaleDateString("en-US", {
               year: "numeric",

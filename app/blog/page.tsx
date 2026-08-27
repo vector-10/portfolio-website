@@ -7,9 +7,9 @@ import { Reveal } from "@/components/reveal";
 import { getAllPosts, getReadingTime, tagLabels } from "@/lib/posts";
 
 export const metadata: Metadata = {
-  title: "Writing — Chukwuduzie Blaise",
+  title: "Articles — Chukwuduzie Blaise",
   description:
-    "Writing on fintech engineering, distributed systems, and project deep-dives.",
+    "Articles on fintech engineering, distributed systems, and project deep-dives.",
 };
 
 function formatDate(date: string) {
@@ -34,7 +34,7 @@ export default function BlogIndex() {
         <div className="relative mx-auto max-w-3xl px-6 pt-24 pb-16">
           <Reveal>
             <p className="font-mono text-sm tracking-widest text-accent-warm uppercase">
-              Writing
+              Articles
             </p>
             <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
               Notes on backend systems &amp; fintech
@@ -48,33 +48,37 @@ export default function BlogIndex() {
       </section>
 
       {featured && (
-        <div className="mx-auto max-w-3xl px-6">
+        <div className="relative mx-auto max-w-3xl px-6">
           <Reveal>
-            <Link
-              href={`/blog/${featured.slug}`}
-              className="group relative block overflow-hidden rounded-2xl border border-border bg-card p-8 transition-colors hover:border-accent-warm/50"
-            >
-              <div className="absolute inset-y-0 left-0 w-1 bg-accent-warm" />
-              <p className="font-mono text-xs tracking-widest text-accent-warm uppercase">
-                Latest
-              </p>
-              <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                <time>{formatDate(featured.date)}</time>
-                <span aria-hidden>·</span>
-                <span>{getReadingTime(featured.content)} min read</span>
-                <Badge variant="outline">
-                  {tagLabels[featured.tag] ?? featured.tag}
-                </Badge>
-              </div>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-                {featured.title}
-              </h2>
-              <p className="mt-3 text-muted-foreground">{featured.summary}</p>
-              <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground">
-                Read the piece
-                <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </span>
-            </Link>
+            <div className="relative">
+              <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-accent-warm/10 blur-2xl" />
+              <Link
+                href={`/blog/${featured.slug}`}
+                className="group relative block overflow-hidden rounded-2xl border border-border bg-card p-8 transition-colors hover:border-accent-warm/40"
+              >
+                <p className="font-mono text-xs tracking-widest text-accent-warm uppercase">
+                  Latest
+                </p>
+                <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                  <time>{formatDate(featured.date)}</time>
+                  <span aria-hidden>·</span>
+                  <span>{getReadingTime(featured.content)} min read</span>
+                  <Badge variant="outline">
+                    {tagLabels[featured.tag] ?? featured.tag}
+                  </Badge>
+                </div>
+                <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+                  {featured.title}
+                </h2>
+                <p className="mt-3 text-muted-foreground">
+                  {featured.summary}
+                </p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground">
+                  Read the piece
+                  <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+              </Link>
+            </div>
           </Reveal>
         </div>
       )}
