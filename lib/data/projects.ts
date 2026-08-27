@@ -16,6 +16,7 @@ export const projects: Project[] = [
       "Payment retries from flaky mobile networks were creating duplicate charges. I designed an idempotency-key layer backed by Postgres row-level locking so retried requests resolve to the original transaction instead of a new one, and cut duplicate-charge incidents to zero in staging load tests.",
     tags: ["Node.js", "TypeScript", "PostgreSQL", "Fintech"],
     githubUrl: "https://github.com/vector-10",
+    articleSlug: "idempotent-payment-gateway",
   },
   {
     slug: "event-driven-ledger-reconciliation",

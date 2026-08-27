@@ -1,0 +1,20 @@
+---
+title: "Why RabbitMQ Over Kafka for Transactional Messaging"
+summary: "A practical look at the tradeoffs behind picking RabbitMQ over Kafka for transaction event handling, and why log-based streaming wasn't the right fit here."
+date: "2026-08-20"
+tag: "distributed-systems"
+---
+
+Kafka is the default answer a lot of engineers reach for when "message queue" comes up, mostly because of its throughput story. But throughput wasn't the constraint here — correctness under retry and per-message delivery guarantees were.
+
+## The actual requirement
+
+Transaction events needed to be processed **once**, in a way that was easy to reason about per-message, with straightforward dead-letter handling when a downstream consumer failed. Kafka's log-based model is excellent for replay and high-volume streaming, but it pushes a lot of that per-message bookkeeping (offsets, consumer group rebalancing, manual dead-letter routing) onto the application.
+
+## Why RabbitMQ fit better
+
+RabbitMQ's model is closer to traditional message queuing: a message is delivered, acknowledged, or dead-lettered — no offset management, no consumer group rebalancing to reason about during a partial outage. For a payments-adjacent system where a stuck consumer needs to fail loudly and predictably, that simpler mental model mattered more than Kafka's raw throughput ceiling, which this system was nowhere near needing.
+
+## The tradeoff
+
+This isn't "RabbitMQ is better than Kafka" — it's not, in general. It's that Kafka's strengths (replay, massive throughput, multiple independent consumer groups reading the same stream) weren't the problem being solved. Picking infrastructure based on the specific correctness guarantees you need, not on which tool has the bigger benchmark numbers, is the actual lesson here.

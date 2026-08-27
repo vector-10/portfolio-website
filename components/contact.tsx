@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Mail, Linkedin } from "lucide-react";
+import { Mail } from "lucide-react";
 import { GithubIcon } from "@/components/icons/github-icon";
+import { LinkedinIcon } from "@/components/icons/linkedin-icon";
 import { Reveal } from "@/components/reveal";
 
 const links = [
@@ -17,7 +18,7 @@ const links = [
   {
     label: "LinkedIn",
     href: "#",
-    icon: Linkedin,
+    icon: LinkedinIcon,
   },
 ];
 
