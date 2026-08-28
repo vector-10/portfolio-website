@@ -4,7 +4,7 @@ import { stack } from "@/lib/data/stack";
 
 export function About() {
   return (
-    <section id="about" className="bg-muted/30">
+    <section id="about" className="scroll-mt-20 bg-muted/30">
       <div className="mx-auto max-w-5xl px-6 py-24">
         <Reveal>
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">

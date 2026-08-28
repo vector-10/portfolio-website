@@ -16,7 +16,7 @@ import { projects } from "@/lib/data/projects";
 
 export function Projects() {
   return (
-    <section id="projects" className="mx-auto max-w-5xl px-6 py-24">
+    <section id="projects" className="mx-auto max-w-5xl scroll-mt-20 px-6 py-24">
       <Reveal>
         <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
           Projects
