@@ -3,13 +3,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { Nav } from "@/components/nav";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
+import { PostBanner } from "@/components/blog/post-banner";
 import { Reveal } from "@/components/reveal";
 import {
   getAllPosts,
@@ -36,27 +30,27 @@ function formatDate(date: string) {
 
 function PostCard({ post }: { post: Post }) {
   return (
-    <Link href={`/blog/${post.slug}`} className="group block h-full">
-      <Card className="h-full transition-colors group-hover:border-accent-warm/40">
-        <CardHeader>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-            <time>{formatDate(post.date)}</time>
-            <span aria-hidden>·</span>
-            <span>{getReadingTime(post.content)} min read</span>
-          </div>
-          <CardTitle className="mt-1 text-lg group-hover:text-accent-warm">
-            {post.title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription className="leading-relaxed">
-            {post.summary}
-          </CardDescription>
-          <div className="mt-4 flex items-center justify-end">
-            <ArrowUpRight className="size-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent-warm group-hover:opacity-100" />
-          </div>
-        </CardContent>
-      </Card>
+    <Link
+      href={`/blog/${post.slug}`}
+      className="group block h-full overflow-hidden rounded-xl bg-card ring-1 ring-foreground/10 transition-colors hover:ring-accent-warm/40"
+    >
+      <PostBanner tag={post.tag} className="h-36" />
+      <div className="p-4">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+          <time>{formatDate(post.date)}</time>
+          <span aria-hidden>·</span>
+          <span>{getReadingTime(post.content)} min read</span>
+        </div>
+        <h3 className="mt-1 text-lg font-medium group-hover:text-accent-warm">
+          {post.title}
+        </h3>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {post.summary}
+        </p>
+        <div className="mt-4 flex items-center justify-end">
+          <ArrowUpRight className="size-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent-warm group-hover:opacity-100" />
+        </div>
+      </div>
     </Link>
   );
 }
@@ -95,29 +89,32 @@ export default function BlogIndex() {
               <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-accent-warm/10 blur-2xl" />
               <Link
                 href={`/blog/${featured.slug}`}
-                className="group relative block overflow-hidden rounded-2xl border border-border bg-card p-8 transition-colors hover:border-accent-warm/40 sm:p-10"
+                className="group relative block overflow-hidden rounded-2xl ring-1 ring-foreground/10 transition-colors hover:ring-accent-warm/40"
               >
-                <p className="font-mono text-xs tracking-widest text-accent-warm uppercase">
-                  Latest
-                </p>
-                <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                  <time>{formatDate(featured.date)}</time>
-                  <span aria-hidden>·</span>
-                  <span>{getReadingTime(featured.content)} min read</span>
-                  <Badge variant="outline">
-                    {tagLabels[featured.tag] ?? featured.tag}
-                  </Badge>
+                <PostBanner tag={featured.tag} className="h-48 sm:h-56" />
+                <div className="bg-card p-8 sm:p-10">
+                  <p className="font-mono text-xs tracking-widest text-accent-warm uppercase">
+                    Latest
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                    <time>{formatDate(featured.date)}</time>
+                    <span aria-hidden>·</span>
+                    <span>{getReadingTime(featured.content)} min read</span>
+                    <Badge variant="outline">
+                      {tagLabels[featured.tag] ?? featured.tag}
+                    </Badge>
+                  </div>
+                  <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-tight sm:text-3xl">
+                    {featured.title}
+                  </h2>
+                  <p className="mt-3 max-w-2xl text-muted-foreground">
+                    {featured.summary}
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground">
+                    Read the piece
+                    <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
                 </div>
-                <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-tight sm:text-3xl">
-                  {featured.title}
-                </h2>
-                <p className="mt-3 max-w-2xl text-muted-foreground">
-                  {featured.summary}
-                </p>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground">
-                  Read the piece
-                  <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </span>
               </Link>
             </div>
           </Reveal>

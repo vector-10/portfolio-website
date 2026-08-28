@@ -4,11 +4,11 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import {
-  checkPassword,
   createSessionToken,
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE,
 } from "@/lib/auth";
+import { checkPassword } from "@/lib/password";
 import { commitPost, deleteFile, getFileSha } from "@/lib/github";
 import type { PostTag } from "@/lib/posts";
 

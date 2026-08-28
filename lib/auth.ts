@@ -7,8 +7,9 @@ function bytesToHex(bytes: ArrayBuffer): string {
     .join("");
 }
 
-function hexToBytes(hex: string): Uint8Array {
-  const bytes = new Uint8Array(hex.length / 2);
+function hexToBytes(hex: string): Uint8Array<ArrayBuffer> {
+  const buffer = new ArrayBuffer(hex.length / 2);
+  const bytes = new Uint8Array(buffer);
   for (let i = 0; i < bytes.length; i++) {
     bytes[i] = parseInt(hex.substring(i * 2, i * 2 + 2), 16);
   }
@@ -67,17 +68,6 @@ export async function isValidSessionToken(
 
   const exp = Number(payload.split(":")[1]);
   return Number.isFinite(exp) && Date.now() < exp;
-}
-
-/** Node-only, constant-time password check — used inside Server Actions (Node runtime), never in middleware. */
-export async function checkPassword(password: string): Promise<boolean> {
-  const { timingSafeEqual } = await import("crypto");
-  const expected = requireEnv("DASHBOARD_PASSWORD");
-
-  const a = Buffer.from(password);
-  const b = Buffer.from(expected);
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
 }
 
 export { SESSION_COOKIE_NAME, SESSION_MAX_AGE };

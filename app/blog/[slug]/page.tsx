@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Nav } from "@/components/nav";
 import { Badge } from "@/components/ui/badge";
+import { PostBanner } from "@/components/blog/post-banner";
 import { getAllPosts, getPostBySlug, getReadingTime, tagLabels } from "@/lib/posts";
 
 export function generateStaticParams() {
@@ -67,6 +68,11 @@ export default async function BlogPost({
           <ArrowLeft className="size-4" />
           Back to Articles
         </Link>
+
+        <PostBanner
+          tag={post.tag}
+          className="mt-8 h-56 rounded-2xl sm:h-72"
+        />
 
         <div className="mt-8 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <time>
