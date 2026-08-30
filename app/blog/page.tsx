@@ -30,12 +30,9 @@ function formatDate(date: string) {
 
 function PostCard({ post }: { post: Post }) {
   return (
-    <Link
-      href={`/blog/${post.slug}`}
-      className="group block h-full overflow-hidden rounded-lg bg-card transition-colors"
-    >
-      <PostBanner tag={post.tag} className="h-36" />
-      <div className="p-4">
+    <Link href={`/blog/${post.slug}`} className="group block h-full">
+      <PostBanner tag={post.tag} className="h-52 rounded-md" />
+      <div className="pt-4">
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <time>{formatDate(post.date)}</time>
           <span aria-hidden>·</span>
@@ -57,12 +54,12 @@ function PostCard({ post }: { post: Post }) {
 
 function BigPostCard({ post }: { post: Post }) {
   return (
-    <Link
-      href={`/blog/${post.slug}`}
-      className="group block h-full overflow-hidden rounded-xl bg-card transition-colors"
-    >
-      <PostBanner tag={post.tag} className="h-64 sm:h-72 lg:h-80" />
-      <div className="p-6 sm:p-8">
+    <Link href={`/blog/${post.slug}`} className="group block h-full">
+      <PostBanner
+        tag={post.tag}
+        className="h-64 rounded-lg sm:h-72 lg:h-84"
+      />
+      <div className="pt-6 sm:pt-8">
         <p className="font-mono text-xs tracking-widest text-accent-warm uppercase">
           Latest
         </p>
@@ -90,7 +87,7 @@ export default function BlogIndex() {
   const [first, second, third] = posts;
 
   return (
-    <>
+    <div className="theme-b">
       <Nav />
 
       <section className="relative overflow-hidden">
@@ -152,6 +149,6 @@ export default function BlogIndex() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

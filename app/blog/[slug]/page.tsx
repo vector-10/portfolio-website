@@ -58,9 +58,9 @@ export default async function BlogPost({
   if (!post) notFound();
 
   return (
-    <>
+    <div className="theme-b">
       <Nav />
-      <article className="mx-auto max-w-3xl px-6 py-12">
+      <article className="mx-auto max-w-4xl px-6 py-12">
         <Link
           href="/blog"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-accent-warm"
@@ -71,7 +71,7 @@ export default async function BlogPost({
 
         <PostBanner
           tag={post.tag}
-          className="mt-8 h-56 rounded-2xl sm:h-72"
+          className="mt-8 h-56 rounded-md sm:h-80"
         />
 
         <div className="mt-8 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
@@ -108,6 +108,6 @@ export default async function BlogPost({
           </div>
         </div>
       </article>
-    </>
+    </div>
   );
 }
