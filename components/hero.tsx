@@ -6,12 +6,13 @@ import { Reveal } from "@/components/reveal";
 export function Hero() {
   return (
     <section className="mx-auto flex max-w-3xl flex-col items-center px-6 py-20 text-center md:py-28">
-      <Reveal className="relative aspect-[16/9] w-full max-w-2xl overflow-hidden rounded-2xl ring-1 ring-border">
+      <Reveal className="relative aspect-[16/9] w-full max-w-2xl overflow-hidden rounded-md ring-1 ring-border">
         <Image
           src="/duzie.jpg"
           alt="Chukwuduzie Blaise"
           fill
           priority
+          quality={90}
           sizes="(min-width: 768px) 42rem, 100vw"
           className="object-cover"
         />
