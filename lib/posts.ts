@@ -64,8 +64,6 @@ export const tagLabels: Record<PostTag, string> = {
   "business-case-study": "Business Case Study",
 };
 
-export function getPostsByTag(tag: PostTag, excludeSlug?: string): Post[] {
-  return getAllPosts().filter(
-    (post) => post.tag === tag && post.slug !== excludeSlug
-  );
+export function getPostsByTag(tag: PostTag): Post[] {
+  return getAllPosts().filter((post) => post.tag === tag);
 }

@@ -60,7 +60,7 @@ export default async function BlogPost({
   return (
     <>
       <Nav />
-      <article className="mx-auto max-w-3xl px-6 py-24">
+      <article className="mx-auto max-w-3xl px-6 py-12">
         <Link
           href="/blog"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-accent-warm"
@@ -93,6 +93,19 @@ export default async function BlogPost({
 
         <div className={proseClasses}>
           <MDXRemote source={post.content} />
+        </div>
+
+        <div className="mt-12 flex items-center gap-4 border-t border-border pt-8">
+          <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-accent-warm/15 font-mono text-sm font-medium text-accent-warm">
+            CB
+          </div>
+          <div>
+            <p className="font-medium">Chukwuduzie Blaise</p>
+            <p className="text-sm text-muted-foreground">
+              Backend engineer building distributed systems, with a specialty
+              in fintech and payments infrastructure.
+            </p>
+          </div>
         </div>
       </article>
     </>
