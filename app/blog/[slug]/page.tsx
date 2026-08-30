@@ -58,7 +58,7 @@ export default async function BlogPost({
   if (!post) notFound();
 
   return (
-    <div className="theme-b">
+    <>
       <Nav />
       <article className="mx-auto max-w-4xl px-6 py-12">
         <Link
@@ -107,7 +107,7 @@ export default async function BlogPost({
             </p>
           </div>
         </div>
-      </article>
-    </div>
+      </article>      
+    </>
   );
 }

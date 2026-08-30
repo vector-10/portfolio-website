@@ -87,12 +87,10 @@ export default function BlogIndex() {
   const [first, second, third] = posts;
 
   return (
-    <div className="theme-b">
+    <>
       <Nav />
 
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-accent-warm/20 blur-3xl" />
-
         <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-16">
           <Reveal>
             <p className="font-mono text-sm tracking-widest text-accent-warm uppercase">
@@ -113,7 +111,6 @@ export default function BlogIndex() {
         <div className="relative mx-auto max-w-7xl px-6">
           <Reveal>
             <div className="relative">
-              <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-accent-warm/10 blur-2xl" />
               <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
                 <BigPostCard post={first} />
                 <div className="flex flex-col gap-6">
@@ -149,6 +146,6 @@ export default function BlogIndex() {
           );
         })}
       </div>
-    </div>
+    </>
   );
 }

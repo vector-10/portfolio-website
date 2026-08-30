@@ -5,13 +5,24 @@ import { Reveal } from "@/components/reveal";
 
 export function Hero() {
   return (
-    <section className="mx-auto flex max-w-5xl flex-col justify-center gap-10 px-6 py-20 md:min-h-[calc(100svh-4rem)] md:flex-row md:items-center md:justify-between md:py-24">
-      <Reveal className="flex flex-col">
+    <section className="mx-auto flex max-w-3xl flex-col items-center px-6 py-20 text-center md:py-28">
+      <Reveal className="relative aspect-[16/9] w-full max-w-2xl overflow-hidden rounded-2xl ring-1 ring-border">
+        <Image
+          src="/duzie.jpg"
+          alt="Chukwuduzie Blaise"
+          fill
+          priority
+          sizes="(min-width: 768px) 42rem, 100vw"
+          className="object-cover"
+        />
+      </Reveal>
+
+      <Reveal delay={0.15} className="mt-10 flex flex-col items-center">
         <p className="font-mono text-sm text-muted-foreground">
           Backend Engineer — Distributed Systems &amp; Fintech Infrastructure
         </p>
 
-        <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
           Chukwuduzie Blaise
         </h1>
 
@@ -21,7 +32,7 @@ export function Hero() {
           and payments.
         </p>
 
-        <div className="mt-10 flex flex-wrap gap-4">
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
           <Button render={<Link href="/#projects" />} nativeButton={false} size="lg">
             View Projects
           </Button>
@@ -34,20 +45,6 @@ export function Hero() {
             Get in touch
           </Button>
         </div>
-      </Reveal>
-
-      <Reveal
-        delay={0.15}
-        className="relative size-40 shrink-0 overflow-hidden rounded-2xl ring-1 ring-border sm:size-48 md:size-56"
-      >
-        <Image
-          src="/profile.jpg"
-          alt="Chukwuduzie Blaise"
-          fill
-          priority
-          sizes="(min-width: 768px) 14rem, 12rem"
-          className="object-cover"
-        />
       </Reveal>
     </section>
   );

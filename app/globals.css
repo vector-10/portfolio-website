@@ -101,7 +101,7 @@
   --accent: oklch(0.27 0.014 250);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --accent-warm: oklch(0.78 0.16 75);
+  --accent-warm: oklch(0.68 0.09 150);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.58 0.02 250);
@@ -120,22 +120,14 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* Temporary A/B accent test — portfolio gets terracotta, blog gets sage.
-   Remove once one direction is picked; both share the cool-slate base above. */
-.dark .theme-a {
-  --accent-warm: oklch(0.65 0.14 40);
-}
-
-.dark .theme-b {
-  --accent-warm: oklch(0.68 0.09 150);
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    background-image: radial-gradient(var(--border) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
   html {
     @apply font-sans;
