@@ -1,9 +1,11 @@
 export const stack: string[] = [
-  "Node.js",
   "TypeScript",
-  "PostgreSQL",
+  "Node.js",
   "Java",
   "Spring Boot",
+  "Go",
+  "Python",
+  "PostgreSQL",
   "RabbitMQ",
   "Redis",
   "Docker",

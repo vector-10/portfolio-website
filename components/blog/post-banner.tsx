@@ -3,7 +3,7 @@ import type { PostTag } from "@/lib/posts";
 const strokeStyle = { stroke: "var(--accent-warm)" };
 const fillStyle = { fill: "var(--accent-warm)" };
 
-function NetworkPattern() {
+export function NetworkPattern() {
   return (
     <svg viewBox="0 0 400 160" className="h-full w-full">
       <g style={strokeStyle} strokeWidth={1.5} opacity={0.5} fill="none">
