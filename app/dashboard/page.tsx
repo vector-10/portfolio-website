@@ -31,6 +31,9 @@ export default function DashboardHome() {
         >
           View Analytics
         </Button>
+        <Button render={<Link href="/blog" />} nativeButton={false} variant="outline">
+          Back to Blog
+        </Button>
       </div>
 
       <div className="mt-10 flex flex-col divide-y divide-border">

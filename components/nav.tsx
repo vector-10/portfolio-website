@@ -2,16 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, CloudDownload } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 
 const links = [
+  { href: "/blog", label: "Blog" },
   { href: "/#experience", label: "Experience" },
   { href: "/#projects", label: "Projects" },
   { href: "/#contact", label: "Contact" },
-  { href: "/blog", label: "Blog" },
+  
 ];
 
 export function Nav() {
@@ -34,6 +35,15 @@ export function Nav() {
               {link.label}
             </Link>
           ))}
+          <Button
+            render={<Link href="/resume.pdf" download target="_blank" />}
+            nativeButton={false}
+            variant="outline"
+            size="sm"
+          >
+            <CloudDownload className="size-4" />
+            Resume
+          </Button>
           <ModeToggle />
         </nav>
 
@@ -62,6 +72,16 @@ export function Nav() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/resume.pdf"
+            download
+            target="_blank"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-1.5 rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            <CloudDownload className="size-4" />
+            Resume
+          </Link>
         </nav>
       )}
     </header>

@@ -91,7 +91,7 @@ export default function BlogIndex() {
       <Nav />
 
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-16">
+        <div className="relative mx-auto max-w-7xl px-6 pt-14 pb-16">
           <Reveal>
             <p className="font-mono text-sm tracking-widest text-accent-warm uppercase">
               Articles

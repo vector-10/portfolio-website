@@ -10,9 +10,9 @@ export default function Home() {
     <>
       <Nav />
       <Hero />
-      <WorkExperience />
-      <TechStack />
       <Projects />
+      <WorkExperience />
+      <TechStack />      
       <Contact />
     </>
   );

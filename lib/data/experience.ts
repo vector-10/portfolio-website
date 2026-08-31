@@ -10,7 +10,7 @@ export const experience: ExperienceEntry[] = [
   {
     company: "Eulav-Grow",
     location: "Remote, US",
-    role: "Software Engineer (Payments)",
+    role: "Software Engineer",
     dates: "Mar 2025 – Aug 2025",
     highlights: [
       "Designed and implemented a metered billing system on Stripe's usage-based API, tracking AI chat sessions via Grafana and translating consumption into pay-as-you-go invoicing — directly increasing revenue.",
@@ -23,7 +23,7 @@ export const experience: ExperienceEntry[] = [
   {
     company: "First Software Systems",
     location: "Lagos, Nigeria",
-    role: "Backend Engineer (Fintech)",
+    role: "Backend Engineer",
     dates: "Jan 2024 – Present",
     highlights: [
       "Integrated Paystack with HMAC-verified webhook handling and idempotency keys, enabling reliable transaction processing for a food ordering platform at 10,000+ users.",
