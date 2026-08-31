@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { CloudDownload, Menu, X } from "lucide-react";
@@ -26,9 +27,13 @@ export function Nav() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
+    <>
+      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-        <Link href="/" className="font-semibold tracking-tight">
+        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
+          <span className="relative size-8 shrink-0 overflow-hidden rounded-full ring-1 ring-border">
+            <Image src="/avatar.jpg" alt="" fill className="object-cover" />
+          </span>
           Chukwuduzie Blaise
         </Link>
 
@@ -66,6 +71,7 @@ export function Nav() {
           </Button>
         </div>
       </div>
+      </header>
 
       <AnimatePresence>
         {open && (
@@ -124,6 +130,6 @@ export function Nav() {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

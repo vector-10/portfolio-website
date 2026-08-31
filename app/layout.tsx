@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://chukwuduzie-blaise.com"),
   title: siteTitle,
   description: siteDescription,
+  icons: {
+    icon: "/avatar.jpg",
+  },
   openGraph: {
     title: siteTitle,
     description: siteDescription,
