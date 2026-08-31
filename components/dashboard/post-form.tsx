@@ -91,7 +91,7 @@ export function PostForm({
         />
       </Field>
 
-      <Button type="submit" nativeButton className="self-start">
+      <Button type="submit" nativeButton className="self-start px-6 py-2">
         {submitLabel}
       </Button>
     </form>

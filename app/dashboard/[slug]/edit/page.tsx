@@ -15,7 +15,7 @@ export default async function EditArticlePage({
   const updateWithSlug = updatePost.bind(null, slug);
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-16">
+    <div className="mx-auto max-w-2xl w-full lg:max-w-4xl px-6 py-16">
       <h1 className="text-2xl font-semibold tracking-tight">Edit Article</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Updating commits a change to GitHub and triggers a redeploy.
