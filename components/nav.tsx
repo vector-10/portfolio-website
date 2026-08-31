@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 
 const links = [
+  { href: "/#experience", label: "Experience" },
   { href: "/#projects", label: "Projects" },
-  { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
   { href: "/blog", label: "Blog" },
 ];

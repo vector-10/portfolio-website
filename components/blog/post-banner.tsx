@@ -25,7 +25,7 @@ export function NetworkPattern() {
   );
 }
 
-function BlueprintPattern() {
+export function BlueprintPattern() {
   return (
     <svg viewBox="0 0 400 160" className="h-full w-full">
       <rect
@@ -78,7 +78,7 @@ function BlueprintPattern() {
   );
 }
 
-function AscendingPattern() {
+export function AscendingPattern() {
   return (
     <svg viewBox="0 0 400 160" className="h-full w-full">
       <polyline
@@ -99,7 +99,7 @@ function AscendingPattern() {
   );
 }
 
-function BarsPattern() {
+export function BarsPattern() {
   return (
     <svg viewBox="0 0 400 160" className="h-full w-full">
       <g style={fillStyle} opacity={0.55}>

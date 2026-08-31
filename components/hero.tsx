@@ -33,6 +33,13 @@ export function Hero() {
           and payments.
         </p>
 
+        <p className="mt-4 max-w-2xl text-muted-foreground">
+          Most of that work lives in idempotent transaction handling, ledger
+          reconciliation, and integrations where a bug doesn&apos;t just break
+          a feature, it moves money incorrectly. Core stack: TypeScript and
+          Node.js, Java and Spring Boot, Go, and Python.
+        </p>
+
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <Button render={<Link href="/#projects" />} nativeButton={false} size="lg">
             View Projects

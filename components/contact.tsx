@@ -7,7 +7,7 @@ import { Reveal } from "@/components/reveal";
 const links = [
   {
     label: "Email",
-    href: "mailto:contact@chukwuduzie-blaise.com",
+    href: "mailto:duzieblaise10@gmail.com",
     icon: Mail,
   },
   {
@@ -17,7 +17,7 @@ const links = [
   },
   {
     label: "LinkedIn",
-    href: "#",
+    href: "https://linkedin.com/in/chukwuduzie-blaise",
     icon: LinkedinIcon,
   },
 ];
@@ -47,6 +47,29 @@ export function Contact() {
               {label}
             </Link>
           ))}
+        </div>
+
+        <div className="mt-12 grid gap-6 border-t border-border pt-8 sm:grid-cols-2">
+          <div>
+            <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+              Education
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              B.Eng Mechanical Engineering, GPA 4.0
+              <br />
+              Federal University of Technology Owerri, 2019–2024
+            </p>
+          </div>
+          <div>
+            <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+              Awards
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Hack4Futo Hackathon Winner (2023)
+              <br />
+              Legacy Leadership Award, Hack4Futo Third Hackathon (2024)
+            </p>
+          </div>
         </div>
       </Reveal>
     </section>
