@@ -6,6 +6,7 @@ tag: "system-design-review"
 relatedProject: "idempotent-payment-gateway"
 ---
 
+
 ## The problem
 
 On flaky mobile networks, a payment request would time out client-side and get retried — but the original request had often already reached the server and completed. The result: duplicate charges, discovered by customers, not by monitoring.
@@ -20,6 +21,3 @@ The lock — not just a lookup-then-insert check — is what makes this safe und
 
 Duplicate-charge incidents from retried requests dropped to zero across staging load tests that simulated exactly this failure mode — burst retries against the same payment within a few hundred milliseconds of each other.
 
-## What I'd change
-
-The idempotency key currently has no expiry, so the table grows unbounded. A time-boxed key (e.g. valid for 24 hours) would be enough for real-world retry windows, while keeping the table size in check without added complexity.
