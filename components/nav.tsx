@@ -32,7 +32,7 @@ export function Nav() {
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
           <span className="relative size-8 shrink-0 overflow-hidden rounded-full ring-1 ring-border">
-            <Image src="/avatar.jpg" alt="" fill className="object-cover" />
+            <Image src="/avatar.jpg" alt="" fill sizes="32px" className="object-cover" />
           </span>
           Chukwuduzie Blaise
         </Link>
