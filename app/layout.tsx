@@ -20,7 +20,7 @@ const siteDescription =
   "Backend engineer building scalable distributed systems, with deep specialty in fintech and payments infrastructure. Working in Node.js, TypeScript, PostgreSQL, and Java.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chukwuduzie-blaise.com"),
+  metadataBase: new URL("https://chukwuduzie-blaise.vercel.app"),
   title: siteTitle,
   description: siteDescription,
   icons: {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteTitle,
     description: siteDescription,
-    url: "https://chukwuduzie-blaise.com",
+    url: "https://chukwuduzie-blaise.vercel.app",
     siteName: "Chukwuduzie Blaise",
     type: "website",
     images: [
