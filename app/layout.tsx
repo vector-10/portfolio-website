@@ -32,13 +32,20 @@ export const metadata: Metadata = {
     url: "https://chukwuduzie-blaise.com",
     siteName: "Chukwuduzie Blaise",
     type: "website",
-    // TODO: add images once an OG preview graphic is designed — this single block
-    // covers LinkedIn, WhatsApp, Facebook, Slack, Discord, and Telegram previews
+    images: [
+      {
+        url: "/avatar.jpg",
+        width: 781,
+        height: 908,
+        alt: "Chukwuduzie Blaise - Backend Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
+    images: ["/avatar.jpg"],
   },
 };
 
