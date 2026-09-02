@@ -57,13 +57,13 @@ export function PostForm({
           />
         </Field>
 
-        <Field label="Category">
+        <Field label="Category (leave blank for external link posts)">
           <select
             name="tag"
-            defaultValue={defaultValues?.tag}
-            required
+            defaultValue={defaultValues?.tag ?? ""}
             className={fieldClass}
           >
+            <option value="">— None —</option>
             {tagOrder.map((tag) => (
               <option key={tag} value={tag}>
                 {tagLabels[tag]}
@@ -81,11 +81,30 @@ export function PostForm({
         />
       </Field>
 
-      <Field label="Content (Markdown/MDX)">
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field label="External URL (optional — for articles published elsewhere)">
+          <input
+            name="externalUrl"
+            type="url"
+            defaultValue={defaultValues?.externalUrl}
+            placeholder="https://medium.com/..."
+            className={fieldClass}
+          />
+        </Field>
+
+        <Field label="Platform (e.g. Medium, DEV.to)">
+          <input
+            name="platform"
+            defaultValue={defaultValues?.platform}
+            className={fieldClass}
+          />
+        </Field>
+      </div>
+
+      <Field label="Content (Markdown/MDX) — leave blank for external link posts">
         <textarea
           name="content"
           defaultValue={defaultValues?.content}
-          required
           rows={16}
           className={`${fieldClass} font-mono text-sm`}
         />

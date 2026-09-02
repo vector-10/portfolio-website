@@ -21,8 +21,10 @@ export interface PostFrontmatter {
   title: string;
   summary: string;
   date: string;
-  tag: PostTag;
+  tag?: PostTag;
   relatedProject?: string;
+  externalUrl?: string;
+  platform?: string;
 }
 
 export interface Post extends PostFrontmatter {
@@ -66,4 +68,14 @@ export const tagLabels: Record<PostTag, string> = {
 
 export function getPostsByTag(tag: PostTag): Post[] {
   return getAllPosts().filter((post) => post.tag === tag);
+}
+
+/** Posts written here, with their own tag and detail page. */
+export function getInternalPosts(): Post[] {
+  return getAllPosts().filter((post) => !post.externalUrl);
+}
+
+/** Posts published elsewhere (Medium, DEV.to) — link out, no detail page here. */
+export function getExternalPosts(): Post[] {
+  return getAllPosts().filter((post) => post.externalUrl);
 }

@@ -43,7 +43,10 @@ export function Projects() {
                     </Badge>
                   ))}
                 </div>
-                {(project.githubUrl || project.liveUrl || project.articleSlug) && (
+                {(project.githubUrl ||
+                  project.liveUrl ||
+                  project.articleSlug ||
+                  project.articleUrl) && (
                   <div className="mt-4 flex flex-wrap gap-4">
                     {project.githubUrl && (
                       <Link
@@ -70,6 +73,17 @@ export function Projects() {
                     {project.articleSlug && (
                       <Link
                         href={`/blog/${project.articleSlug}`}
+                        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent-warm"
+                      >
+                        Read the deep dive
+                        <ArrowUpRight className="size-4" />
+                      </Link>
+                    )}
+                    {project.articleUrl && (
+                      <Link
+                        href={project.articleUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent-warm"
                       >
                         Read the deep dive

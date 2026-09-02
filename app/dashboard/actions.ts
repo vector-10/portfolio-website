@@ -29,8 +29,10 @@ function buildMdxContent(data: {
   title: string;
   summary: string;
   date: string;
-  tag: PostTag;
+  tag?: PostTag;
   relatedProject?: string;
+  externalUrl?: string;
+  platform?: string;
   body: string;
 }): string {
   const lines = [
@@ -38,10 +40,18 @@ function buildMdxContent(data: {
     `title: "${escapeYamlString(data.title)}"`,
     `summary: "${escapeYamlString(data.summary)}"`,
     `date: "${data.date}"`,
-    `tag: "${data.tag}"`,
   ];
+  if (data.tag) {
+    lines.push(`tag: "${data.tag}"`);
+  }
   if (data.relatedProject) {
     lines.push(`relatedProject: "${escapeYamlString(data.relatedProject)}"`);
+  }
+  if (data.externalUrl) {
+    lines.push(`externalUrl: "${escapeYamlString(data.externalUrl)}"`);
+  }
+  if (data.platform) {
+    lines.push(`platform: "${escapeYamlString(data.platform)}"`);
   }
   lines.push("---", "", data.body);
   return lines.join("\n");
@@ -78,12 +88,23 @@ export async function createPost(formData: FormData) {
   const title = String(formData.get("title") ?? "");
   const summary = String(formData.get("summary") ?? "");
   const date = String(formData.get("date") ?? "");
-  const tag = String(formData.get("tag") ?? "") as PostTag;
+  const tag = (String(formData.get("tag") ?? "") || undefined) as PostTag | undefined;
   const relatedProject = String(formData.get("relatedProject") ?? "") || undefined;
+  const externalUrl = String(formData.get("externalUrl") ?? "") || undefined;
+  const platform = String(formData.get("platform") ?? "") || undefined;
   const body = String(formData.get("content") ?? "");
 
   const slug = slugify(title);
-  const mdx = buildMdxContent({ title, summary, date, tag, relatedProject, body });
+  const mdx = buildMdxContent({
+    title,
+    summary,
+    date,
+    tag,
+    relatedProject,
+    externalUrl,
+    platform,
+    body,
+  });
 
   await commitPost({ slug, content: mdx, message: `Add post: ${title}` });
 
@@ -96,12 +117,23 @@ export async function updatePost(slug: string, formData: FormData) {
   const title = String(formData.get("title") ?? "");
   const summary = String(formData.get("summary") ?? "");
   const date = String(formData.get("date") ?? "");
-  const tag = String(formData.get("tag") ?? "") as PostTag;
+  const tag = (String(formData.get("tag") ?? "") || undefined) as PostTag | undefined;
   const relatedProject = String(formData.get("relatedProject") ?? "") || undefined;
+  const externalUrl = String(formData.get("externalUrl") ?? "") || undefined;
+  const platform = String(formData.get("platform") ?? "") || undefined;
   const body = String(formData.get("content") ?? "");
 
   const sha = await getFileSha(slug);
-  const mdx = buildMdxContent({ title, summary, date, tag, relatedProject, body });
+  const mdx = buildMdxContent({
+    title,
+    summary,
+    date,
+    tag,
+    relatedProject,
+    externalUrl,
+    platform,
+    body,
+  });
 
   await commitPost({
     slug,

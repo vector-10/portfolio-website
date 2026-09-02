@@ -6,10 +6,16 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { Nav } from "@/components/nav";
 import { Badge } from "@/components/ui/badge";
 import { PostBanner } from "@/components/blog/post-banner";
-import { getAllPosts, getPostBySlug, getReadingTime, tagLabels } from "@/lib/posts";
+import {
+  getInternalPosts,
+  getPostBySlug,
+  getReadingTime,
+  tagLabels,
+  type PostTag,
+} from "@/lib/posts";
 
 export function generateStaticParams() {
-  return getAllPosts().map((post) => ({ slug: post.slug }));
+  return getInternalPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
@@ -55,7 +61,7 @@ export default async function BlogPost({
 }) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  if (!post) notFound();
+  if (!post || post.externalUrl) notFound();
 
   return (
     <>
@@ -70,7 +76,7 @@ export default async function BlogPost({
         </Link>
 
         <PostBanner
-          tag={post.tag}
+          tag={post.tag as PostTag}
           className="mt-8 h-56 rounded-md sm:h-80"
         />
 
@@ -84,7 +90,7 @@ export default async function BlogPost({
           </time>
           <span aria-hidden>·</span>
           <span>{getReadingTime(post.content)} min read</span>
-          <Badge variant="outline">{tagLabels[post.tag] ?? post.tag}</Badge>
+          <Badge variant="outline">{tagLabels[post.tag as PostTag]}</Badge>
         </div>
 
         <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">

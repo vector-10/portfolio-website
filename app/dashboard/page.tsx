@@ -43,7 +43,9 @@ export default function DashboardHome() {
             className="flex flex-wrap items-center justify-between gap-4 py-4"
           >
             <div>
-              <Badge variant="outline">{tagLabels[post.tag] ?? post.tag}</Badge>
+              <Badge variant="outline">
+                {post.tag ? tagLabels[post.tag] : (post.platform ?? "External")}
+              </Badge>
               <p className="mt-1 font-medium">{post.title}</p>
             </div>
             <div className="flex gap-2">

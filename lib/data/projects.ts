@@ -6,6 +6,7 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   articleSlug?: string;
+  articleUrl?: string;
 }
 
 export const projects: Project[] = [
@@ -19,6 +20,8 @@ export const projects: Project[] = [
     ],
     tags: ["NestJS", "FastAPI", "PostgreSQL", "Mono Open Banking API", "Gemini AI"],
     githubUrl: "https://github.com/vector-10",
+    articleUrl:
+      "https://medium.com/@duzieblaise/i-built-mono-parser-to-help-fintechs-underwrite-loans-at-scale-0dba3e2367a6",
   },
   {
     slug: "credwallet-service",
