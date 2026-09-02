@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
@@ -29,6 +30,24 @@ function formatDate(date: string) {
   });
 }
 
+function CardBanner({ post, className }: { post: Post; className?: string }) {
+  if (post.coverImage) {
+    return (
+      <div className={`relative overflow-hidden ${className ?? ""}`}>
+        <Image
+          src={post.coverImage}
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
+  return <PostBanner tag={post.tag as PostTag} className={className} />;
+}
+
 function PostCard({ post }: { post: Post }) {
   const isExternal = Boolean(post.externalUrl);
 
@@ -39,7 +58,7 @@ function PostCard({ post }: { post: Post }) {
       rel={isExternal ? "noopener noreferrer" : undefined}
       className="group block h-full"
     >
-      <PostBanner tag={post.tag as PostTag} className="h-52 rounded-md" />
+      <CardBanner post={post} className="h-52 rounded-md" />
       <div className="pt-4">
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <time>{formatDate(post.date)}</time>
@@ -79,8 +98,8 @@ function BigPostCard({ post }: { post: Post }) {
       rel={isExternal ? "noopener noreferrer" : undefined}
       className="group block h-full"
     >
-      <PostBanner
-        tag={post.tag as PostTag}
+      <CardBanner
+        post={post}
         className="h-64 rounded-lg sm:h-72 lg:h-84"
       />
       <div className="pt-6 sm:pt-8">

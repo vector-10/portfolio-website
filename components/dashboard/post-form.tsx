@@ -101,6 +101,16 @@ export function PostForm({
         </Field>
       </div>
 
+      <Field label="Cover image URL (optional — falls back to the pattern banner if left blank)">
+        <input
+          name="coverImage"
+          type="url"
+          defaultValue={defaultValues?.coverImage}
+          placeholder="https://..."
+          className={fieldClass}
+        />
+      </Field>
+
       <Field label="Content (Markdown/MDX) — leave blank for external link posts">
         <textarea
           name="content"

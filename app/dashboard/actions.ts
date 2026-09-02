@@ -33,6 +33,7 @@ function buildMdxContent(data: {
   relatedProject?: string;
   externalUrl?: string;
   platform?: string;
+  coverImage?: string;
   body: string;
 }): string {
   const lines = [
@@ -52,6 +53,9 @@ function buildMdxContent(data: {
   }
   if (data.platform) {
     lines.push(`platform: "${escapeYamlString(data.platform)}"`);
+  }
+  if (data.coverImage) {
+    lines.push(`coverImage: "${escapeYamlString(data.coverImage)}"`);
   }
   lines.push("---", "", data.body);
   return lines.join("\n");
@@ -92,6 +96,7 @@ export async function createPost(formData: FormData) {
   const relatedProject = String(formData.get("relatedProject") ?? "") || undefined;
   const externalUrl = String(formData.get("externalUrl") ?? "") || undefined;
   const platform = String(formData.get("platform") ?? "") || undefined;
+  const coverImage = String(formData.get("coverImage") ?? "") || undefined;
   const body = String(formData.get("content") ?? "");
 
   const slug = slugify(title);
@@ -103,6 +108,7 @@ export async function createPost(formData: FormData) {
     relatedProject,
     externalUrl,
     platform,
+    coverImage,
     body,
   });
 
@@ -121,6 +127,7 @@ export async function updatePost(slug: string, formData: FormData) {
   const relatedProject = String(formData.get("relatedProject") ?? "") || undefined;
   const externalUrl = String(formData.get("externalUrl") ?? "") || undefined;
   const platform = String(formData.get("platform") ?? "") || undefined;
+  const coverImage = String(formData.get("coverImage") ?? "") || undefined;
   const body = String(formData.get("content") ?? "");
 
   const sha = await getFileSha(slug);
@@ -132,6 +139,7 @@ export async function updatePost(slug: string, formData: FormData) {
     relatedProject,
     externalUrl,
     platform,
+    coverImage,
     body,
   });
 

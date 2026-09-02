@@ -25,6 +25,7 @@ export interface PostFrontmatter {
   relatedProject?: string;
   externalUrl?: string;
   platform?: string;
+  coverImage?: string;
 }
 
 export interface Post extends PostFrontmatter {
