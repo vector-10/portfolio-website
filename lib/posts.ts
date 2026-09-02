@@ -61,7 +61,7 @@ export function getReadingTime(content: string): number {
 
 export const tagLabels: Record<PostTag, string> = {
   "system-design-review": "System Design Review",
-  "software-proposals": "Software Proposals",
+  "software-proposals": "Technical Breakdowns and Software Proposals",
   "career-notes": "Career Notes",
   "business-case-study": "Business Case Study",
 };
