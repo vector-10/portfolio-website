@@ -1,0 +1,27 @@
+---
+title: Multi-tenant platform
+kind: SaaS · Infrastructure
+type: Systems
+status: published
+order: 4
+outcome: One codebase serving hundreds of businesses, each with its own data walled off. New customers are onboarded in minutes instead of a week of setup.
+role: Backend lead
+timeframe: 2023 – 2024
+stack: [FastAPI, PostgreSQL, Redis, AWS]
+headlineMetric: 340 tenants · 0 cross-tenant incidents · 18 months
+cta: Need tenants kept apart?
+summary:
+  problem: Each new customer needed a week of manual setup and its own deployment.
+  did: Moved every customer onto one codebase with enforced per-tenant data isolation.
+  result: Onboarding takes minutes and no tenant has ever seen another's data.
+metrics:
+  - { value: "340", unit: "tenants", label: "Businesses on one codebase", source: Production, date: "2024", method: "Active tenant count" }
+  - { value: "0", unit: "incidents", label: "Cross-tenant data exposures", source: Production, date: "18 months", method: "Incident log + RLS audit" }
+cover: /images/work/multi-tenant-platform.png
+---
+
+<Section label="01 · Context and constraints" last>
+
+Placeholder. Replace with the real case study.
+
+</Section>

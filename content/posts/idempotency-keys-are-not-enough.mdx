@@ -1,0 +1,48 @@
+---
+title: "Idempotency keys are not enough: designing payout retries that never double-pay"
+description: How a retry storm double-paid customers, and the ledger-first design that made it impossible.
+tags: [Payments, Distributed systems]
+date: 2026-09-14
+updated: 2026-09-20
+status: published
+---
+
+Every payments engineer learns to add an idempotency key to outgoing requests. It's good advice, and it's where most people stop. This is the story of how we had idempotency keys on every payout and still paid 31 customers twice in one afternoon.
+
+## The incident
+
+At 14:02 on a salary day, our provider's API began timing out after 30 seconds. The payouts had gone through; the responses just never came back. Our retry job saw failures and sent them again, this time with a *new* key, because the key was generated per attempt rather than per payout.
+
+<Figure src="/images/writing/retry-storm.png" alt="Chart: retries vs successful payouts, 14:00–15:00" caption="Retries climbing while confirmed payouts stay flat. Grafana, provider dashboard overlay." />
+
+## Why keys alone fail
+
+An idempotency key protects you only if three things are true: the key is tied to the business operation, it's stored before the request leaves, and every retry path reads it back. Miss any one and the key is decoration.
+
+```ts
+// before: new key on every attempt
+await provider.payout({ ...req, idempotencyKey: uuid() });
+
+// after: key is the payout, persisted first
+const key = payout.id;               // stable across retries
+await ledger.markDispatching(payout.id, attempt);
+await provider.payout({ ...req, idempotencyKey: key });
+```
+
+## Ledger first
+
+The deeper fix was to stop treating the provider as the source of truth. Every payout now exists as a ledger row before anything else happens, and moves through explicit states. A timeout moves it to `unknown`, never `failed`.
+
+## The numbers
+
+| Measure | Before | After (90 days) |
+|---|---|---|
+| Double payments | ~30 / month | 0 |
+| Retries per payout | 1.9 | 1.1 |
+| Time in unknown, p95 | n/a | 4 min |
+
+## Takeaways
+
+- Derive the idempotency key from the business operation, not the attempt.
+- Write state before you call out, and read it on every retry path.
+- A timeout means you don't know. Model that state explicitly and alert on its age.

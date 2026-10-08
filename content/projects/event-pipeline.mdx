@@ -1,0 +1,28 @@
+---
+title: Real-time event pipeline
+kind: Data · Streaming
+type: Systems
+status: published
+featured: true
+order: 3
+outcome: Reports that took a night to compute now update in under a minute. The pipeline absorbs traffic spikes without losing data or waking anyone up.
+role: Backend engineer
+timeframe: 2024 – 2025
+stack: [Go, Kafka, PostgreSQL, Docker]
+headlineMetric: 14k events/s sustained · p95 lag 38s · production
+cta: Need data you can trust in real time?
+summary:
+  problem: Reports were computed overnight and broke under traffic spikes.
+  did: Built a streaming pipeline that ingests, deduplicates and aggregates events continuously.
+  result: Reports update in under a minute and spikes no longer lose data.
+metrics:
+  - { value: "14k", unit: "events/s", label: "Sustained ingest rate", source: Production, date: "2025", method: "Kafka consumer throughput, 30-day peak" }
+  - { value: "38", unit: "s", label: "Event to report, 95% of events", source: Production, date: "2025", method: "p95 end-to-end lag, 30 days" }
+cover: /images/work/event-pipeline.png
+---
+
+<Section label="01 · Context and constraints" last>
+
+Placeholder. Replace with the real case study.
+
+</Section>

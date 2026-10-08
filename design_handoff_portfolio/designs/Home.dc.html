@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+:root{--bg:#f4f1ea;--ink:#14120f;--muted:#5b564d;--rule:#d9d3c7;--soft:#ebe7de;--inv-bg:#14120f;--inv-ink:#f4f1ea}
+[data-theme="dark"]{--bg:#12110e;--ink:#f1ede4;--muted:#a59f93;--rule:#2d2a24;--soft:#1c1a16;--inv-bg:#f1ede4;--inv-ink:#12110e}
+html,body{margin:0;background:var(--bg)}
+body{-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:4px}
+</style>
+</helmet>
+
+<div data-theme="{{ theme }}" data-screen-label="Home" style="background:var(--bg);color:var(--ink);font-family:'Geist',system-ui,sans-serif;font-size:17px;line-height:1.55;min-height:100vh;transition:background .2s,color .2s">
+
+  <header style="padding:20px clamp(20px,5vw,72px);border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:40px">
+      <a href="Home.dc.html" style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;letter-spacing:-0.01em">Chukwuduzie Blaise</a>
+      <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;gap:28px;align-items:center;font-size:15px">
+          <a href="Work.dc.html">Work</a>
+          <a href="Writing.dc.html">Writing</a>
+          <a href="About.dc.html">About</a>
+          <a href="Work With Me.dc.html">Work with me</a>
+          <a href="#" style="display:flex;gap:6px;align-items:center;border:1px solid var(--ink);padding:6px 14px;border-radius:999px">Résumé <span>↓</span></a>
+          <button onClick="{{ toggleTheme }}" aria-label="Toggle colour theme" style="background:none;border:1px solid var(--rule);color:var(--ink);font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;cursor:pointer;min-height:32px">{{ themeLabel }}</button>
+        </nav>
+      </sc-if>
+      <sc-if value="{{ narrow }}">
+        <button onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" style="background:none;border:1px solid var(--ink);color:var(--ink);font:inherit;font-size:15px;padding:0 18px;border-radius:999px;cursor:pointer;min-height:44px">{{ menuLabel }}</button>
+      </sc-if>
+    </div>
+    <sc-if value="{{ menuShown }}">
+      <nav style="display:flex;flex-direction:column;padding:8px 0 12px">
+        <a href="Work.dc.html" style="font-family:'Newsreader',serif;font-size:30px;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--rule)">Work</a>
+        <a href="Writing.dc.html" style="font-family:'Newsreader',serif;font-size:30px;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--rule)">Writing</a>
+        <a href="About.dc.html" style="font-family:'Newsreader',serif;font-size:30px;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--rule)">About</a>
+        <a href="Work With Me.dc.html" style="font-family:'Newsreader',serif;font-size:30px;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--rule)">Work with me</a>
+        <div style="display:flex;gap:10px;padding-top:20px;flex-wrap:wrap">
+          <a href="#" style="display:flex;gap:6px;align-items:center;border:1px solid var(--ink);padding:0 18px;min-height:44px;border-radius:999px">Résumé <span>↓</span></a>
+          <button onClick="{{ toggleTheme }}" style="background:none;border:1px solid var(--rule);color:var(--ink);font:inherit;font-size:15px;padding:0 18px;border-radius:999px;cursor:pointer;min-height:44px">{{ themeLabel }} mode</button>
+        </div>
+      </nav>
+    </sc-if>
+  </header>
+
+  <section style="padding:clamp(56px,9vw,128px) clamp(20px,5vw,72px) clamp(48px,7vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(40px,6vw,96px);align-items:end">
+    <div style="display:flex;flex-direction:column;gap:32px;grid-column:span 1;min-width:0">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:0.02em">Software engineer · Problem solver · Available for new projects</div>
+      <h1 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(46px,7.2vw,112px);line-height:0.98;letter-spacing:-0.035em;margin:0;text-wrap:balance">I build full products, with the backend done right.</h1>
+      <p style="margin:0;font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:580px;text-wrap:pretty">Web apps and APIs end to end, from interface to infrastructure. My depth is the hard part: payments, data and scale.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="mailto:hello@chukwuduzie.dev" style="background:var(--ink);color:var(--bg);padding:14px 24px;border-radius:999px;font-weight:500;min-height:48px;box-sizing:border-box;display:flex;align-items:center">Email me</a>
+        <a href="#work" style="border:1px solid var(--ink);padding:14px 24px;border-radius:999px;font-weight:500;min-height:48px;box-sizing:border-box;display:flex;align-items:center">See the work</a>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;min-width:0">
+      <div style="width:100%;max-width:400px;aspect-ratio:4/5;position:relative">
+        <image-slot id="hero-portrait" shape="rect" placeholder="Portrait photo"></image-slot>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:28px clamp(20px,5vw,72px);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:clamp(24px,4vw,56px);flex-wrap:wrap">
+    <div style="font-size:14px;color:var(--muted);flex:0 0 auto">Trusted by teams at</div>
+    <div style="display:flex;gap:clamp(20px,3vw,40px);flex-wrap:wrap;flex:1;align-items:center">
+      <sc-for list="{{ logos }}" as="logo" hint-placeholder-count="5">
+        <div style="width:120px;height:32px;background:repeating-linear-gradient(135deg,var(--soft) 0 6px,transparent 6px 12px);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ logo }}</div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="padding:clamp(56px,8vw,112px) clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:48px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap">
+      <h2 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(32px,4vw,56px);letter-spacing:-0.025em;line-height:1.05;margin:0">Results in production</h2>
+      <div style="font-size:14px;color:var(--muted);max-width:380px">Every number states how it was measured, where and when.</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));border-top:1px solid var(--ink)">
+      <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
+        <div style="padding:28px 24px 28px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:10px;min-width:0">
+          <div style="font-family:'Newsreader',serif;font-size:clamp(44px,4.6vw,64px);line-height:1;letter-spacing:-0.03em">{{ m.value }}<span style="font-size:0.42em;letter-spacing:0;margin-left:6px;color:var(--muted)">{{ m.unit }}</span></div>
+          <div style="font-size:16px;text-wrap:pretty">{{ m.label }}</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted);line-height:1.6">{{ m.context }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="work" style="padding:clamp(56px,8vw,112px) clamp(20px,5vw,72px);border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:40px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap">
+      <h2 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(32px,4vw,56px);letter-spacing:-0.025em;line-height:1.05;margin:0">Selected work</h2>
+      <a href="Work.dc.html" style="font-size:15px;font-weight:500">All projects →</a>
+    </div>
+    <div style="display:flex;flex-direction:column;border-top:1px solid var(--ink)">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 64px;padding:48px 0;border-bottom:1px solid var(--rule);align-items:center">
+          <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+            <div style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted)">{{ p.n }} · {{ p.kind }}</div>
+            <div style="font-family:'Newsreader',serif;font-size:clamp(30px,3.2vw,44px);line-height:1.05;letter-spacing:-0.02em">{{ p.name }}</div>
+            <div style="font-size:14px;color:var(--muted)">{{ p.role }} · {{ p.time }}</div>
+            <p style="margin:4px 0 0;font-size:clamp(18px,1.6vw,20px);line-height:1.45;text-wrap:pretty">{{ p.outcome }}</p>
+            <div style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted)">{{ p.metric }}</div>
+            <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:15px;font-weight:500;padding-top:4px">
+              <a href="Case Study.dc.html">Read case study →</a>
+              <a href="#" style="color:var(--muted)">Live site ↗</a>
+            </div>
+          </div>
+          <div style="width:100%;aspect-ratio:16/10;position:relative;min-width:0">
+            <image-slot id="project-shot-{{ p.n }}" shape="rect" placeholder="Product screenshot"></image-slot>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <sc-if value="{{ showPricing }}" hint-placeholder-val="{{ true }}">
+    <section id="hire" style="padding:clamp(56px,8vw,112px) clamp(20px,5vw,72px);background:var(--inv-bg);color:var(--inv-ink);display:flex;flex-direction:column;gap:48px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+        <h2 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(32px,4vw,56px);letter-spacing:-0.025em;line-height:1.05;margin:0;max-width:640px;text-wrap:balance">Work with me</h2>
+        <div style="font-size:16px;opacity:0.8;max-width:380px">Not sure which fits? Email me what you're building and I'll tell you honestly.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1px solid var(--inv-ink)">
+        <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="2">
+          <a href="Work With Me.dc.html" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px 48px;flex-wrap:wrap;padding:32px 0;border-bottom:1px solid color-mix(in oklab,var(--inv-ink) 22%,transparent)">
+            <div style="display:flex;flex-direction:column;gap:8px;flex:1 1 380px;min-width:0">
+              <div style="font-family:'Newsreader',serif;font-size:clamp(30px,3.2vw,40px);line-height:1.05;letter-spacing:-0.02em">{{ t.name }}</div>
+              <div style="font-size:16px;opacity:0.85;text-wrap:pretty;max-width:520px">{{ t.desc }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;flex:0 0 auto">
+              <div style="font-family:'Newsreader',serif;font-size:clamp(32px,3.2vw,44px);line-height:1;letter-spacing:-0.02em">{{ t.price }}</div>
+              <div style="font-size:14px;opacity:0.75">{{ t.time }}</div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+      <a href="Work With Me.dc.html" style="font-size:16px;font-weight:500;align-self:flex-start">What's included and how it works →</a>
+    </section>
+  </sc-if>
+
+  <section style="padding:clamp(56px,8vw,112px) 0;display:flex;flex-direction:column;gap:40px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;padding:0 clamp(20px,5vw,72px)">
+      <h2 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(32px,4vw,56px);letter-spacing:-0.025em;line-height:1.05;margin:0">What clients say</h2>
+      <div style="display:flex;gap:8px">
+        <button onClick="{{ prevQuote }}" aria-label="Previous testimonial" style="width:48px;height:48px;border-radius:50%;border:1px solid var(--ink);background:none;color:var(--ink);font-size:18px;cursor:pointer">←</button>
+        <button onClick="{{ nextQuote }}" aria-label="Next testimonial" style="width:48px;height:48px;border-radius:50%;border:1px solid var(--ink);background:none;color:var(--ink);font-size:18px;cursor:pointer">→</button>
+      </div>
+    </div>
+    <div ref="{{ quoteRef }}" style="display:flex;gap:clamp(20px,3vw,40px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 clamp(20px,5vw,72px);padding:0 clamp(20px,5vw,72px) 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch">
+    <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="3">
+      <figure style="margin:0;display:flex;flex-direction:column;justify-content:space-between;gap:32px;flex:0 0 min(86%,480px);scroll-snap-align:start;border-top:1px solid var(--ink);padding-top:28px;box-sizing:border-box">
+        <blockquote style="margin:0;font-family:'Newsreader',serif;font-size:clamp(24px,2.4vw,32px);line-height:1.3;letter-spacing:-0.01em;text-wrap:pretty">“{{ q.text }}”</blockquote>
+        <figcaption style="display:flex;gap:14px;align-items:center">
+          <div style="width:44px;height:44px;border-radius:50%;background:repeating-linear-gradient(135deg,var(--soft) 0 4px,var(--rule) 4px 8px);flex:0 0 auto"></div>
+          <div style="display:flex;flex-direction:column;font-size:15px;line-height:1.35"><span style="font-weight:500">{{ q.name }}</span><span style="color:var(--muted)">{{ q.title }}</span></div>
+        </figcaption>
+      </figure>
+    </sc-for>
+    </div>
+  </section>
+
+  <section id="writing" style="padding:clamp(56px,8vw,112px) clamp(20px,5vw,72px);border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:40px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap">
+      <h2 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(32px,4vw,56px);letter-spacing:-0.025em;line-height:1.05;margin:0">Writing</h2>
+      <a href="Writing.dc.html" style="font-size:15px;font-weight:500">All articles →</a>
+    </div>
+    <div style="display:flex;flex-direction:column;border-top:1px solid var(--ink)">
+      <sc-for list="{{ posts }}" as="w" hint-placeholder-count="3">
+        <a href="#" style="display:flex;justify-content:space-between;align-items:baseline;gap:12px 40px;flex-wrap:wrap;padding:24px 0;border-bottom:1px solid var(--rule)">
+          <div style="display:flex;flex-direction:column;gap:8px;flex:1 1 420px;min-width:0">
+            <div style="font-family:'Newsreader',serif;font-size:clamp(21px,2vw,26px);line-height:1.25;letter-spacing:-0.01em;text-wrap:pretty">{{ w.title }}</div>
+            <div style="font-size:16px;color:var(--muted);max-width:640px;text-wrap:pretty">{{ w.desc }}</div>
+          </div>
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted);display:flex;gap:16px;flex:0 0 auto">{{ w.meta }}</div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <div style="background:var(--inv-bg);color:var(--inv-ink)">
+  <section id="about" style="padding:clamp(72px,10vw,144px) clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:32px;align-items:flex-start">
+    <h2 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(44px,6.4vw,96px);letter-spacing:-0.035em;line-height:1;margin:0;max-width:1000px;text-wrap:balance">Building something? Tell me about it.</h2>
+    <p style="margin:0;font-size:clamp(17px,1.5vw,20px);opacity:0.8;max-width:560px">I reply within one working day. Send a few lines on what you're building and where it hurts.</p>
+    <a href="mailto:hello@chukwuduzie.dev" style="font-family:'Newsreader',serif;font-size:clamp(26px,3vw,40px);border-bottom:2px solid var(--inv-ink);line-height:1.2;letter-spacing:-0.01em;word-break:break-word">hello@chukwuduzie.dev</a>
+  </section>
+
+  <footer style="padding:32px clamp(20px,5vw,72px);border-top:1px solid color-mix(in oklab,var(--inv-ink) 22%,transparent);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:14px;opacity:0.8">
+    <div>© 2026 Chukwuduzie Blaise</div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <a href="#">GitHub</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Résumé (PDF)</a>
+      <a href="#">RSS</a>
+    </div>
+  </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;},&quot;showPricing&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { narrow: false, menuOpen: false, theme: 'light' };
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  componentDidMount() {
+    this.onResize = () => this.setState({ narrow: window.innerWidth < 820 });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+    let t = null;
+    try { t = localStorage.getItem('cb-theme'); } catch (e) {}
+    if (!t) t = this.props.defaultTheme ?? (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    this.setState({ theme: t });
+  }
+  toggleTheme = () => {
+    const theme = this.state.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('cb-theme', theme); } catch (e) {}
+    this.setState({ theme });
+  };
+  quoteRef = React.createRef();
+  scrollQuotes = (dir) => {
+    const el = this.quoteRef.current;
+    if (!el) return;
+    const card = el.querySelector('figure');
+    el.scrollBy({ left: dir * (card ? card.offsetWidth + 32 : 400), behavior: 'smooth' });
+  };
+  renderVals() {
+    return {
+      theme: this.state.theme,
+      themeLabel: this.state.theme === 'dark' ? 'Light' : 'Dark',
+      toggleTheme: this.toggleTheme,
+      narrow: this.state.narrow,
+      wide: !this.state.narrow,
+      menuShown: this.state.narrow && this.state.menuOpen,
+      menuExpanded: String(this.state.menuOpen),
+      menuLabel: this.state.menuOpen ? 'Close' : 'Menu',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      quoteRef: this.quoteRef,
+      prevQuote: () => this.scrollQuotes(-1),
+      nextQuote: () => this.scrollQuotes(1),
+      showPricing: this.props.showPricing ?? true,
+      logos: ['logo', 'logo', 'logo', 'logo', 'logo'],
+      metrics: [
+        { value: '7', unit: 'weeks', label: 'From first call to a live product with paying users', context: 'Client project · kickoff to launch · Feb 2026' },
+        { value: '₦2.4B', unit: '/mo', label: 'Payments processed without manual reconciliation', context: 'Production · ledger totals · Jun 2026' },
+        { value: '14k', unit: 'events/s', label: 'Sustained through a sales peak with no dropped events', context: 'Production · Kafka consumer lag, 7-day peak · Mar 2026' },
+        { value: '120', unit: 'ms', label: 'Checkout response time for 99% of requests', context: 'Production · p99, 30-day window · Aug 2026' },
+
+      ],
+      projects: [
+        { n: '01', kind: 'Product · SaaS', name: 'Invoicing app for small businesses', role: 'Solo engineer, design to launch', time: '2026', outcome: 'A founder had an idea and a deadline. I built the whole product, from the web app to payments and hosting, and it launched in seven weeks with paying customers in the first month.', metric: 'Launched in 7 weeks · Next.js, NestJS, Postgres, Paystack' },
+        { n: '02', kind: 'Fintech · Payments', name: 'Payout orchestration', role: 'Lead backend engineer', time: '2025–2026', outcome: 'A lender was losing money to failed and duplicated payouts. I rebuilt how payments retry and reconcile, so failures dropped from 4.1% to 0.6% and finance stopped closing the books by hand.', metric: '4.1% → 0.6% failed payouts · production · 90 days' },
+        { n: '03', kind: 'Data · Streaming', name: 'Real-time event pipeline', role: 'Backend engineer', time: '2024–2025', outcome: 'Reports that took a night to compute now update in under a minute. The pipeline absorbs traffic spikes without losing data or waking anyone up.', metric: '14k events/s sustained · p95 lag 38s · production' }
+      ],
+      tiers: [
+        { n: '01', name: 'Product build', desc: 'Your product built end to end, from MVP to launch. For founders with an idea and a deadline.', price: '$3k – $5k', time: 'Per project · 4 – 8 weeks', items: ['Web app and API', 'Auth, payments and admin', 'Database design and hosting', '30 days of post-launch fixes'] },
+        { n: '02', name: 'Embedded engineer', desc: 'Senior engineering capacity inside your team. For startups that need to ship more, reliably.', price: '$2.5k', time: 'Per month · contract', items: ['Feature development', 'Backend and infrastructure work', 'Code review and mentoring', 'Incident support'] }
+      ],
+      quotes: [
+        { text: 'He found the reason our payouts were failing in a week, then fixed it so it stayed fixed. Finance noticed before engineering did.', name: 'Placeholder Name', title: 'CTO, lending startup' },
+        { text: 'Rare mix: deep on distributed systems, and he explains trade-offs so the whole team can make the call.', name: 'Placeholder Name', title: 'Engineering lead, fintech' },
+        { text: 'We went from a Figma file to paying customers in under two months. He handled everything technical so I could focus on selling.', name: 'Placeholder Name', title: 'Founder, SaaS startup' },
+        { text: 'Clear updates, no surprises, and the system still runs without him babysitting it. That is what I want from a contractor.', name: 'Placeholder Name', title: 'Head of Product, logistics' }
+      ],
+      posts: [
+        { title: 'Idempotency keys are not enough: designing payout retries that never double-pay', desc: 'How a retry storm double-paid customers, and the ledger-first design that made it impossible.', meta: 'Sep 2026 · 14 min' },
+        { title: 'Kafka consumer lag as a product metric', desc: 'Why the delay between an event and a dashboard matters to users, and how we brought it under a minute.', meta: 'Jul 2026 · 9 min' },
+        { title: 'Row-level security in Postgres for multi-tenant SaaS, with numbers', desc: 'Isolating 340 tenants in one database: the setup, the query overhead we measured, and the gotchas.', meta: 'May 2026 · 11 min' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

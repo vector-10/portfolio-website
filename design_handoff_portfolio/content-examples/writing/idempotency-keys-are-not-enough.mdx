@@ -1,0 +1,32 @@
+---
+slug: idempotency-keys-are-not-enough
+title: "Idempotency keys are not enough: designing payout retries that never double-pay"
+description: How a retry storm double-paid customers, and the ledger-first design that made it impossible.
+tags: [Payments, Distributed systems]
+date: 2026-09-14
+updated: 2026-09-20
+status: published
+---
+
+Every payments engineer learns to add an idempotency key to outgoing requests…
+
+## The incident
+
+At 14:02 on a salary day, our provider's API began timing out after 30 seconds…
+
+<Figure src="/images/writing/retry-storm.png" caption="Retries climbing while confirmed payouts stay flat." />
+
+## Why keys alone fail
+
+```ts
+// after: key is the payout, persisted first
+const key = payout.id;
+await ledger.markDispatching(payout.id, attempt);
+await provider.payout({ ...req, idempotencyKey: key });
+```
+
+## The numbers
+
+| Measure | Before | After (90 days) |
+|---|---|---|
+| Double payments | ~30 / month | 0 |

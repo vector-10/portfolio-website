@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--ink:#14120f;--muted:#5b564d;--rule:#d9d3c7;--soft:#ebe7de;--inv-bg:#14120f;--inv-ink:#f4f1ea}
+[data-theme="dark"]{--bg:#12110e;--ink:#f1ede4;--muted:#a59f93;--rule:#2d2a24;--soft:#1c1a16;--inv-bg:#f1ede4;--inv-ink:#12110e}
+html,body{margin:0;background:var(--bg)}
+body{-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:4px}
+</style>
+</helmet>
+
+<div data-theme="{{ theme }}" data-screen-label="Writing" style="background:var(--bg);color:var(--ink);font-family:'Geist',system-ui,sans-serif;font-size:17px;line-height:1.55;min-height:100vh">
+
+  <header style="padding:20px clamp(20px,5vw,72px);border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:40px">
+      <a href="Home.dc.html" style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;letter-spacing:-0.01em">Chukwuduzie Blaise</a>
+      <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;gap:28px;align-items:center;font-size:15px">
+          <a href="Work.dc.html">Work</a>
+          <a href="Writing.dc.html" style="text-decoration:underline;text-underline-offset:4px">Writing</a>
+          <a href="About.dc.html">About</a>
+          <a href="Work With Me.dc.html">Work with me</a>
+          <a href="#" style="display:flex;gap:6px;align-items:center;border:1px solid var(--ink);padding:6px 14px;border-radius:999px">Résumé <span>↓</span></a>
+          <button onClick="{{ toggleTheme }}" aria-label="Toggle colour theme" style="background:none;border:1px solid var(--rule);color:var(--ink);font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;cursor:pointer;min-height:32px">{{ themeLabel }}</button>
+        </nav>
+      </sc-if>
+      <sc-if value="{{ narrow }}">
+        <button onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" style="background:none;border:1px solid var(--ink);color:var(--ink);font:inherit;font-size:15px;padding:0 18px;border-radius:999px;cursor:pointer;min-height:44px">{{ menuLabel }}</button>
+      </sc-if>
+    </div>
+    <sc-if value="{{ menuShown }}">
+      <nav style="display:flex;flex-direction:column;padding:8px 0 12px">
+        <a href="Work.dc.html" style="font-family:'Newsreader',serif;font-size:30px;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--rule)">Work</a>
+        <a href="Writing.dc.html" style="font-family:'Newsreader',serif;font-size:30px;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--rule);text-decoration:underline;text-underline-offset:6px">Writing</a>
+        <a href="About.dc.html" style="font-family:'Newsreader',serif;font-size:30px;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--rule)">About</a>
+        <a href="Work With Me.dc.html" style="font-family:'Newsreader',serif;font-size:30px;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--rule)">Work with me</a>
+        <div style="display:flex;gap:10px;padding-top:20px;flex-wrap:wrap">
+          <a href="#" style="display:flex;gap:6px;align-items:center;border:1px solid var(--ink);padding:0 18px;min-height:44px;border-radius:999px">Résumé <span>↓</span></a>
+          <button onClick="{{ toggleTheme }}" style="background:none;border:1px solid var(--rule);color:var(--ink);font:inherit;font-size:15px;padding:0 18px;border-radius:999px;cursor:pointer;min-height:44px">{{ themeLabel }} mode</button>
+        </div>
+      </nav>
+    </sc-if>
+  </header>
+
+  <section style="padding:clamp(56px,8vw,112px) clamp(20px,5vw,72px) clamp(32px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:32px 80px;align-items:end">
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <h1 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(56px,8vw,120px);line-height:0.95;letter-spacing:-0.04em;margin:0">Writing</h1>
+      <p style="margin:0;font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:520px;text-wrap:pretty">Notes from production: payments, distributed systems and data, with the numbers and the mistakes left in.</p>
+    </div>
+    <form onSubmit="{{ subscribe }}" style="display:flex;flex-direction:column;gap:12px;max-width:460px;justify-self:end;width:100%">
+      <label style="font-size:14px;color:var(--muted)">New articles by email, about once a month</label>
+      <sc-if value="{{ notSubscribed }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="email" required="required" placeholder="you@company.com" style="flex:1 1 220px;min-height:48px;padding:0 16px;border:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;font-size:16px;border-radius:999px;box-sizing:border-box">
+          <button type="submit" style="min-height:48px;padding:0 22px;background:var(--ink);color:var(--bg);border:none;border-radius:999px;font:inherit;font-weight:500;cursor:pointer">Subscribe</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ subscribed }}">
+        <div style="min-height:48px;display:flex;align-items:center;font-size:16px">Thanks. Check your inbox to confirm.</div>
+      </sc-if>
+    </form>
+  </section>
+
+  <div style="padding:0 clamp(20px,5vw,72px);display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:24px">
+    <sc-for list="{{ tags }}" as="t" hint-placeholder-count="6">
+      <button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button>
+    </sc-for>
+  </div>
+
+  <section style="padding:0 clamp(20px,5vw,72px) clamp(56px,8vw,112px);display:flex;flex-direction:column">
+    <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:8px 56px;padding-top:40px">
+        <div style="font-family:'Newsreader',serif;font-size:32px;letter-spacing:-0.02em;line-height:1">{{ g.year }}</div>
+        <div style="grid-column:span 3;display:flex;flex-direction:column;min-width:0">
+          <sc-for list="{{ g.posts }}" as="w" hint-placeholder-count="3">
+            <a href="Article.dc.html" style="display:flex;flex-direction:column;gap:8px;padding:24px 0;border-bottom:1px solid var(--rule)">
+              <div style="display:flex;justify-content:space-between;gap:8px 32px;flex-wrap:wrap;align-items:baseline">
+                <div style="font-family:'Newsreader',serif;font-size:clamp(22px,2.2vw,28px);line-height:1.2;letter-spacing:-0.01em;flex:1 1 380px;min-width:0;text-wrap:pretty">{{ w.title }}</div>
+                <div style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted)">{{ w.meta }}</div>
+              </div>
+              <div style="font-size:16px;color:var(--muted);max-width:680px;text-wrap:pretty">{{ w.desc }}</div>
+              <div style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted)">{{ w.tag }}</div>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section style="padding:clamp(56px,7vw,96px) clamp(20px,5vw,72px);border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:24px 56px">
+    <div style="font-family:'Newsreader',serif;font-size:32px;letter-spacing:-0.02em;line-height:1.1">Talks and elsewhere</div>
+    <div style="grid-column:span 3;display:flex;flex-direction:column;min-width:0;border-top:1px solid var(--ink)">
+      <sc-for list="{{ talks }}" as="k" hint-placeholder-count="3">
+        <a href="#" style="display:flex;justify-content:space-between;gap:8px 32px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid var(--rule)">
+          <span style="flex:1 1 380px;min-width:0">{{ k.title }} ↗</span>
+          <span style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted)">{{ k.meta }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <div style="background:var(--inv-bg);color:var(--inv-ink)">
+    <section style="padding:clamp(56px,8vw,112px) clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:24px;align-items:flex-start">
+      <h2 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(36px,4.6vw,64px);letter-spacing:-0.03em;line-height:1.02;margin:0;text-wrap:balance">Building something? Tell me about it.</h2>
+      <a href="mailto:hello@chukwuduzie.dev" style="font-family:'Newsreader',serif;font-size:clamp(24px,2.6vw,34px);border-bottom:2px solid var(--inv-ink);line-height:1.2;word-break:break-word">hello@chukwuduzie.dev</a>
+    </section>
+    <footer style="padding:32px clamp(20px,5vw,72px);border-top:1px solid color-mix(in oklab,var(--inv-ink) 22%,transparent);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:14px;opacity:0.8">
+      <div>© 2026 Chukwuduzie Blaise</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap"><a href="#">GitHub</a><a href="#">LinkedIn</a><a href="#">Résumé (PDF)</a><a href="#">RSS</a></div>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const POSTS = [
+  { year: 2026, tag: 'Payments', title: 'Idempotency keys are not enough: designing payout retries that never double-pay', desc: 'How a retry storm double-paid customers, and the ledger-first design that made it impossible.', meta: 'Sep 2026 · 14 min' },
+  { year: 2026, tag: 'Data', title: 'Kafka consumer lag as a product metric', desc: 'Why the delay between an event and a dashboard matters to users, and how we brought it under a minute.', meta: 'Jul 2026 · 9 min' },
+  { year: 2026, tag: 'Postgres', title: 'Row-level security in Postgres for multi-tenant SaaS, with numbers', desc: 'Isolating 340 tenants in one database: the setup, the query overhead we measured, and the gotchas.', meta: 'May 2026 · 11 min' },
+  { year: 2026, tag: 'Product', title: 'What I cut to ship an MVP in seven weeks', desc: 'The features, abstractions and infrastructure I left out on purpose, and which ones I had to add back.', meta: 'Mar 2026 · 7 min' },
+  { year: 2025, tag: 'Distributed systems', title: 'Timeouts are not failures: modelling "unknown" in payment state machines', desc: 'A provider said no when it meant maybe. What that cost us and how the state model changed.', meta: 'Dec 2025 · 10 min' },
+  { year: 2025, tag: 'Distributed systems', title: 'BullMQ vs Kafka: picking a queue by failure mode, not throughput', desc: 'A side-by-side of what breaks, what you can replay and what it costs to run each one.', meta: 'Aug 2025 · 12 min' },
+  { year: 2025, tag: 'Payments', title: 'Reconciliation is a product, not a cron job', desc: 'Turning a morning spreadsheet ritual into an hourly system finance actually trusts.', meta: 'Apr 2025 · 8 min' }
+];
+const TAGS = ['All', 'Payments', 'Distributed systems', 'Data', 'Postgres', 'Product'];
+class Component extends DCLogic {
+  state = { narrow: false, menuOpen: false, theme: 'light', tag: 'All', subscribed: false };
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  componentDidMount() {
+    this.onResize = () => this.setState({ narrow: window.innerWidth < 820 });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+    let t = null;
+    try { t = localStorage.getItem('cb-theme'); } catch (e) {}
+    if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    this.setState({ theme: t });
+  }
+  toggleTheme = () => {
+    const theme = this.state.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('cb-theme', theme); } catch (e) {}
+    this.setState({ theme });
+  };
+  renderVals() {
+    const { tag } = this.state;
+    const list = POSTS.filter(p => tag === 'All' || p.tag === tag);
+    const years = [...new Set(list.map(p => p.year))];
+    return {
+      theme: this.state.theme,
+      themeLabel: this.state.theme === 'dark' ? 'Light' : 'Dark',
+      toggleTheme: this.toggleTheme,
+      narrow: this.state.narrow,
+      wide: !this.state.narrow,
+      menuShown: this.state.narrow && this.state.menuOpen,
+      menuExpanded: String(this.state.menuOpen),
+      menuLabel: this.state.menuOpen ? 'Close' : 'Menu',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      subscribed: this.state.subscribed,
+      notSubscribed: !this.state.subscribed,
+      subscribe: (e) => { e.preventDefault(); this.setState({ subscribed: true }); },
+      tags: TAGS.map(label => {
+        const on = label === tag;
+        return { label, onClick: () => this.setState({ tag: label }), style: { minHeight: 40, padding: '0 16px', borderRadius: 999, border: '1px solid ' + (on ? 'var(--ink)' : 'var(--rule)'), background: on ? 'var(--ink)' : 'transparent', color: on ? 'var(--bg)' : 'var(--ink)', font: 'inherit', fontSize: 14, cursor: 'pointer' } };
+      }),
+      groups: years.map(y => ({ year: y, posts: list.filter(p => p.year === y) })),
+      talks: [
+        { title: 'Designing payouts that survive provider outages', meta: 'Talk · DevFest Lagos · Nov 2025' },
+        { title: 'Guest post: Multi-tenancy without the multi-headache', meta: 'Article · Placeholder Engineering Blog · Jun 2025' },
+        { title: 'Podcast: Building fintech backends in Africa', meta: 'Podcast · Placeholder Show · Feb 2025' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
