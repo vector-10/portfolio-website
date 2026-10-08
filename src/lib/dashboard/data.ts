@@ -78,7 +78,7 @@ export const listMedia = cache(async (): Promise<MediaItem[]> => {
   const store = getStore();
   const tree = await store.tree();
   const images = tree.filter((e) => e.path.startsWith("public/images/") && /\.(png|jpe?g|webp|avif|gif|svg)$/i.test(e.path));
-  const texts = tree.filter((e) => e.path.endsWith(".mdx") || e.path === "content/site.json");
+  const texts = tree.filter((e) => e.path.endsWith(".mdx") || e.path === "content/site.json" || e.path === "src/config/site.ts");
   const bodies = await Promise.all(
     texts.map(async (e) => ({ path: e.path, text: (await store.read(e.path))?.content.toString("utf8") ?? "" })),
   );

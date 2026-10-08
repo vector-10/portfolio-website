@@ -41,13 +41,11 @@ export function Preview() {
 
   useEffect(() => {
     const onMessage = (event: MessageEvent<PreviewMessage>) => {
-      console.log("DBG child got", event.origin, event.data?.kind);
       if (event.origin !== window.location.origin || event.data?.kind !== "preview") return;
       setDoc(event.data.doc);
       setImages(event.data.images);
     };
     window.addEventListener("message", onMessage);
-    console.log("DBG child ready", window.location.origin);
     window.parent.postMessage({ kind: "preview-ready" }, window.location.origin);
     const block = (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest("a")) e.preventDefault();

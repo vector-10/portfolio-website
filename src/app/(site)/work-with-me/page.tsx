@@ -34,7 +34,9 @@ export default function WorkWithMePage() {
   return (
     <main>
       <section className="gutter flex flex-col gap-7 pt-[clamp(56px,9vw,128px)] pb-[clamp(48px,6vw,80px)]">
-        <div className="font-mono text-[13px] text-muted">Work with me · {availability}</div>
+        <div className="font-mono text-[13px] text-muted">
+          Work with me{site.available && availability ? ` · ${availability}` : ""}
+        </div>
         <h1 className="max-w-[1150px] text-[clamp(46px,7vw,108px)] leading-[0.98] tracking-[-0.035em]">
           You bring the problem. I&apos;ll ship the product.
         </h1>

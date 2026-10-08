@@ -1,12 +1,14 @@
 import type { Metric } from "@/lib/content/schema";
+import settings from "../../content/site.json";
 
 export const site = {
   name: "Chukwuduzie Blaise",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   description:
     "Software engineer building full products, with the backend done right: payments, data and scale.",
-  email: "hello@chukwuduzie.dev",
-  resume: "/resume.pdf",
+  email: settings.email,
+  resume: settings.resume,
+  available: settings.available,
   portrait: { src: "/images/hero-full.jpg", width: 1920, height: 2560 },
   social: {
     github: "https://github.com/vector-10",
@@ -38,7 +40,7 @@ export const logos: { name: string; src?: string }[] = [
   { name: "logo" },
 ];
 
-export const availability = "Taking 2 new projects for Q1 2027";
+export const availability = settings.note;
 
 export const tiers = [
   {

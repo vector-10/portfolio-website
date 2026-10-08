@@ -153,10 +153,33 @@ export function missingMetricFields(doc: FormDoc) {
   return doc.metrics.flatMap((m, i) => METRIC_FIELDS.filter((k) => !m[k].trim()).map((k) => ({ i, k })));
 }
 
+const FIELD_NAMES: Record<string, string> = {
+  title: "Title",
+  description: "Description",
+  outcome: "Outcome",
+  kind: "Kind",
+  role: "Role",
+  timeframe: "Timeframe",
+  stack: "Stack",
+  date: "Date",
+  headlineMetric: "Headline metric",
+  problem: "The problem",
+  did: "What I did",
+  result: "The result",
+};
+
+function plainIssue(path: PropertyKey[]) {
+  const [first, second, third] = path.map(String);
+  if (first === "metrics" && third) return `Metric ${Number(second) + 1} is missing its ${third}`;
+  if (first === "metrics") return "Add at least one complete metric";
+  if (first === "summary" && second) return `"${FIELD_NAMES[second] ?? second}" is empty`;
+  return `${FIELD_NAMES[first] ?? first ?? "Document"} is missing or invalid`;
+}
+
 export function publishIssues(doc: FormDoc): string[] {
   const data = { slug: doc.slug, ...toFrontmatter(doc, true) };
   const parsed = (doc.type === "Project" ? ProjectSchema : PostSchema).safeParse(data);
-  const issues = parsed.success ? [] : parsed.error.issues.map((i) => `${i.path.join(".") || "document"}: ${i.message}`);
+  const issues = parsed.success ? [] : [...new Set(parsed.error.issues.map((i) => plainIssue(i.path)))];
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.slug)) issues.unshift("slug: use lowercase letters, numbers and hyphens");
   return issues;
 }

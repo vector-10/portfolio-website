@@ -55,6 +55,19 @@ Decision 2026-10-08: launch as a read-only site so people can read the work. No 
 - Ignore the spec's RSS mentions; RSS was removed.
 - Deploy status polls the Vercel API with a token from env vars.
 
+**How the dashboard is built** (keep these unless the owner says otherwise):
+- Routes: `src/app/dashboard/layout.tsx` locks the area (session check + `noindex`); `(app)/` holds the screens with the sidebar; `preview/` is the bare page shown inside the editor's preview frame. Public pages live in `src/app/(site)/`.
+- Three locks: Proxy (`src/proxy.ts`) returns 404 to anyone but the owner, the layout checks again, and every data function and Server Action calls `requireOwner()`.
+- Dev bypass: when `pnpm dev` runs without `AUTH_SECRET`, the dashboard opens without sign-in. It can never apply in production.
+- Content goes through one store (`src/lib/dashboard/store/`): GitHub when `GITHUB_TOKEN` is set, local files in dev otherwise. Publishing is one commit (blobs → tree → commit → move branch) with conflict checks.
+- Images are uploaded as Git blobs one at a time, then referenced by the commit, so no request exceeds the 4 MB Server Action limit.
+- Every dashboard page exports `instant = false` (private area, blocking is fine) and has a skeleton loading state.
+- The editor preview uses the real `CaseStudyView` / `ArticleView` inside an iframe, so headline sizes match the pane width. The preview compiles MDX in the browser with `next-mdx-remote`.
+- Save draft: commits `status: draft` for new or draft content; for published content it keeps the edits in this browser only, so the live page never disappears by accident.
+- Drafts are skipped by the public build; invalid drafts never fail it.
+- Site settings live in `content/site.json`, imported by `src/config/site.ts`.
+- To test the dashboard in a browser, use a scripted Chrome (puppeteer-core). Command-line Chrome screenshots with `--virtual-time-budget` don't run the preview frame properly.
+
 ## Owner-supplied content checklist
 Everything not ticked is placeholder copy from the design handoff and must be replaced before launch. Never invent numbers; leave a gap and ask.
 

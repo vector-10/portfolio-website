@@ -113,3 +113,63 @@ export async function deployStatus(commit: string) {
   if (!vercelConfigured() || getStore().kind === "local") return null;
   return (await deploymentsFor([commit]))[commit] ?? { state: "pending" as const, url: null, inspectorUrl: null };
 }
+
+const MediaInput = z.object({
+  add: z.array(z.object({ path: ImagePath, blobSha: z.string().min(1) })).max(20),
+  remove: z.array(z.object({ path: ImagePath, sha: z.string().min(1) })).max(20),
+});
+
+export async function commitMedia(input: z.input<typeof MediaInput>): Promise<{ ok: true; commit: string } | { ok: false; error: string }> {
+  await requireOwner();
+  const parsed = MediaInput.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "Invalid image paths" };
+  const { add, remove } = parsed.data;
+  if (!add.length && !remove.length) return { ok: false, error: "Nothing to commit" };
+  const parts = [add.length ? `add ${add.length}` : "", remove.length ? `remove ${remove.length}` : ""].filter(Boolean);
+  try {
+    const { sha } = await getStore().commit({
+      message: `Media: ${parts.join(", ")} image${add.length + remove.length === 1 ? "" : "s"}`,
+      changes: [...add.map((a) => ({ path: a.path, blobSha: a.blobSha })), ...remove.map((r) => ({ path: r.path, content: null }))],
+      expected: Object.fromEntries([...add.map((a) => [a.path, null]), ...remove.map((r) => [r.path, r.sha])]),
+    });
+    return { ok: true, commit: sha };
+  } catch (error) {
+    if (error instanceof ConflictError) return { ok: false, error: "An image with that name already exists, or changed on GitHub. Reload and try again." };
+    return { ok: false, error: error instanceof Error ? error.message : "Couldn't reach GitHub." };
+  }
+}
+
+const SettingsInput = z.object({
+  settings: z.object({
+    available: z.boolean(),
+    note: z.string().max(200),
+    email: z.email(),
+    resume: z.string().regex(/^\/[a-z0-9/_.-]+\.pdf$/),
+  }),
+  sha: z.string().nullable(),
+  resumeBlob: z.string().nullable(),
+});
+
+export async function saveSettings(
+  input: z.input<typeof SettingsInput>,
+): Promise<{ ok: true; commit: string; sha: string } | { ok: false; error: string }> {
+  await requireOwner();
+  const parsed = SettingsInput.safeParse(input);
+  if (!parsed.success) return { ok: false, error: parsed.error.issues.map((i) => i.message).join("; ") };
+  const { settings, sha, resumeBlob } = parsed.data;
+  const store = getStore();
+  try {
+    const { sha: commit } = await store.commit({
+      message: "Site: settings",
+      changes: [
+        { path: "content/site.json", content: Buffer.from(`${JSON.stringify(settings, null, 2)}\n`) },
+        ...(resumeBlob ? [{ path: `public${settings.resume}`, blobSha: resumeBlob }] : []),
+      ],
+      expected: { "content/site.json": sha },
+    });
+    return { ok: true, commit, sha: (await store.read("content/site.json"))?.sha ?? "" };
+  } catch (error) {
+    if (error instanceof ConflictError) return { ok: false, error: "Settings changed on GitHub since you opened this page. Reload first." };
+    return { ok: false, error: error instanceof Error ? error.message : "Couldn't reach GitHub." };
+  }
+}

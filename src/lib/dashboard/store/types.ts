@@ -27,7 +27,7 @@ export class ConflictError extends Error {
   }
 }
 
-export const CONTENT_ROOTS = ["content/", "public/images/", "public/resume.pdf"];
+export const CONTENT_ROOTS = ["content/", "public/images/", "public/resume.pdf", "src/config/site.ts"];
 
 export function inScope(path: string) {
   return CONTENT_ROOTS.some((root) => path === root || path.startsWith(root));

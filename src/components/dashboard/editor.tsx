@@ -83,7 +83,6 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
-      console.log("DBG parent got", e.origin, e.data?.kind);
       if (e.origin === window.location.origin && e.data?.kind === "preview-ready") setReady((n) => n + 1);
     };
     window.addEventListener("message", onMessage);
@@ -94,7 +93,6 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
     if (!ready) return;
     const t = setTimeout(() => {
       const images = Object.fromEntries(staged.map((s) => [s.src, s.url]));
-      console.log("DBG parent post", ready, !!iframe.current?.contentWindow);
       iframe.current?.contentWindow?.postMessage({ kind: "preview", doc, images }, window.location.origin);
     }, 300);
     return () => clearTimeout(t);
