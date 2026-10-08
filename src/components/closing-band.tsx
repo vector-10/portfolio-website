@@ -49,7 +49,6 @@ export function ClosingBand({
           <a href={site.social.linkedin}>LinkedIn</a>
           <a href={site.social.x}>X</a>
           <a href={site.resume}>Résumé (PDF)</a>
-          <a href="/rss.xml">RSS</a>
         </div>
       </footer>
     </div>

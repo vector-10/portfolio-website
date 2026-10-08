@@ -2,7 +2,6 @@ import Link from "next/link";
 import { nav, site } from "@/config/site";
 import { MobileMenu } from "./mobile-menu";
 import { NavLink } from "./nav-link";
-import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
   return (
@@ -19,7 +18,6 @@ export function Header() {
         <a href={site.resume} className="flex items-center gap-1.5 rounded-full border border-ink px-3.5 py-1.5">
           Résumé <span>↓</span>
         </a>
-        <ThemeToggle className="min-h-8 px-3 py-1.5 text-[13px]" />
       </nav>
       <MobileMenu />
     </header>

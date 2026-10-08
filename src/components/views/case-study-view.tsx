@@ -1,42 +1,17 @@
-import type { Metadata } from "next";
-import { pageMeta } from "@/lib/meta";
-import { cacheLife } from "next/cache";
 import Link from "next/link";
-import { Suspense } from "react";
-import { notFound } from "next/navigation";
 import { ClosingBand } from "@/components/closing-band";
-import { caseStudyComponents } from "@/components/mdx/case-study";
 import { MetricGrid } from "@/components/metric";
-import { getProject, getProjects } from "@/lib/content";
-import { renderMDX } from "@/lib/mdx";
+import type { Project } from "@/lib/content/schema";
 
-export async function generateStaticParams() {
-  const projects = await getProjects();
-  return projects.map((p) => ({ slug: p.meta.slug }));
-}
-
-export async function generateMetadata({ params }: PageProps<"/work/[slug]">): Promise<Metadata> {
-  const { slug } = await params;
-  const project = await getProject(slug);
-  if (!project) return {};
-  return pageMeta(project.meta.title, project.meta.outcome, `/work/${slug}`);
-}
-
-async function CaseStudyBody({ slug }: { slug: string }) {
-  "use cache";
-  cacheLife("max");
-  const project = await getProject(slug);
-  if (!project) return null;
-  return renderMDX(project.body, caseStudyComponents(project.meta));
-}
-
-async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) {
-  const { slug } = await params;
-  const project = await getProject(slug);
-  if (!project) notFound();
-
-  const { meta, next } = project;
-
+export function CaseStudyView({
+  meta,
+  body,
+  next,
+}: {
+  meta: Project;
+  body: React.ReactNode;
+  next?: { slug: string; title: string } | null;
+}) {
   const facts = [
     { k: "Role", v: meta.role },
     { k: "Timeframe", v: meta.timeframe },
@@ -57,9 +32,7 @@ async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) 
           ← All work
         </Link>
         <div className="font-mono text-[13px] text-muted">Case study · {meta.kind}</div>
-        <h1 className="max-w-[1100px] text-[clamp(44px,6.4vw,96px)] leading-none tracking-[-0.035em]">
-          {meta.title}
-        </h1>
+        <h1 className="max-w-[1100px] text-[clamp(44px,6.4vw,96px)] leading-none tracking-[-0.035em]">{meta.title}</h1>
         <p className="max-w-[760px] text-[clamp(19px,1.8vw,24px)] leading-[1.4]">{meta.outcome}</p>
         <dl className="m-0 grid max-w-[1100px] grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))] gap-6 border-t border-ink pt-6">
           {facts.map((f) => (
@@ -106,9 +79,7 @@ async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) 
         </p>
       </div>
 
-      <div className="gutter flex flex-col">
-        <CaseStudyBody slug={slug} />
-      </div>
+      <div className="gutter flex flex-col">{body}</div>
 
       <ClosingBand
         headline={meta.cta}
@@ -122,13 +93,5 @@ async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) 
         }
       />
     </main>
-  );
-}
-
-export default function CaseStudyPage({ params }: PageProps<"/work/[slug]">) {
-  return (
-    <Suspense fallback={<main className="min-h-screen" />}>
-      <CaseStudy params={params} />
-    </Suspense>
   );
 }

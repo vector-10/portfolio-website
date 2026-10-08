@@ -14,10 +14,12 @@ Content leads with the deep specialty (backend, async distributed systems, data 
 - **Content:** MDX in the repo — `content/posts/`, `content/projects/`. Frontmatter validated with Zod at build; invalid content fails the build.
 - **Publishing:** private `/dashboard` writes MDX (and images) to GitHub via the API → Vercel rebuild. Git is the source of truth for content.
 - **Auth:** Auth.js with GitHub OAuth, allowlisted to the owner's GitHub account only. No user table.
-- **Database:** Neon Postgres for runtime data only — view counts, reactions, newsletter signups. Never for post content.
+- **Database:** Neon Postgres for runtime data only — view counts, reactions, newsletter signups. Never for post content. **Deferred:** not set up yet; see "Deferred features".
 - **Rendering:** public pages statically generated; server components by default, client components only for real interactivity.
+- **Theme:** light only, `color-scheme: light`. Dark mode and its toggle were removed on purpose 2026-10-08; ignore the dark tokens and "both themes" checks in the design handoff.
 - **Assets:** `next/image` (AVIF/WebP), `next/font` self-hosted, no third-party asset domains.
-- **Extras:** `next/og` social cards, RSS, sitemap.
+- **Extras:** `next/og` social cards, sitemap, robots, JSON-LD structured data (`Person` + `WebSite` in the root layout, `Article` per post). No RSS: removed on purpose 2026-10-08.
+- **Discoverability:** all crawlers allowed, including AI search and training bots (OAI-SearchBot, GPTBot, ClaudeBot, PerplexityBot). Don't block them. No `llms.txt`: evidence shows crawlers don't read it.
 
 ## Content rules
 - Project metrics always carry context: value, unit, how measured, production vs benchmark, date.
@@ -30,6 +32,28 @@ Before using any Next.js API or any library/tool feature, look up current best p
 
 ## Workflow
 UI is designed first in Claude Design, then handed back here for implementation. Don't write UI layout code ahead of the design.
+
+## Deferred features (build later, owner's call)
+Decision 2026-10-08: launch as a read-only site so people can read the work. No database, no forms, no API routes. The earlier code for these was deleted, so rebuild from this spec. All of them need Neon (`DATABASE_URL` in `.env.local`, never committed).
+
+**Article reactions** ("Was this useful?")
+- Sits at the end of each local article (`src/app/writing/[slug]/page.tsx`, after `<ArticleBody>`): 1px `--ink` top rule, "Was this useful?" in 15px muted, then three pill toggles: Useful / Learned something / Want a follow-up, each with a Geist Mono 13px count. Inactive: `--rule` border; active: `--ink` fill, `--bg` text. Min height 44px.
+- Client island. One pick per reaction per browser, remembered in localStorage (`cb-reactions:<slug>`) via `useSyncExternalStore`, not setState in an effect (lint rule). Optimistic count update.
+- Counts are stored server-side (Neon table keyed by post slug + reaction), fetched at build time and revalidated. Writes go through a POST route handler validated with Zod.
+
+**Newsletter**
+- Two placements: on `/writing`, a form in the hero's right column (label "New articles by email, about once a month", max 460px); and at the end of each article, a `--soft` box with Newsreader 26px heading "Get the next article by email", the line "About once a month. Production notes on payments, data and distributed systems. No spam.", then the form (input fill `--bg` inside the box).
+- Form: pill email input + "Subscribe" button, both 48px. Browser email validation; disable the button while submitting; success text "Thanks. Check your inbox to confirm."; error text "Something went wrong. Try again or email me." in muted.
+- Open decision: Neon-only storage vs a mailing service (e.g. Resend, Buttondown). The success copy promises a confirmation email, so storage alone isn't enough.
+
+**View counts** (needed by the future dashboard): a tiny privacy-friendly beacon per page view, no third-party analytics script.
+
+**Dashboard** (`/dashboard`): spec is `design_handoff_portfolio/changes/002-dashboard.md`; visual reference `designs/Dashboard.dc.html` (still to be supplied). Decisions 2026-10-08, which override the spec where they differ:
+- Build every screen in full, Overview stats included. Stats come from one provider interface that returns "not connected" until reactions / newsletter / a view beacon exist; the UI shows empty states, never fake numbers. Posting articles and projects is the priority use today.
+- Posts stay in `content/posts/` (the spec says `content/writing/`).
+- Route protection goes in `src/proxy.ts` (Next 16 renamed middleware to Proxy).
+- Ignore the spec's RSS mentions; RSS was removed.
+- Deploy status polls the Vercel API with a token from env vars.
 
 ## Owner-supplied content checklist
 Everything not ticked is placeholder copy from the design handoff and must be replaced before launch. Never invent numbers; leave a gap and ask.
@@ -47,6 +71,10 @@ Everything not ticked is placeholder copy from the design handoff and must be re
 - [ ] Client logos for "Trusted by teams at" (or remove the strip)
 - [ ] Talks and elsewhere: title, link, type · venue · date
 - [ ] Production domain → `NEXT_PUBLIC_SITE_URL` in Vercel
+
+**After launch (owner, off-site)**
+- [ ] Submit `https://<domain>/sitemap.xml` in Google Search Console and Bing Webmaster Tools
+- [ ] Same name + one-line pitch on GitHub, LinkedIn and X, each linking back to the site; add the site to the GitHub profile README; externally hosted articles link back
 
 **Files** (`public/`)
 - [x] Home portrait → `images/portrait.jpg` (4:5)

@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 :root {
+  color-scheme: light;
   --bg: #f4f1ea;
   --ink: #14120f;
   --muted: #5b564d;
   --rule: #d9d3c7;
   --soft: #ebe7de;
+  --field: #fbf9f5;
   --inv-bg: #14120f;
   --inv-ink: #f4f1ea;
   --inv-rule: color-mix(in oklab, var(--inv-ink) 22%, transparent);
@@ -16,22 +16,13 @@
   --section-y: clamp(56px, 8vw, 112px);
 }
 
-[data-theme="dark"] {
-  --bg: #12110e;
-  --ink: #f1ede4;
-  --muted: #a59f93;
-  --rule: #2d2a24;
-  --soft: #1c1a16;
-  --inv-bg: #f1ede4;
-  --inv-ink: #12110e;
-}
-
 @theme inline {
   --color-bg: var(--bg);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-rule: var(--rule);
   --color-soft: var(--soft);
+  --color-field: var(--field);
   --color-inv-bg: var(--inv-bg);
   --color-inv-ink: var(--inv-ink);
   --color-inv-rule: var(--inv-rule);
@@ -57,12 +48,12 @@
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);
-    font-size: 17px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
   body {
+    font-size: 17px;
     margin: 0;
     background: var(--bg);
     min-height: 100vh;
@@ -112,11 +103,6 @@
   scrollbar-width: none;
 }
 .no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-[data-theme="dark"] .when-light,
-:root:not([data-theme="dark"]) .when-dark {
   display: none;
 }
 

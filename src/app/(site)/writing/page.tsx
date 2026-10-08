@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
 import { ClosingBand } from "@/components/closing-band";
 import { FilterChips } from "@/components/filter-chips";
-import { NewsletterForm } from "@/components/newsletter-form";
-import { site, talks } from "@/config/site";
+import { talks } from "@/config/site";
 import { getPosts } from "@/lib/content";
 import { PostLink, postMetaLine } from "@/components/post-link";
 import { slug } from "@/lib/format";
@@ -33,9 +32,6 @@ export default async function WritingPage() {
             Notes from production: payments, distributed systems and data, with the numbers and the mistakes left in.
           </p>
         </div>
-        {site.newsletter && (
-          <NewsletterForm label="New articles by email, about once a month" className="max-w-[460px] justify-self-end" />
-        )}
       </section>
 
       <FilterChips

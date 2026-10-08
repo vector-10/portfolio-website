@@ -14,8 +14,6 @@ export const site = {
     x: "https://x.com/vector_ware",
   },
   showHireTeaser: true,
-  newsletter: false,
-  reactions: false,
 } as const;
 
 export const nav = [

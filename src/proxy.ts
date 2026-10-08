@@ -1,4 +1,6 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
+import type { NextAuthRequest } from "next-auth";
+import { auth, devBypass, isOwner } from "@/auth";
 import slugs from "@/generated/content-slugs.json";
 
 const known: Record<string, Set<string>> = {
@@ -6,14 +8,24 @@ const known: Record<string, Set<string>> = {
   writing: new Set(slugs.writing),
 };
 
-export function proxy(request: NextRequest) {
-  if (process.env.NODE_ENV === "development") return;
+const notFound = (request: NextRequest) => NextResponse.rewrite(new URL("/_not-found", request.url));
+
+const dashboardGate = auth((request: NextAuthRequest, _event: NextFetchEvent) => {
+  if (!isOwner(request.auth)) return notFound(request);
+});
+
+export function proxy(request: NextRequest, event: NextFetchEvent) {
   const [, section, slug] = request.nextUrl.pathname.split("/");
-  if (!known[section]?.has(decodeURIComponent(slug))) {
-    return NextResponse.rewrite(new URL("/_not-found-slug", request.url));
+
+  if (section === "dashboard" || (section === "api" && slug === "dashboard")) {
+    if (devBypass) return;
+    return dashboardGate(request, event);
   }
+
+  if (process.env.NODE_ENV === "development") return;
+  if (!known[section]?.has(decodeURIComponent(slug))) return notFound(request);
 }
 
 export const config = {
-  matcher: ["/work/:slug", "/writing/:slug"],
+  matcher: ["/work/:slug", "/writing/:slug", "/dashboard/:path*", "/dashboard", "/api/dashboard/:path*"],
 };

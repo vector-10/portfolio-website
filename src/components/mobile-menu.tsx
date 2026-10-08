@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { nav, site } from "@/config/site";
 import { NavLink } from "./nav-link";
-import { ThemeToggle } from "./theme-toggle";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -46,7 +45,6 @@ export function MobileMenu() {
             >
               Résumé <span>↓</span>
             </a>
-            <ThemeToggle suffix=" mode" className="min-h-11 px-4.5 text-[15px]" />
           </div>
         </nav>
       )}

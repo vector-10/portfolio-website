@@ -54,8 +54,8 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
     </sc-if>
   </header>
 
-  <section style="padding:clamp(56px,9vw,128px) clamp(20px,5vw,72px) clamp(48px,7vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(40px,6vw,96px);align-items:end">
-    <div style="display:flex;flex-direction:column;gap:32px;grid-column:span 1;min-width:0">
+  <section style="padding:clamp(56px,9vw,128px) clamp(20px,5vw,72px) clamp(48px,7vw,96px);display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px);align-items:center;max-width:1440px;box-sizing:border-box">
+    <div style="display:flex;flex-direction:column;gap:32px;flex:1 1 520px;max-width:760px;min-width:0">
       <div style="font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:0.02em">Software engineer · Problem solver · Available for new projects</div>
       <h1 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(46px,7.2vw,112px);line-height:0.98;letter-spacing:-0.035em;margin:0;text-wrap:balance">I build full products, with the backend done right.</h1>
       <p style="margin:0;font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:580px;text-wrap:pretty">Web apps and APIs end to end, from interface to infrastructure. My depth is the hard part: payments, data and scale.</p>
@@ -64,8 +64,8 @@ a:hover{text-decoration:underline;text-underline-offset:4px}
         <a href="#work" style="border:1px solid var(--ink);padding:14px 24px;border-radius:999px;font-weight:500;min-height:48px;box-sizing:border-box;display:flex;align-items:center">See the work</a>
       </div>
     </div>
-    <div style="display:flex;justify-content:flex-end;min-width:0">
-      <div style="width:100%;max-width:400px;aspect-ratio:4/5;position:relative">
+    <div style="flex:0 1 380px;min-width:0">
+      <div style="width:100%;max-width:380px;aspect-ratio:4/5;position:relative">
         <image-slot id="hero-portrait" shape="rect" placeholder="Portrait photo"></image-slot>
       </div>
     </div>

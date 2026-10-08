@@ -9,15 +9,18 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@octokit/rest": "^22.0.1",
     "@shikijs/rehype": "^4.5.0",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "next": "16.4.0",
+    "next-auth": "5.0.0-beta.32",
     "next-mdx-remote": "^6.0.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "reading-time": "^1.5.0",
     "remark-gfm": "^4.0.1",
+    "server-only": "^0.0.1",
     "shiki": "^4.5.0",
     "zod": "^4.6.5"
   },

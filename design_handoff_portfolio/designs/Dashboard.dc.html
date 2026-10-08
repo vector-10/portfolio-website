@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--ink:#14120f;--muted:#5b564d;--rule:#d9d3c7;--soft:#ebe7de;--field:#fbf9f5;--inv-bg:#14120f;--inv-ink:#f4f1ea}
+html,body{margin:0;background:var(--bg)}
+body{-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+</style>
+</helmet>
+
+<div data-screen-label="Dashboard" style="background:var(--bg);color:var(--ink);font-family:'Geist',system-ui,sans-serif;font-size:14px;line-height:1.5;min-height:100vh;display:flex;flex-wrap:wrap">
+
+  <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+    <aside style="width:228px;flex:0 0 228px;border-right:1px solid var(--rule);display:flex;flex-direction:column;gap:28px;position:sticky;top:0;height:100vh;box-sizing:border-box;padding:22px 14px">
+      <div style="display:flex;flex-direction:column;gap:2px;padding:0 8px">
+        <a href="Home.dc.html" style="font-family:'Newsreader',serif;font-size:19px;font-weight:500;letter-spacing:-0.01em">Chukwuduzie Blaise</a>
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">Dashboard · private</div>
+      </div>
+      <nav style="display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="4">
+          <button onClick="{{ n.onClick }}" style="{{ n.style }}"><span>{{ n.label }}</span><span style="font-family:'Geist Mono',monospace;font-size:11px;opacity:0.7">{{ n.count }}</span></button>
+        </sc-for>
+      </nav>
+      <div style="flex:1"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;padding:14px 8px 0;border-top:1px solid var(--rule);font-size:13px">
+        <div style="display:flex;flex-direction:column;gap:2px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">
+          <span style="color:var(--ink)">● main · in sync</span>
+          <span>{{ lastDeploy }}</span>
+        </div>
+        <a href="Home.dc.html">View live site ↗</a>
+        <a href="#" style="color:var(--muted)">Sign out</a>
+      </div>
+    </aside>
+  </sc-if>
+
+  <sc-if value="{{ narrow }}">
+    <header style="flex:1 1 100%;border-bottom:1px solid var(--rule);padding:12px 16px;display:flex;flex-direction:column;gap:8px;box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div style="display:flex;flex-direction:column">
+          <span style="font-family:'Newsreader',serif;font-size:18px;font-weight:500">Dashboard</span>
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">● main · in sync</span>
+        </div>
+        <button onClick="{{ toggleMenu }}" style="min-height:44px;padding:0 18px;border:1px solid var(--ink);background:none;color:var(--ink);border-radius:999px;font:inherit;font-size:14px;cursor:pointer">{{ menuLabel }}</button>
+      </div>
+      <sc-if value="{{ menuOpen }}">
+        <nav style="display:flex;flex-direction:column;gap:2px;padding:4px 0 8px">
+          <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="4">
+            <button onClick="{{ n.onClick }}" style="{{ n.styleMobile }}"><span>{{ n.label }}</span><span style="font-family:'Geist Mono',monospace;font-size:12px;opacity:0.7">{{ n.count }}</span></button>
+          </sc-for>
+          <a href="Home.dc.html" style="padding:12px 10px;font-size:15px">View live site ↗</a>
+        </nav>
+      </sc-if>
+    </header>
+  </sc-if>
+
+  <main style="flex:1 1 0;min-width:min(100%,320px);display:flex;flex-direction:column">
+
+    <!-- OVERVIEW -->
+    <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="Overview" style="padding:28px clamp(16px,3vw,40px) 48px;display:flex;flex-direction:column;gap:28px;max-width:1280px;box-sizing:border-box;width:100%">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <h1 style="font-family:'Newsreader',serif;font-weight:400;font-size:34px;letter-spacing:-0.02em;line-height:1;margin:0">Overview</h1>
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ ranges }}" as="r" hint-placeholder-count="3">
+              <button onClick="{{ r.onClick }}" style="{{ r.style }}">{{ r.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));border-top:1px solid var(--ink)">
+          <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="4">
+            <div style="padding:18px 18px 18px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:6px;min-width:0">
+              <div style="font-size:12px;color:var(--muted)">{{ t.label }}</div>
+              <div style="font-family:'Newsreader',serif;font-size:40px;line-height:1;letter-spacing:-0.02em">{{ t.value }}</div>
+              <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ t.note }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <section style="border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <div style="font-weight:500">Views over time</div>
+            <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ chartNote }}</div>
+          </div>
+          <div style="height:180px;display:flex;align-items:flex-end;gap:2px;border-bottom:1px solid var(--ink)">
+            <sc-for list="{{ bars }}" as="b" hint-placeholder-count="30">
+              <div title="{{ b.tip }}" style="{{ b.style }}"></div>
+            </sc-for>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">
+            <span>{{ axis.a }}</span><span>{{ axis.b }}</span><span>{{ axis.c }}</span>
+          </div>
+        </section>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:28px">
+          <section style="display:flex;flex-direction:column;min-width:0">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:10px">
+              <div style="font-weight:500">Top content</div>
+              <div style="display:flex;gap:20px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)"><span style="width:56px;text-align:right">Views</span><span style="width:64px;text-align:right">Reactions</span></div>
+            </div>
+            <div style="border-top:1px solid var(--ink);display:flex;flex-direction:column">
+              <sc-for list="{{ top }}" as="c" hint-placeholder-count="6">
+                <button onClick="{{ c.open }}" style="display:flex;align-items:center;gap:20px;padding:10px 0;border:none;border-bottom:1px solid var(--rule);background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-height:44px" style-hover="background:var(--soft)">
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column">
+                    <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.title }}</span>
+                    <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ c.type }}</span>
+                  </span>
+                  <span style="width:56px;text-align:right;font-family:'Geist Mono',monospace;font-size:13px">{{ c.viewsFmt }}</span>
+                  <span style="width:64px;text-align:right;font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted)">{{ c.reactFmt }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </section>
+          <section style="display:flex;flex-direction:column;min-width:0">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:10px">
+              <div style="font-weight:500">Recent deploys</div>
+              <a href="#" style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">GitHub ↗</a>
+            </div>
+            <div style="border-top:1px solid var(--ink);display:flex;flex-direction:column">
+              <sc-for list="{{ deploys }}" as="d" hint-placeholder-count="4">
+                <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:flex-start">
+                  <span style="font-family:'Geist Mono',monospace;font-size:13px;width:14px;flex:0 0 14px">{{ d.glyph }}</span>
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                    <span style="text-wrap:pretty">{{ d.msg }}</span>
+                    <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ d.meta }}</span>
+                  </span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- CONTENT LIST -->
+    <sc-if value="{{ isContent }}">
+      <div data-screen-label="Content" style="padding:28px clamp(16px,3vw,40px) 48px;display:flex;flex-direction:column;gap:20px;max-width:1280px;box-sizing:border-box;width:100%">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <h1 style="font-family:'Newsreader',serif;font-weight:400;font-size:34px;letter-spacing:-0.02em;line-height:1;margin:0">Content</h1>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button onClick="{{ newPost }}" style="min-height:40px;padding:0 16px;border:1px solid var(--ink);background:none;color:var(--ink);border-radius:999px;font:inherit;font-weight:500;cursor:pointer">New post</button>
+            <button onClick="{{ newProject }}" style="min-height:40px;padding:0 16px;border:none;background:var(--ink);color:var(--bg);border-radius:999px;font:inherit;font-weight:500;cursor:pointer">New project</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <sc-for list="{{ typeChips }}" as="c" hint-placeholder-count="3">
+              <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+            </sc-for>
+          </div>
+          <div style="width:1px;height:24px;background:var(--rule)"></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <sc-for list="{{ statusChips }}" as="c" hint-placeholder-count="4">
+              <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+            </sc-for>
+          </div>
+          <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Search titles" style="margin-left:auto;flex:0 1 240px;min-width:160px;min-height:36px;padding:0 12px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px;box-sizing:border-box" style-focus="border-color:var(--ink);outline:none">
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <sc-if value="{{ tableMode }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:16px;padding:0 0 8px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);border-bottom:1px solid var(--ink)">
+              <span style="flex:1 1 0;min-width:0">Title</span><span style="flex:0 0 72px">Type</span><span style="flex:0 0 170px">Status</span><span style="flex:0 0 64px;text-align:right">Views</span><span style="flex:0 0 72px;text-align:right">Reactions</span><span style="flex:0 0 84px;text-align:right">Updated</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ cardMode }}">
+            <div style="border-top:1px solid var(--ink)"></div>
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+              <button onClick="{{ r.open }}" style="display:flex;flex-direction:column;gap:4px;padding:12px 0;border:none;border-bottom:1px solid var(--rule);background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-height:52px" style-hover="background:var(--soft)">
+                <span style="font-weight:500;text-wrap:pretty">{{ r.title }}</span>
+                <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ r.cardMeta }}</span>
+              </button>
+            </sc-for>
+          </sc-if>
+          <sc-for list="{{ tableRows }}" as="r" hint-placeholder-count="8">
+            <button onClick="{{ r.open }}" style="display:flex;gap:16px;align-items:center;padding:12px 0;border:none;border-bottom:1px solid var(--rule);background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-height:52px" style-hover="background:var(--soft)">
+              <span style="flex:1 1 0;min-width:0;display:flex;flex-direction:column">
+                <span style="font-weight:500;text-wrap:pretty">{{ r.title }}</span>
+                <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ r.path }}</span>
+              </span>
+              <span style="flex:0 0 72px;font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted)">{{ r.type }}</span>
+              <span style="flex:0 0 170px;font-family:'Geist Mono',monospace;font-size:12px">{{ r.statusLabel }}</span>
+              <span style="flex:0 0 64px;text-align:right;font-family:'Geist Mono',monospace;font-size:13px">{{ r.viewsFmt }}</span>
+              <span style="flex:0 0 72px;text-align:right;font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted)">{{ r.reactFmt }}</span>
+              <span style="flex:0 0 84px;text-align:right;font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted)">{{ r.updated }}</span>
+            </button>
+          </sc-for>
+          <sc-if value="{{ noRows }}">
+            <div style="padding:40px 0;color:var(--muted)">Nothing matches these filters.</div>
+          </sc-if>
+        </div>
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">● Published   ◐ Published, with unpublished changes   ○ Draft (in repo, hidden on site)</div>
+      </div>
+    </sc-if>
+
+    <!-- EDITOR -->
+    <sc-if value="{{ isEditor }}">
+      <div data-screen-label="Editor" style="display:flex;flex-direction:column;min-height:100vh">
+        <div style="position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--rule);padding:10px clamp(16px,2vw,24px);display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-height:56px;box-sizing:border-box">
+          <button onClick="{{ goContent }}" style="min-height:36px;padding:0 12px;border:1px solid var(--rule);background:none;color:var(--ink);border-radius:999px;font:inherit;font-size:13px;cursor:pointer">← Content</button>
+          <div style="flex:1 1 200px;min-width:0;display:flex;flex-direction:column">
+            <span style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ docTitle }}</span>
+            <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ statusLine }}</span>
+          </div>
+          <sc-if value="{{ narrow }}">
+            <div style="display:flex;border:1px solid var(--ink);border-radius:999px;overflow:hidden">
+              <button onClick="{{ showEdit }}" style="{{ paneEditStyle }}">Edit</button>
+              <button onClick="{{ showPreview }}" style="{{ panePreviewStyle }}">Preview</button>
+            </div>
+          </sc-if>
+          <button onClick="{{ saveDraft }}" style="min-height:36px;padding:0 14px;border:1px solid var(--ink);background:none;color:var(--ink);border-radius:999px;font:inherit;font-size:13px;font-weight:500;cursor:pointer">Save draft</button>
+          <button onClick="{{ openPublish }}" style="min-height:36px;padding:0 16px;border:none;background:var(--ink);color:var(--bg);border-radius:999px;font:inherit;font-size:13px;font-weight:500;cursor:pointer">Publish…</button>
+        </div>
+
+        <div style="{{ panesStyle }}">
+          <div style="{{ formPaneStyle }}">
+            <div style="padding:24px clamp(16px,2vw,28px) 64px;display:flex;flex-direction:column;gap:32px;max-width:760px">
+
+              <section style="display:flex;flex-direction:column;gap:14px">
+                <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);border-bottom:1px solid var(--ink);padding-bottom:6px">Basics</div>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Title
+                  <input value="{{ doc.title }}" onChange="{{ on.title }}" style="width:100%;box-sizing:border-box;min-height:40px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font-family:'Newsreader',serif;font-size:20px" style-focus="border-color:var(--ink);outline:none">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Slug
+                  <div style="display:flex;border:1px solid var(--rule);background:var(--field)">
+                    <span style="padding:0 0 0 10px;display:flex;align-items:center;font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted)">{{ slugPrefix }}</span>
+                    <input value="{{ doc.slug }}" onChange="{{ on.slug }}" style="flex:1;min-width:0;min-height:36px;padding:0 10px 0 0;border:none;background:none;color:var(--ink);font-family:'Geist Mono',monospace;font-size:13px;outline:none">
+                  </div>
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">{{ outcomeLabel }}
+                  <textarea value="{{ doc.outcome }}" onChange="{{ on.outcome }}" rows="2" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px;resize:vertical" style-focus="border-color:var(--ink);outline:none"></textarea>
+                  <span style="font-family:'Geist Mono',monospace;font-size:11px">{{ outcomeHint }}</span>
+                </label>
+
+                <sc-if value="{{ isProject }}">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px">
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Kind
+                      <input value="{{ doc.kind }}" onChange="{{ on.kind }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Category
+                      <select value="{{ doc.category }}" onChange="{{ on.category }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 8px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px;border-radius:0"><option value="Product">Full product</option><option value="Systems">Backend system</option></select>
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Role
+                      <input value="{{ doc.role }}" onChange="{{ on.role }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Timeframe
+                      <input value="{{ doc.timeframe }}" onChange="{{ on.timeframe }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Team
+                      <input value="{{ doc.team }}" onChange="{{ on.team }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Stack <span style="font-size:11px">comma-separated</span>
+                      <input value="{{ doc.stack }}" onChange="{{ on.stack }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+                    </label>
+                  </div>
+                  <label style="display:flex;gap:10px;align-items:center;font-size:14px;cursor:pointer;min-height:36px">
+                    <input type="checkbox" checked="{{ doc.featured }}" onChange="{{ on.featured }}" style="width:18px;height:18px;accent-color:#14120f">
+                    Feature on Home
+                  </label>
+                </sc-if>
+                <sc-if value="{{ isPost }}">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px">
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Tags <span style="font-size:11px">comma-separated</span>
+                      <input value="{{ doc.tags }}" onChange="{{ on.tags }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Date
+                      <input type="date" value="{{ doc.date }}" onChange="{{ on.date }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+                    </label>
+                  </div>
+                </sc-if>
+              </section>
+
+              <section style="display:flex;flex-direction:column;gap:12px">
+                <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);border-bottom:1px solid var(--ink);padding-bottom:6px">Cover image</div>
+                <sc-if value="{{ hasCover }}">
+                  <div style="display:flex;gap:14px;align-items:center;border:1px solid var(--rule);padding:8px">
+                    <div style="width:96px;aspect-ratio:16/10;flex:0 0 96px;background:repeating-linear-gradient(135deg,var(--soft) 0 6px,var(--field) 6px 12px);overflow:hidden">
+                      <div style="{{ cover.thumb }}"></div>
+                    </div>
+                    <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+                      <span style="font-family:'Geist Mono',monospace;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cover.name }}</span>
+                      <span style="font-size:12px;color:var(--muted)">{{ cover.meta }}</span>
+                    </div>
+                    <button onClick="{{ removeCover }}" style="min-height:32px;padding:0 12px;border:1px solid var(--rule);background:none;color:var(--ink);border-radius:999px;font:inherit;font-size:12px;cursor:pointer">Remove</button>
+                  </div>
+                </sc-if>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <label style="min-height:36px;padding:0 14px;border:1px dashed var(--ink);display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">Upload image<input type="file" accept="image/*" onChange="{{ uploadCover }}" style="display:none"></label>
+                  <button onClick="{{ togglePicker }}" style="min-height:36px;padding:0 14px;border:1px solid var(--rule);background:none;color:var(--ink);font:inherit;font-size:13px;cursor:pointer">{{ pickerLabel }}</button>
+                </div>
+                <sc-if value="{{ pickerOpen }}">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;border:1px solid var(--rule);padding:8px">
+                    <sc-for list="{{ pickerItems }}" as="p" hint-placeholder-count="6">
+                      <button onClick="{{ p.pick }}" style="display:flex;flex-direction:column;gap:4px;border:none;background:none;padding:0;text-align:left;cursor:pointer;color:var(--ink);font:inherit">
+                        <div style="width:100%;aspect-ratio:4/3;background:repeating-linear-gradient(135deg,var(--soft) 0 6px,var(--field) 6px 12px);overflow:hidden">
+                          <div style="{{ p.thumb }}"></div>
+                        </div>
+                        <span style="font-family:'Geist Mono',monospace;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </section>
+
+              <sc-if value="{{ isProject }}">
+                <section style="display:flex;flex-direction:column;gap:14px">
+                  <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);border-bottom:1px solid var(--ink);padding-bottom:6px">Short version · plain language, for founders</div>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">The problem
+                    <textarea value="{{ doc.problem }}" onChange="{{ on.problem }}" rows="2" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px;resize:vertical" style-focus="border-color:var(--ink);outline:none"></textarea>
+                  </label>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">What I did
+                    <textarea value="{{ doc.did }}" onChange="{{ on.did }}" rows="2" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px;resize:vertical" style-focus="border-color:var(--ink);outline:none"></textarea>
+                  </label>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">The result
+                    <textarea value="{{ doc.result }}" onChange="{{ on.result }}" rows="2" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px;resize:vertical" style-focus="border-color:var(--ink);outline:none"></textarea>
+                  </label>
+                </section>
+
+                <section id="metrics" style="display:flex;flex-direction:column;gap:12px">
+                  <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:6px;font-family:'Geist Mono',monospace;font-size:11px">
+                    <span style="color:var(--muted)">Metrics · every field required</span>
+                    <span>{{ metricsStatus }}</span>
+                  </div>
+                  <sc-for list="{{ metricRows }}" as="m" hint-placeholder-count="4">
+                    <div style="border:1px solid var(--rule);padding:12px;display:flex;flex-direction:column;gap:10px">
+                      <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">
+                        <span>Metric {{ m.n }}{{ m.flag }}</span>
+                        <button onClick="{{ m.remove }}" style="border:none;background:none;color:var(--muted);font:inherit;font-size:11px;cursor:pointer;min-height:28px">Remove</button>
+                      </div>
+                      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,120px),1fr));gap:8px">
+                        <label style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted)">Value<input value="{{ m.value }}" onChange="{{ m.onValue }}" style="{{ m.sValue }}"></label>
+                        <label style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted)">Unit<input value="{{ m.unit }}" onChange="{{ m.onUnit }}" style="{{ m.sUnit }}"></label>
+                        <label style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted)">Source
+                          <select value="{{ m.source }}" onChange="{{ m.onSource }}" style="{{ m.sSource }}"><option value="">Choose…</option><option value="Production">Production</option><option value="Benchmark">Benchmark</option></select>
+                        </label>
+                        <label style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted)">Date<input value="{{ m.date }}" onChange="{{ m.onDate }}" placeholder="Jan – Mar 2026" style="{{ m.sDate }}"></label>
+                      </div>
+                      <label style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted)">Label · what it means for the business<input value="{{ m.label }}" onChange="{{ m.onLabel }}" style="{{ m.sLabel }}"></label>
+                      <label style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted)">Method · how it was measured<input value="{{ m.method }}" onChange="{{ m.onMethod }}" placeholder="p99, OpenTelemetry traces, 30 days" style="{{ m.sMethod }}"></label>
+                    </div>
+                  </sc-for>
+                  <button onClick="{{ addMetric }}" style="align-self:flex-start;min-height:36px;padding:0 14px;border:1px dashed var(--ink);background:none;color:var(--ink);font:inherit;font-size:13px;cursor:pointer">+ Add metric</button>
+                </section>
+
+                <section style="display:flex;flex-direction:column;gap:10px">
+                  <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);border-bottom:1px solid var(--ink);padding-bottom:6px">Links</div>
+                  <sc-for list="{{ linkRows }}" as="l" hint-placeholder-count="2">
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                      <input value="{{ l.label }}" onChange="{{ l.onLabel }}" placeholder="Label" style="flex:0 1 140px;min-width:100px;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px;box-sizing:border-box" style-focus="border-color:var(--ink);outline:none">
+                      <input value="{{ l.href }}" onChange="{{ l.onHref }}" placeholder="https://" style="flex:1 1 240px;min-width:0;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font-family:'Geist Mono',monospace;font-size:13px;box-sizing:border-box" style-focus="border-color:var(--ink);outline:none">
+                      <button onClick="{{ l.remove }}" aria-label="Remove link" style="min-height:36px;width:36px;border:1px solid var(--rule);background:none;color:var(--muted);font:inherit;cursor:pointer">×</button>
+                    </div>
+                  </sc-for>
+                  <button onClick="{{ addLink }}" style="align-self:flex-start;min-height:36px;padding:0 14px;border:1px dashed var(--ink);background:none;color:var(--ink);font:inherit;font-size:13px;cursor:pointer">+ Add link</button>
+                </section>
+              </sc-if>
+
+              <section style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:6px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">
+                  <span>Body · MDX</span><span>{{ bodyStats }}</span>
+                </div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <sc-for list="{{ snippets }}" as="s" hint-placeholder-count="5">
+                    <button onClick="{{ s.insert }}" style="min-height:32px;padding:0 12px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font-family:'Geist Mono',monospace;font-size:12px;cursor:pointer" style-hover="border-color:var(--ink)">{{ s.label }}</button>
+                  </sc-for>
+                </div>
+                <textarea ref="{{ bodyRef }}" value="{{ doc.body }}" onChange="{{ on.body }}" spellcheck="false" style="width:100%;box-sizing:border-box;min-height:520px;padding:14px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font-family:'Geist Mono',monospace;font-size:13px;line-height:1.7;resize:vertical;tab-size:2" style-focus="border-color:var(--ink);outline:none"></textarea>
+              </section>
+            </div>
+          </div>
+
+          <div style="{{ previewPaneStyle }}">
+            <div style="position:sticky;top:0;background:var(--soft);border-bottom:1px solid var(--rule);padding:8px 20px;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);z-index:1">
+              <span>Preview · {{ previewPath }}</span><span>Live as you type</span>
+            </div>
+            <article style="padding:36px clamp(20px,3vw,44px) 80px;display:flex;flex-direction:column;gap:20px;max-width:760px;font-size:16px;line-height:1.65">
+              <div style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted)">{{ previewEyebrow }}</div>
+              <h1 style="font-family:'Newsreader',serif;font-weight:400;font-size:clamp(32px,3.4vw,48px);line-height:1.02;letter-spacing:-0.03em;margin:0;text-wrap:balance">{{ docTitle }}</h1>
+              <p style="margin:0;font-size:18px;line-height:1.45;color:var(--muted);text-wrap:pretty">{{ doc.outcome }}</p>
+              <sc-if value="{{ hasCover }}">
+                <div style="width:100%;aspect-ratio:16/10;background:repeating-linear-gradient(135deg,var(--rule) 0 6px,var(--bg) 6px 12px);overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">
+                  <div style="{{ cover.thumb }}"></div>
+                  <sc-if value="{{ coverNoUrl }}"><span>{{ cover.name }}</span></sc-if>
+                </div>
+              </sc-if>
+              <sc-if value="{{ isProject }}">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:14px;border-top:1px solid var(--ink);padding-top:14px;font-size:13px">
+                  <div style="display:flex;flex-direction:column"><span style="font-size:11px;color:var(--muted)">Role</span>{{ doc.role }}</div>
+                  <div style="display:flex;flex-direction:column"><span style="font-size:11px;color:var(--muted)">Timeframe</span>{{ doc.timeframe }}</div>
+                  <div style="display:flex;flex-direction:column"><span style="font-size:11px;color:var(--muted)">Stack</span>{{ doc.stack }}</div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:20px;padding-top:6px">
+                  <div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Newsreader',serif;font-size:20px">The problem</span><span style="font-size:14px">{{ doc.problem }}</span></div>
+                  <div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Newsreader',serif;font-size:20px">What I did</span><span style="font-size:14px">{{ doc.did }}</span></div>
+                  <div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Newsreader',serif;font-size:20px">The result</span><span style="font-size:14px">{{ doc.result }}</span></div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));border-top:1px solid var(--ink)">
+                  <sc-for list="{{ metricRows }}" as="m" hint-placeholder-count="4">
+                    <div style="padding:16px 14px 16px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:6px;min-width:0">
+                      <div style="font-family:'Newsreader',serif;font-size:36px;line-height:1;letter-spacing:-0.03em">{{ m.value }}<span style="font-size:0.42em;letter-spacing:0;margin-left:4px;color:var(--muted)">{{ m.unit }}</span></div>
+                      <div style="font-size:13px;line-height:1.4">{{ m.label }}</div>
+                      <div style="font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6">{{ m.source }} · {{ m.date }}<br>{{ m.methodShown }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="background:var(--inv-bg);color:var(--inv-ink);padding:16px 18px;font-family:'Newsreader',serif;font-size:24px;letter-spacing:-0.02em;margin-top:8px">Technical deep dive</div>
+              </sc-if>
+              <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="6">
+                <sc-if value="{{ b.isH2 }}"><h2 style="font-family:'Newsreader',serif;font-weight:400;font-size:26px;letter-spacing:-0.02em;line-height:1.15;margin:12px 0 0">{{ b.text }}</h2></sc-if>
+                <sc-if value="{{ b.isP }}"><p style="margin:0;text-wrap:pretty">{{ b.text }}</p></sc-if>
+                <sc-if value="{{ b.isLi }}"><div style="display:flex;gap:10px;padding-left:4px"><span style="color:var(--muted)">—</span><span>{{ b.text }}</span></div></sc-if>
+                <sc-if value="{{ b.isCode }}"><pre style="margin:0;background:var(--inv-bg);color:var(--inv-ink);padding:14px 16px;overflow-x:auto;font-family:'Geist Mono',monospace;font-size:12px;line-height:1.7"><code>{{ b.text }}</code></pre></sc-if>
+                <sc-if value="{{ b.isFig }}">
+                  <figure style="margin:0;display:flex;flex-direction:column;gap:6px">
+                    <div style="width:100%;aspect-ratio:16/9;background:repeating-linear-gradient(135deg,var(--rule) 0 6px,var(--bg) 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ b.src }}</div>
+                    <figcaption style="font-size:13px;color:var(--muted)">{{ b.text }}</figcaption>
+                  </figure>
+                </sc-if>
+                <sc-if value="{{ b.isDec }}">
+                  <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--rule);padding-top:12px">
+                    <div style="font-family:'Newsreader',serif;font-size:21px;line-height:1.2">{{ b.text }}</div>
+                    <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:14px">
+                      <div style="display:flex;flex-direction:column"><span style="font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted)">Chose</span>{{ b.chose }}</div>
+                      <div style="display:flex;flex-direction:column"><span style="font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted)">Rejected</span>{{ b.rejected }}</div>
+                    </div>
+                    <div style="font-size:14px;color:var(--muted)">{{ b.why }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ b.isMet }}">
+                  <div style="border-top:1px solid var(--ink);padding-top:10px;display:flex;flex-direction:column;gap:4px">
+                    <div style="font-family:'Newsreader',serif;font-size:32px;line-height:1">{{ b.value }}<span style="font-size:0.42em;color:var(--muted);margin-left:4px">{{ b.unit }}</span></div>
+                    <div style="font-size:13px">{{ b.text }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ b.isComp }}"><div style="border:1px dashed var(--rule);padding:10px 12px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">&lt;{{ b.text }}&gt; renders on the site</div></sc-if>
+              </sc-for>
+            </article>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- MEDIA -->
+    <sc-if value="{{ isMedia }}">
+      <div data-screen-label="Media" onDragOver="{{ onDragOver }}" onDrop="{{ onDrop }}" style="padding:28px clamp(16px,3vw,40px) 48px;display:flex;flex-direction:column;gap:20px;max-width:1280px;box-sizing:border-box;width:100%">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <h1 style="font-family:'Newsreader',serif;font-weight:400;font-size:34px;letter-spacing:-0.02em;line-height:1;margin:0">Media</h1>
+          <label style="min-height:40px;padding:0 18px;background:var(--ink);color:var(--bg);border-radius:999px;font-weight:500;display:flex;align-items:center;cursor:pointer">Upload<input type="file" accept="image/*" multiple="multiple" onChange="{{ onUpload }}" style="display:none"></label>
+        </div>
+        <div style="border:1px dashed var(--ink);padding:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+          <span>Drop images anywhere on this page.</span>
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">Committed to public/images/ on publish · converted to AVIF/WebP at build</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <sc-for list="{{ mediaChips }}" as="c" hint-placeholder-count="3">
+            <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+          <div style="flex:1 1 520px;min-width:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px">
+            <sc-for list="{{ mediaTiles }}" as="m" hint-placeholder-count="8">
+              <button onClick="{{ m.select }}" style="{{ m.style }}">
+                <div style="width:100%;aspect-ratio:4/3;background:repeating-linear-gradient(135deg,var(--soft) 0 6px,var(--field) 6px 12px);overflow:hidden">
+                  <div style="{{ m.thumb }}"></div>
+                </div>
+                <div style="padding:8px;display:flex;flex-direction:column;gap:2px">
+                  <span style="font-family:'Geist Mono',monospace;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span>
+                  <span style="font-size:11px;color:var(--muted)">{{ m.meta }}</span>
+                  <span style="font-size:11px;color:var(--muted)">{{ m.flags }}</span>
+                </div>
+              </button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ hasSel }}">
+            <aside style="flex:0 1 320px;min-width:min(100%,280px);border:1px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:14px;position:sticky;top:16px">
+              <div style="width:100%;aspect-ratio:4/3;background:repeating-linear-gradient(135deg,var(--soft) 0 6px,var(--field) 6px 12px);overflow:hidden">
+                <div style="{{ sel.thumb }}"></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-family:'Geist Mono',monospace;font-size:12px;word-break:break-all">{{ sel.path }}</span>
+                <span style="font-size:12px;color:var(--muted)">{{ sel.meta }}</span>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Alt text
+                <input value="{{ sel.alt }}" onChange="{{ onAlt }}" placeholder="Describe the image for screen readers" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+                <span style="font-size:11px">{{ altHint }}</span>
+              </label>
+              <div style="display:flex;flex-direction:column;gap:4px;font-size:13px">
+                <span style="font-size:12px;color:var(--muted)">Used in</span>
+                <span>{{ sel.usedText }}</span>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button onClick="{{ copySnippet }}" style="min-height:36px;padding:0 14px;border:none;background:var(--ink);color:var(--bg);border-radius:999px;font:inherit;font-size:13px;font-weight:500;cursor:pointer">Copy MDX</button>
+                <button onClick="{{ deleteMedia }}" disabled="{{ sel.inUse }}" title="{{ sel.deleteTip }}" style="{{ deleteStyle }}">Delete</button>
+              </div>
+            </aside>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- SETTINGS -->
+    <sc-if value="{{ isSettings }}">
+      <div data-screen-label="Settings" style="padding:28px clamp(16px,3vw,40px) 48px;display:flex;flex-direction:column;gap:8px;max-width:1080px;box-sizing:border-box;width:100%">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:16px">
+          <h1 style="font-family:'Newsreader',serif;font-weight:400;font-size:34px;letter-spacing:-0.02em;line-height:1;margin:0">Settings</h1>
+          <button onClick="{{ saveSettings }}" style="min-height:40px;padding:0 18px;border:none;background:var(--ink);color:var(--bg);border-radius:999px;font:inherit;font-weight:500;cursor:pointer">Save and publish</button>
+        </div>
+
+        <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px 40px;padding:22px 0;border-top:1px solid var(--ink)">
+          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-weight:500">Site</div><div style="font-size:13px;color:var(--muted)">Shown on Home, Work with me and About. Saved to content/site.json.</div></div>
+          <div style="grid-column:span 2;display:flex;flex-direction:column;gap:14px;min-width:0">
+            <div style="display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:44px">
+              <div style="display:flex;flex-direction:column"><span>Available for new projects</span><span style="font-size:12px;color:var(--muted)">Turns the availability line on or off across the site.</span></div>
+              <button onClick="{{ toggleAvail }}" role="switch" aria-checked="{{ availAria }}" aria-label="Available for new projects" style="{{ switchStyle }}"><span style="{{ knobStyle }}"></span></button>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Availability note
+              <input value="{{ settings.note }}" onChange="{{ onNote }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Contact email
+              <input value="{{ settings.email }}" onChange="{{ onEmail }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font:inherit;font-size:14px" style-focus="border-color:var(--ink);outline:none">
+            </label>
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--rule);padding:10px 12px;flex-wrap:wrap">
+              <div style="display:flex;flex-direction:column;min-width:0"><span style="font-family:'Geist Mono',monospace;font-size:12px">{{ settings.cv }}</span><span style="font-size:12px;color:var(--muted)">Résumé PDF · linked in the header on every page</span></div>
+              <label style="min-height:32px;padding:0 14px;border:1px solid var(--ink);border-radius:999px;display:flex;align-items:center;cursor:pointer;font-size:13px">Replace<input type="file" accept="application/pdf" onChange="{{ onCv }}" style="display:none"></label>
+            </div>
+          </div>
+        </section>
+
+        <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px 40px;padding:22px 0;border-top:1px solid var(--rule)">
+          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-weight:500">Repository</div><div style="font-size:13px;color:var(--muted)">Publishing commits MDX and images here. Vercel deploys on every push to the branch.</div></div>
+          <div style="grid-column:span 2;display:flex;flex-direction:column;min-width:0;border-top:1px solid var(--rule)">
+            <sc-for list="{{ repoRows }}" as="r" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:16px;padding:11px 0;border-bottom:1px solid var(--rule)">
+                <span style="color:var(--muted)">{{ r.k }}</span><span style="font-family:'Geist Mono',monospace;font-size:13px;word-break:break-word">{{ r.v }}</span>
+              </div>
+            </sc-for>
+            <div style="padding-top:12px"><button style="min-height:32px;padding:0 14px;border:1px solid var(--ink);background:none;color:var(--ink);border-radius:999px;font:inherit;font-size:13px;cursor:pointer">Reconnect GitHub</button></div>
+          </div>
+        </section>
+
+        <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px 40px;padding:22px 0;border-top:1px solid var(--rule)">
+          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-weight:500">Integrations</div><div style="font-size:13px;color:var(--muted)">Keys are stored as server environment variables, never in the repo.</div></div>
+          <div style="grid-column:span 2;display:flex;flex-direction:column;min-width:0;border-top:1px solid var(--rule)">
+            <sc-for list="{{ integrations }}" as="r" hint-placeholder-count="3">
+              <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:11px 0;border-bottom:1px solid var(--rule);align-items:center">
+                <span style="display:flex;flex-direction:column"><span>{{ r.k }}</span><span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ r.v }}</span></span>
+                <button style="min-height:32px;padding:0 14px;border:1px solid var(--rule);background:none;color:var(--ink);border-radius:999px;font:inherit;font-size:12px;cursor:pointer">{{ r.action }}</button>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px 40px;padding:22px 0;border-top:1px solid var(--rule)">
+          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-weight:500">Access</div><div style="font-size:13px;color:var(--muted)">Sign-in with GitHub. Only the allowed account can open the dashboard.</div></div>
+          <div style="grid-column:span 2;display:flex;flex-direction:column;min-width:0;border-top:1px solid var(--rule)">
+            <div style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:16px;padding:11px 0;border-bottom:1px solid var(--rule)"><span style="color:var(--muted)">Allowed account</span><span style="font-family:'Geist Mono',monospace;font-size:13px">@chukwuduzie</span></div>
+            <sc-for list="{{ sessions }}" as="s" hint-placeholder-count="2">
+              <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:11px 0;border-bottom:1px solid var(--rule);align-items:center">
+                <span style="display:flex;flex-direction:column"><span>{{ s.device }}</span><span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ s.meta }}</span></span>
+                <button style="min-height:32px;padding:0 14px;border:1px solid var(--rule);background:none;color:var(--ink);border-radius:999px;font:inherit;font-size:12px;cursor:pointer">{{ s.action }}</button>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+  </main>
+
+  <!-- PUBLISH DIALOG -->
+  <sc-if value="{{ publishOpen }}">
+    <div style="position:fixed;inset:0;background:rgba(20,18,15,0.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50">
+      <div role="dialog" aria-label="Publish to GitHub" style="width:min(560px,100%);background:var(--bg);border:1px solid var(--ink);padding:24px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box;max-height:calc(100vh - 32px);overflow:auto">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+          <div style="font-family:'Newsreader',serif;font-size:26px;letter-spacing:-0.02em;line-height:1.1">{{ publishTitle }}</div>
+          <button onClick="{{ closePublish }}" aria-label="Close" style="border:none;background:none;color:var(--muted);font-size:20px;cursor:pointer;min-width:36px;min-height:36px">×</button>
+        </div>
+
+        <sc-if value="{{ pubConfirm }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <sc-if value="{{ blocked }}">
+              <div style="border:1px dashed var(--ink);padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+                <span style="font-weight:500">Can't publish yet</span>
+                <span style="font-size:13px;color:var(--muted)">{{ blockedText }}</span>
+                <button onClick="{{ fixMetrics }}" style="align-self:flex-start;min-height:32px;padding:0 14px;border:1px solid var(--ink);background:none;color:var(--ink);border-radius:999px;font:inherit;font-size:13px;cursor:pointer">Go to metrics</button>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;color:var(--muted)">Files in this commit</span>
+              <div style="border-top:1px solid var(--rule);display:flex;flex-direction:column">
+                <sc-for list="{{ changedFiles }}" as="f" hint-placeholder-count="2">
+                  <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--rule);font-family:'Geist Mono',monospace;font-size:12px"><span style="width:14px;color:var(--muted)">{{ f.op }}</span><span style="word-break:break-all">{{ f.path }}</span></div>
+                </sc-for>
+              </div>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">Commit message
+              <input value="{{ commitMsg }}" onChange="{{ onCommitMsg }}" style="width:100%;box-sizing:border-box;min-height:38px;padding:0 10px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font-family:'Geist Mono',monospace;font-size:13px" style-focus="border-color:var(--ink);outline:none">
+            </label>
+            <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">chukwuduzie/portfolio · main → Vercel production deploy</div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+              <button onClick="{{ closePublish }}" style="min-height:40px;padding:0 16px;border:1px solid var(--ink);background:none;color:var(--ink);border-radius:999px;font:inherit;font-weight:500;cursor:pointer">Cancel</button>
+              <button onClick="{{ commit }}" disabled="{{ blocked }}" style="{{ commitStyle }}">Commit and deploy</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ pubProgress }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="border-top:1px solid var(--ink);display:flex;flex-direction:column">
+              <sc-for list="{{ pubSteps }}" as="s" hint-placeholder-count="3">
+                <div style="{{ s.style }}">
+                  <span style="font-family:'Geist Mono',monospace;width:16px">{{ s.glyph }}</span>
+                  <span style="flex:1;display:flex;flex-direction:column"><span>{{ s.label }}</span><span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ s.meta }}</span></span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+              <sc-if value="{{ pubLive }}">
+                <a href="Case Study.dc.html" style="min-height:40px;padding:0 16px;border:1px solid var(--ink);border-radius:999px;font-weight:500;display:flex;align-items:center">View live ↗</a>
+              </sc-if>
+              <button onClick="{{ closePublish }}" style="min-height:40px;padding:0 16px;border:none;background:var(--ink);color:var(--bg);border-radius:999px;font:inherit;font-weight:500;cursor:pointer">{{ pubDoneLabel }}</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}">
+    <div role="status" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--inv-bg);color:var(--inv-ink);padding:12px 18px;font-size:13px;z-index:60;max-width:calc(100% - 32px);box-sizing:border-box">{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ITEMS = [
+  { id: 'w1', type: 'Post', title: 'Idempotency keys are not enough: designing payout retries that never double-pay', slug: 'idempotency-keys-are-not-enough', status: 'Published', views: 3820, reactions: 69, updated: '20 Sep' },
+  { id: 'p1', type: 'Project', title: 'Payout orchestration for a digital lender', slug: 'payout-orchestration', status: 'Published', views: 2140, reactions: null, updated: '2 Oct' },
+  { id: 'w2', type: 'Post', title: 'Kafka consumer lag as a product metric', slug: 'kafka-consumer-lag', status: 'Published', views: 1940, reactions: 31, updated: '12 Jul' },
+  { id: 'p2', type: 'Project', title: 'Invoicing app for small businesses', slug: 'invoicing-app', status: 'Changes', views: 1610, reactions: null, updated: '6 Oct' },
+  { id: 'w3', type: 'Post', title: 'Row-level security in Postgres for multi-tenant SaaS, with numbers', slug: 'postgres-rls-multi-tenant', status: 'Published', views: 1510, reactions: 27, updated: '8 May' },
+  { id: 'w4', type: 'Post', title: 'What I cut to ship an MVP in seven weeks', slug: 'mvp-in-seven-weeks', status: 'Published', views: 1220, reactions: 22, updated: '3 Mar' },
+  { id: 'p3', type: 'Project', title: 'Real-time event pipeline', slug: 'realtime-event-pipeline', status: 'Published', views: 980, reactions: null, updated: '14 Sep' },
+  { id: 'w5', type: 'Post', title: 'Timeouts are not failures: modelling "unknown" in payment state machines', slug: 'timeouts-are-not-failures', status: 'Published', views: 860, reactions: 14, updated: '11 Dec 2025' },
+  { id: 'p4', type: 'Project', title: 'Multi-tenant platform', slug: 'multi-tenant-platform', status: 'Published', views: 720, reactions: null, updated: '1 Sep' },
+  { id: 'p5', type: 'Project', title: 'Booking platform for clinics', slug: 'clinic-booking', status: 'Draft', views: 0, reactions: null, updated: '5 Oct' },
+  { id: 'w6', type: 'Post', title: 'Designing a dashboard that publishes through Git', slug: 'dashboard-publishes-through-git', status: 'Draft', views: 0, reactions: null, updated: '7 Oct' }
+];
+const MEDIA = [
+  { id: 'm1', name: 'payout-architecture.png', folder: 'work', w: 1600, h: 1000, kb: 182, used: ['Payout orchestration'], alt: 'Ledger, outbox, Kafka and dispatch workers' },
+  { id: 'm2', name: 'payout-cover.png', folder: 'work', w: 1600, h: 1000, kb: 246, used: ['Payout orchestration', 'Home'], alt: 'Payout dashboard screenshot' },
+  { id: 'm3', name: 'invoicing-dashboard.png', folder: 'work', w: 2400, h: 1500, kb: 812, used: ['Invoicing app'], alt: '' },
+  { id: 'm4', name: 'retry-storm-chart.png', folder: 'writing', w: 1600, h: 900, kb: 96, used: ['Idempotency keys are not enough'], alt: 'Retries climbing while payouts stay flat' },
+  { id: 'm5', name: 'kafka-lag-grafana.png', folder: 'writing', w: 1800, h: 1000, kb: 340, used: ['Kafka consumer lag'], alt: '' },
+  { id: 'm6', name: 'portrait-2026.jpg', folder: 'site', w: 1200, h: 1500, kb: 410, used: ['Home', 'About'], alt: 'Chukwuduzie Blaise' },
+  { id: 'm7', name: 'rls-benchmark.png', folder: 'writing', w: 1400, h: 800, kb: 120, used: [], alt: '' },
+  { id: 'm8', name: 'clinic-booking-mobile.png', folder: 'work', w: 1170, h: 2532, kb: 690, used: [], alt: '' }
+];
+const PROJECT_BODY = `## Context and constraints
+
+The lender disbursed loans to customers' bank accounts through two payment providers. Payouts were fired straight from the API request and retried by a cron job.
+
+<KeyValues items={[["Volume", "~40k payouts a day"]]} />
+
+## Architecture
+
+Every payout is a ledger row first. Nothing reaches a provider unless it's committed, and nothing is marked paid unless the provider confirms it.
+
+<Figure src="/images/work/payout-architecture.png" caption="Ledger, outbox and dispatch workers." />
+
+## Decisions and trade-offs
+
+<Decision title="Transactional outbox over publishing straight to Kafka" chose="Outbox table + relay" rejected="Dual write from the API">
+Dual writes can commit to the database and fail to publish, or the reverse.
+</Decision>
+
+\`\`\`sql
+UPDATE payouts SET status = 'dispatched'
+ WHERE id = $1 AND attempt = $2;
+\`\`\`
+
+## What went wrong
+
+- Timeouts were treated as failures.
+- 212 payouts sat in limbo for six hours.
+`;
+const POST_BODY = `Every payments engineer learns to add an idempotency key to outgoing requests. It's good advice, and it's where most people stop.
+
+## The incident
+
+At 14:02 on a salary day, our provider's API began timing out after 30 seconds. The payouts had gone through; the responses never came back.
+
+<Figure src="/images/writing/retry-storm-chart.png" caption="Retries climbing while confirmed payouts stay flat." />
+
+## Why keys alone fail
+
+\`\`\`ts
+const key = payout.id; // stable across retries
+await ledger.markDispatching(payout.id, attempt);
+await provider.payout({ ...req, idempotencyKey: key });
+\`\`\`
+
+## Takeaways
+
+- Derive the key from the business operation, not the attempt.
+- A timeout means you don't know. Model that state explicitly.
+`;
+const PROJECT_DOC = {
+  type: 'Project', title: 'Payout orchestration for a digital lender', slug: 'payout-orchestration', status: 'Published', kind: 'Fintech · Payments', category: 'Systems',
+  outcome: 'Failed payouts down from 4.1% to 0.6%, zero double payments, and finance no longer reconciles by hand.',
+  role: 'Lead backend engineer', timeframe: 'Oct 2025 – Mar 2026', team: '3 engineers, 1 PM', stack: 'NestJS, Go, PostgreSQL, Kafka, Redis, AWS', featured: true,
+  problem: 'About 1 in 25 loan payouts failed or got stuck. Some customers were paid twice.',
+  did: 'Rebuilt how payouts are recorded, sent, retried and checked, with one source of truth.',
+  result: 'Failures dropped under 1%, double payments stopped, reconciliation runs on its own.',
+  metrics: [
+    { value: '0.6', unit: '%', label: 'Payouts failing, down from 4.1%', source: 'Production', date: 'Jan – Mar 2026', method: '90-day rolling, failed ÷ attempted' },
+    { value: '0', unit: 'duplicates', label: 'Double payments since launch', source: 'Production', date: 'Nov 2025 – Sep 2026', method: 'Ledger vs provider settlement report' },
+    { value: '1.8k', unit: 'payouts/min', label: 'Peak dispatch rate sustained', source: 'Benchmark', date: 'Oct 2025', method: 'k6 load test, staging, provider sandbox' },
+    { value: '2.4', unit: 's', label: 'Request to provider, 99% of payouts', source: 'Production', date: 'Mar 2026', method: '' }
+  ],
+  links: [{ label: 'Live', href: 'https://example.com' }, { label: 'Write-up', href: '/writing/idempotency-keys-are-not-enough' }],
+  cover: 'm2', body: PROJECT_BODY, tags: '', date: ''
+};
+const POST_DOC = {
+  type: 'Post', title: ITEMS[0].title, slug: ITEMS[0].slug, status: 'Published', outcome: 'How a retry storm double-paid customers, and the ledger-first design that made it impossible.',
+  tags: 'Payments, Distributed systems', date: '2026-09-14', cover: null, body: POST_BODY, metrics: [], links: []
+};
+const MF = ['value', 'unit', 'label', 'source', 'date', 'method'];
+const pick = (s, re) => ((s.match(re) || [])[1] || '');
+function parseMdx(body) {
+  const out = [], lines = body.split('\n'); let para = [], i = 0;
+  const flush = () => { if (para.length) { out.push({ k: 'p', text: para.join(' ') }); para = []; } };
+  while (i < lines.length) {
+    const t = lines[i].trim();
+    if (t.startsWith('```')) {
+      flush(); const buf = []; i++;
+      while (i < lines.length && !lines[i].trim().startsWith('```')) { buf.push(lines[i]); i++; }
+      out.push({ k: 'code', text: buf.join('\n') });
+    } else if (t.startsWith('## ')) { flush(); out.push({ k: 'h2', text: t.slice(3) }); }
+    else if (t.startsWith('- ')) { flush(); out.push({ k: 'li', text: t.slice(2) }); }
+    else if (t.startsWith('<Figure')) { flush(); out.push({ k: 'fig', text: pick(t, /caption="([^"]*)"/), src: pick(t, /src="([^"]*)"/) }); }
+    else if (t.startsWith('<Metric')) { flush(); out.push({ k: 'met', value: pick(t, /value="([^"]*)"/), unit: pick(t, /unit="([^"]*)"/), text: pick(t, /label="([^"]*)"/) }); }
+    else if (t.startsWith('<Decision')) {
+      flush(); const why = [];
+      if (!t.endsWith('/>')) { i++; while (i < lines.length && !lines[i].includes('</Decision>')) { why.push(lines[i].trim()); i++; } }
+      out.push({ k: 'dec', text: pick(t, /title="([^"]*)"/), chose: pick(t, /chose="([^"]*)"/), rejected: pick(t, /rejected="([^"]*)"/), why: why.join(' ') });
+    } else if (t.startsWith('<')) { flush(); out.push({ k: 'comp', text: pick(t, /^<\/?(\w+)/) }); }
+    else if (t === '') flush();
+    else para.push(t);
+    i++;
+  }
+  flush();
+  return out.map(b => ({ ...b, isH2: b.k === 'h2', isP: b.k === 'p', isLi: b.k === 'li', isCode: b.k === 'code', isFig: b.k === 'fig', isDec: b.k === 'dec', isMet: b.k === 'met', isComp: b.k === 'comp' }));
+}
+const thumb = (url, fit) => ({ width: '100%', height: '100%', backgroundImage: url ? 'url(' + url + ')' : 'none', backgroundSize: fit || 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' });
+const fmt = n => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k' : String(n);
+const chip = on => ({ minHeight: 32, padding: '0 12px', borderRadius: 999, border: '1px solid ' + (on ? 'var(--ink)' : 'var(--rule)'), background: on ? 'var(--ink)' : 'transparent', color: on ? 'var(--bg)' : 'var(--ink)', font: 'inherit', fontSize: 13, cursor: 'pointer' });
+const field = bad => ({ width: '100%', boxSizing: 'border-box', minHeight: 34, padding: '0 8px', border: bad ? '1px dashed var(--ink)' : '1px solid var(--rule)', background: bad ? 'var(--soft)' : 'var(--field)', color: 'var(--ink)', font: 'inherit', fontSize: 13, borderRadius: 0 });
+const TODAY = new Date(2026, 9, 8);
+const dLabel = back => { const d = new Date(TODAY); d.setDate(d.getDate() - back); return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); };
+
+class Component extends DCLogic {
+  state = {
+    narrow: false, menuOpen: false, screen: 'overview', range: '30d',
+    cType: 'All', cStatus: 'All', q: '',
+    doc: JSON.parse(JSON.stringify(PROJECT_DOC)), dirty: false, pane: 'edit', pickerOpen: false,
+    publish: null, commitMsg: '', media: MEDIA.map(m => ({ ...m })), mediaFilter: 'All', sel: 'm1',
+    settings: { available: true, note: 'Taking 2 new projects for Q1 2027', email: 'hello@chukwuduzie.dev', cv: 'chukwuduzie-blaise-cv.pdf · updated 2 Sep 2026' },
+    deploys: [
+      { ok: true, msg: 'Publish: Kafka consumer lag as a product metric', sha: '9f2c1ab', when: '2 h ago' },
+      { ok: true, msg: 'Draft: Designing a dashboard that publishes through Git', sha: 'c71e04d', when: 'Yesterday' },
+      { ok: false, msg: 'Publish: Invoicing app (cover image)', sha: '4be990f', when: '3 Oct', note: 'Build failed · image path typo' },
+      { ok: true, msg: 'Site: availability note', sha: '1d07aa2', when: '1 Oct' }
+    ],
+    toast: ''
+  };
+  bodyRef = React.createRef();
+  timers = [];
+  componentDidMount() {
+    this.onResize = () => this.setState({ narrow: window.innerWidth < 820, vw: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); this.timers.forEach(clearTimeout); }
+  later(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+  say(msg) { this.setState({ toast: msg }); clearTimeout(this.toastT); this.toastT = setTimeout(() => this.setState({ toast: '' }), 2600); }
+  go(screen) { this.setState({ screen, menuOpen: false, pickerOpen: false }); try { document.scrollingElement.scrollTop = 0; } catch (e) {} }
+  setDoc(k, v) { this.setState(s => ({ doc: { ...s.doc, [k]: v }, dirty: true })); }
+  setMetric(i, k, v) { this.setState(s => { const metrics = s.doc.metrics.map((m, j) => j === i ? { ...m, [k]: v } : m); return { doc: { ...s.doc, metrics }, dirty: true }; }); }
+  setLink(i, k, v) { this.setState(s => { const links = s.doc.links.map((m, j) => j === i ? { ...m, [k]: v } : m); return { doc: { ...s.doc, links }, dirty: true }; }); }
+  openItem(item) {
+    const base = JSON.parse(JSON.stringify(item.type === 'Project' ? PROJECT_DOC : POST_DOC));
+    const doc = { ...base, title: item.title, slug: item.slug, status: item.status };
+    this.setState({ doc, dirty: false, pane: 'edit' }); this.go('editor');
+  }
+  newDoc(type) {
+    const doc = type === 'Project'
+      ? { type, title: 'Untitled project', slug: 'untitled-project', status: 'Draft', kind: '', category: 'Product', outcome: '', role: '', timeframe: '', team: '', stack: '', featured: false, problem: '', did: '', result: '', metrics: [{ value: '', unit: '', label: '', source: '', date: '', method: '' }], links: [], cover: null, body: '## Context and constraints\n\n', tags: '', date: '' }
+      : { type, title: 'Untitled post', slug: 'untitled-post', status: 'Draft', outcome: '', tags: '', date: '2026-10-08', cover: null, body: 'Start writing…\n', metrics: [], links: [] };
+    this.setState({ doc, dirty: true, pane: 'edit' }); this.go('editor');
+  }
+  insert(snippet) {
+    const el = this.bodyRef.current, b = this.state.doc.body;
+    const pos = el && typeof el.selectionStart === 'number' ? el.selectionStart : b.length;
+    this.setDoc('body', b.slice(0, pos) + snippet + b.slice(pos));
+  }
+  addFiles(files, thenCover) {
+    const list = Array.from(files || []).filter(f => f.type.startsWith('image/'));
+    if (!list.length) return;
+    const added = list.map((f, k) => ({ id: 'u' + Date.now() + k, name: f.name.toLowerCase().replace(/\s+/g, '-'), folder: this.state.doc.type === 'Post' ? 'writing' : 'work', w: 0, h: 0, kb: Math.round(f.size / 1024), used: [], alt: '', url: URL.createObjectURL(f), fresh: true }));
+    added.forEach(m => { const img = new Image(); img.onload = () => this.setState(s => ({ media: s.media.map(x => x.id === m.id ? { ...x, w: img.naturalWidth, h: img.naturalHeight } : x) })); img.src = m.url; });
+    this.setState(s => ({ media: [...added, ...s.media], sel: added[0].id }));
+    if (thenCover) this.setDoc('cover', added[0].id);
+    this.say(added.length + (added.length > 1 ? ' images' : ' image') + ' added · committed on next publish');
+  }
+  commit = () => {
+    if (this.incomplete().length) return;
+    const sha = Math.random().toString(16).slice(2, 9);
+    this.setState({ publish: 'committing', sha });
+    this.later(() => this.setState({ publish: 'building' }), 1200);
+    this.later(() => this.setState(s => ({ publish: 'live', dirty: false, doc: { ...s.doc, status: 'Published' }, deploys: [{ ok: true, msg: s.commitMsg, sha, when: 'Just now' }, ...s.deploys] })), 4200);
+  };
+  incomplete() {
+    const d = this.state.doc; if (d.type !== 'Project') return [];
+    const out = []; d.metrics.forEach((m, i) => MF.forEach(k => { if (!String(m[k] || '').trim()) out.push({ i, k }); })); return out;
+  }
+  renderVals() {
+    const s = this.state, d = s.doc, isProject = d.type === 'Project';
+    const navDefs = [['overview', 'Overview', ''], ['content', 'Content', String(ITEMS.length)], ['media', 'Media', String(s.media.length)], ['settings', 'Settings', '']];
+    const activeNav = s.screen === 'editor' ? 'content' : s.screen;
+    const navItems = navDefs.map(([id, label, count]) => {
+      const on = id === activeNav;
+      const base = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: 'none', background: on ? 'var(--ink)' : 'transparent', color: on ? 'var(--bg)' : 'var(--ink)', font: 'inherit', textAlign: 'left', cursor: 'pointer' };
+      return { label, count, onClick: () => this.go(id), style: { ...base, minHeight: 36, padding: '0 10px', fontSize: 14 }, styleMobile: { ...base, minHeight: 48, padding: '0 10px', fontSize: 16 } };
+    });
+
+    // overview
+    const scale = { '7d': 0.24, '30d': 1, '90d': 2.8 }[s.range], nBars = { '7d': 7, '30d': 30, '90d': 90 }[s.range];
+    const series = Array.from({ length: nBars }, (_, i) => { const back = nBars - 1 - i; const dt = new Date(TODAY); dt.setDate(dt.getDate() - back); const wk = [0, 6].includes(dt.getDay()) ? 0.62 : 1; const spike = back === 18 ? 2.6 : back === 4 ? 1.9 : 1; return { back, v: Math.round((330 + 90 * Math.sin(i / 3.1) + 40 * Math.cos(i / 1.7)) * wk * spike) }; });
+    const max = Math.max(...series.map(x => x.v)), total = series.reduce((a, x) => a + x.v, 0);
+    const bars = series.map(x => ({ tip: dLabel(x.back) + ': ' + x.v + ' views', style: { flex: '1 1 0', minWidth: 1, height: Math.max(3, Math.round(x.v / max * 100)) + '%', background: x.back === 18 || x.back === 4 ? 'var(--ink)' : 'var(--muted)' } }));
+    const pubCount = ITEMS.filter(i => i.status !== 'Draft').length;
+    const tiles = [
+      { label: 'Views', value: fmt(total), note: '+18% vs previous ' + s.range },
+      { label: 'Newsletter signups', value: String(Math.round(86 * scale)), note: '412 subscribers total' },
+      { label: 'Reactions', value: String(Math.round(214 * scale)), note: 'across ' + ITEMS.filter(i => i.reactions).length + ' articles' },
+      { label: 'Live on site', value: String(pubCount), note: (ITEMS.length - pubCount) + ' drafts · 1 with unpublished changes' }
+    ];
+    const top = [...ITEMS].filter(i => i.views).sort((a, b) => b.views - a.views).slice(0, 6).map(i => ({ title: i.title, type: i.type + ' · /' + (i.type === 'Post' ? 'writing' : 'work') + '/' + i.slug, viewsFmt: fmt(Math.round(i.views * scale)), reactFmt: i.reactions == null ? '—' : String(Math.round(i.reactions * Math.min(scale, 1.4))), open: () => this.openItem(i) }));
+    const deploys = s.deploys.slice(0, 5).map(x => ({ glyph: x.ok ? '✓' : '✕', msg: x.msg, meta: x.sha + ' · ' + x.when + (x.note ? ' · ' + x.note : '') }));
+
+    // content
+    const statusLabel = st => st === 'Published' ? '● Published' : st === 'Changes' ? '◐ Unpublished changes' : '○ Draft';
+    const q = s.q.trim().toLowerCase();
+    const rowsRaw = ITEMS.filter(i => (s.cType === 'All' || i.type === s.cType) && (s.cStatus === 'All' || i.status === s.cStatus) && (!q || i.title.toLowerCase().includes(q)));
+    const rows = rowsRaw.map(i => ({ title: i.title, path: (i.type === 'Post' ? 'content/writing/' : 'content/projects/') + i.slug + '.mdx', type: i.type, statusLabel: statusLabel(i.status), viewsFmt: i.views ? fmt(i.views) : '—', reactFmt: i.reactions == null ? '—' : String(i.reactions), updated: i.updated, open: () => this.openItem(i) }));
+    const cnt = (k, v) => ITEMS.filter(i => i[k] === v).length;
+    const typeChips = [['All', 'All ' + ITEMS.length], ['Post', 'Posts ' + cnt('type', 'Post')], ['Project', 'Projects ' + cnt('type', 'Project')]].map(([v, l]) => ({ label: l, onClick: () => this.setState({ cType: v }), style: chip(s.cType === v) }));
+    const statusChips = [['All', 'Any status'], ['Published', 'Published'], ['Changes', 'Changes'], ['Draft', 'Draft']].map(([v, l]) => ({ label: l, onClick: () => this.setState({ cStatus: v }), style: chip(s.cStatus === v) }));
+
+    // editor
+    const miss = this.incomplete();
+    const missSet = new Set(miss.map(m => m.i + m.k));
+    const badMetrics = new Set(miss.map(m => m.i)).size;
+    const metricRows = (d.metrics || []).map((m, i) => {
+      const r = { ...m, n: i + 1, flag: [...missSet].some(x => x.startsWith(String(i))) ? ' · incomplete' : '', remove: () => this.setState(st => ({ doc: { ...st.doc, metrics: st.doc.metrics.filter((_, j) => j !== i) }, dirty: true })), methodShown: m.method || 'Method missing' };
+      MF.forEach(k => { const K = k[0].toUpperCase() + k.slice(1); r['on' + K] = e => this.setMetric(i, k, e.target.value); r['s' + K] = field(missSet.has(i + k)); });
+      return r;
+    });
+    const linkRows = (d.links || []).map((l, i) => ({ ...l, onLabel: e => this.setLink(i, 'label', e.target.value), onHref: e => this.setLink(i, 'href', e.target.value), remove: () => this.setState(st => ({ doc: { ...st.doc, links: st.doc.links.filter((_, j) => j !== i) }, dirty: true })) }));
+    const on = {};
+    ['title', 'slug', 'kind', 'category', 'role', 'timeframe', 'team', 'stack', 'outcome', 'tags', 'date', 'problem', 'did', 'result', 'body'].forEach(k => { on[k] = e => this.setDoc(k, e.target.value); });
+    on.featured = e => this.setDoc('featured', e.target.checked);
+    const words = d.body.split(/\s+/).filter(Boolean).length;
+    const coverM = s.media.find(m => m.id === d.cover);
+    const cover = coverM ? { name: coverM.name, url: coverM.url || '', thumb: thumb(coverM.url), meta: (coverM.w ? coverM.w + '×' + coverM.h + ' · ' : '') + coverM.kb + ' KB' } : { name: '', url: '', meta: '', thumb: thumb('') };
+    const folder = isProject ? 'projects' : 'writing';
+    const paneBtn = act => ({ minHeight: 34, padding: '0 12px', border: 'none', background: act ? 'var(--ink)' : 'transparent', color: act ? 'var(--bg)' : 'var(--ink)', font: 'inherit', fontSize: 13, cursor: 'pointer' });
+    const wide = !s.narrow;
+    const snippetDefs = [
+      ['## Heading', '\n## Heading\n\n'],
+      ['Code', '\n```ts\n// code\n```\n'],
+      ['Image', '\n<Figure src="/images/' + (isProject ? 'work' : 'writing') + '/file.png" caption="Caption" />\n'],
+      ['Metric', '\n<Metric value="" unit="" label="" source="Production" date="" method="" />\n'],
+      ['Decision', '\n<Decision title="" chose="" rejected="">\nWhy.\n</Decision>\n']
+    ];
+
+    // publish
+    const changedFiles = [{ op: d.status === 'Draft' && s.dirty ? 'A' : 'M', path: 'content/' + folder + '/' + d.slug + '.mdx' }]
+      .concat(s.media.filter(m => m.fresh).map(m => ({ op: 'A', path: 'public/images/' + m.folder + '/' + m.name })));
+    const steps = [['committing', 'Commit pushed to main', s.sha ? s.sha + ' · ' + changedFiles.length + ' file' + (changedFiles.length > 1 ? 's' : '') : ''], ['building', 'Building on Vercel', 'Usually 40–60 s'], ['live', 'Live', '/' + (isProject ? 'work' : 'writing') + '/' + d.slug]];
+    const order = ['committing', 'building', 'live'], cur = order.indexOf(s.publish);
+    const pubSteps = steps.map(([id, label, meta], i) => {
+      const done = i < cur || s.publish === 'live', active = i === cur && s.publish !== 'live';
+      return { label: active ? label + '…' : label, meta: i <= cur ? meta : '', glyph: done ? '✓' : active ? '◌' : '○', style: { display: 'flex', gap: 12, padding: '12px 0', borderBottom: '1px solid var(--rule)', alignItems: 'flex-start', opacity: i > cur ? 0.5 : 1 } };
+    });
+    const blocked = s.publish === 'confirm' && miss.length > 0;
+
+    // media
+    const usedCount = s.media.filter(m => m.used.length).length;
+    const mediaChips = [['All', 'All ' + s.media.length], ['Used', 'Used ' + usedCount], ['Unused', 'Unused ' + (s.media.length - usedCount)]].map(([v, l]) => ({ label: l, onClick: () => this.setState({ mediaFilter: v }), style: chip(s.mediaFilter === v) }));
+    const mediaTiles = s.media.filter(m => s.mediaFilter === 'All' || (s.mediaFilter === 'Used' ? m.used.length : !m.used.length)).map(m => {
+      const on = m.id === s.sel;
+      return { name: m.name, url: m.url || '', thumb: thumb(m.url), meta: (m.w ? m.w + '×' + m.h + ' · ' : '') + m.kb + ' KB', flags: [m.fresh ? 'New · not committed' : m.used.length ? 'Used in ' + m.used.length : 'Unused', m.kb > 500 ? 'Large' : '', !m.alt ? 'No alt text' : ''].filter(Boolean).join(' · '), select: () => this.setState({ sel: m.id }), style: { display: 'flex', flexDirection: 'column', border: on ? '1px solid var(--ink)' : '1px solid var(--rule)', outline: on ? '1px solid var(--ink)' : 'none', background: 'var(--field)', padding: 0, textAlign: 'left', cursor: 'pointer', color: 'var(--ink)', font: 'inherit', minWidth: 0 } };
+    });
+    const sm = s.media.find(m => m.id === s.sel);
+    const sel = sm ? { url: sm.url || '', thumb: thumb(sm.url, 'contain'), path: '/images/' + sm.folder + '/' + sm.name, meta: (sm.w ? sm.w + '×' + sm.h + ' · ' : '') + sm.kb + ' KB' + (sm.kb > 500 ? ' · large, will be compressed at build' : ''), alt: sm.alt, usedText: sm.used.length ? sm.used.join(', ') : 'Not used yet', inUse: sm.used.length > 0, deleteTip: sm.used.length ? 'Remove it from ' + sm.used.join(', ') + ' first' : 'Delete from repo on next publish' } : {};
+
+    return {
+      wide, narrow: s.narrow, menuOpen: s.menuOpen, menuLabel: s.menuOpen ? 'Close' : 'Menu', toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }),
+      navItems, lastDeploy: 'Last deploy ' + s.deploys[0].when.toLowerCase(),
+      isOverview: s.screen === 'overview', isContent: s.screen === 'content', isEditor: s.screen === 'editor', isMedia: s.screen === 'media', isSettings: s.screen === 'settings',
+      ranges: ['7d', '30d', '90d'].map(r => ({ label: { '7d': '7 days', '30d': '30 days', '90d': '90 days' }[r], onClick: () => this.setState({ range: r }), style: chip(s.range === r) })),
+      tiles, bars, chartNote: fmt(total) + ' views · peaks are launch days', axis: { a: dLabel(nBars - 1), b: dLabel(Math.floor(nBars / 2)), c: 'Today' }, top, deploys,
+      typeChips, statusChips, noRows: rows.length === 0,
+      tableMode: (s.vw || 1440) >= 1240, cardMode: (s.vw || 1440) < 1240,
+      tableRows: (s.vw || 1440) >= 1240 ? rows : [],
+      rows: rows.map(r => ({ ...r, cardMeta: [r.type, r.statusLabel, r.viewsFmt + ' views', r.reactFmt === '—' ? '' : r.reactFmt + ' reactions', r.updated].filter(Boolean).join(' · ') })), q: s.q, onQ: e => this.setState({ q: e.target.value }),
+      newPost: () => this.newDoc('Post'), newProject: () => this.newDoc('Project'),
+      doc: d, on, isProject, isPost: !isProject, docTitle: d.title || 'Untitled',
+      statusLine: (d.status === 'Changes' ? 'Published' : d.status) + (s.dirty ? ' · unsaved changes' : ' · in sync with main') + ' · content/' + folder + '/' + d.slug + '.mdx',
+      slugPrefix: isProject ? '/work/' : '/writing/', previewPath: (isProject ? '/work/' : '/writing/') + d.slug,
+      outcomeLabel: isProject ? 'Outcome · one line, plain language' : 'Description · shown under the title and in lists',
+      outcomeHint: d.outcome.length + ' / 160 characters' + (d.outcome.length > 160 ? ' · too long for list rows' : ''),
+      previewEyebrow: isProject ? 'Case study · ' + (d.kind || 'Kind') : (d.tags || 'Tags') + ' · ' + Math.max(1, Math.round(words / 220)) + ' min read',
+      metricRows, linkRows, metricsStatus: badMetrics ? badMetrics + ' incomplete · blocks publish' : 'All complete',
+      addMetric: () => this.setState(st => ({ doc: { ...st.doc, metrics: [...st.doc.metrics, { value: '', unit: '', label: '', source: '', date: '', method: '' }] }, dirty: true })),
+      addLink: () => this.setState(st => ({ doc: { ...st.doc, links: [...st.doc.links, { label: '', href: '' }] }, dirty: true })),
+      bodyRef: this.bodyRef, bodyStats: words + ' words · ' + Math.max(1, Math.round(words / 220)) + ' min',
+      snippets: snippetDefs.map(([label, text]) => ({ label, insert: () => this.insert(text) })),
+      blocks: parseMdx(d.body),
+      hasCover: !!coverM, cover, coverNoUrl: !!coverM && !coverM.url,
+      removeCover: () => this.setDoc('cover', null), uploadCover: e => this.addFiles(e.target.files, true),
+      pickerOpen: s.pickerOpen, pickerLabel: s.pickerOpen ? 'Close library' : 'Choose from media', togglePicker: () => this.setState({ pickerOpen: !s.pickerOpen }),
+      pickerItems: s.media.map(m => ({ name: m.name, url: m.url || '', thumb: thumb(m.url), pick: () => { this.setDoc('cover', m.id); this.setState({ pickerOpen: false }); } })),
+      showEdit: () => this.setState({ pane: 'edit' }), showPreview: () => this.setState({ pane: 'preview' }),
+      paneEditStyle: paneBtn(s.pane === 'edit'), panePreviewStyle: paneBtn(s.pane === 'preview'),
+      panesStyle: wide ? { display: 'flex', height: 'calc(100vh - 57px)' } : { display: 'flex', flexDirection: 'column' },
+      formPaneStyle: wide ? { flex: '1 1 50%', minWidth: 0, overflowY: 'auto', borderRight: '1px solid var(--rule)' } : { display: s.pane === 'edit' ? 'block' : 'none' },
+      previewPaneStyle: wide ? { flex: '1 1 50%', minWidth: 0, overflowY: 'auto', background: 'var(--bg)' } : { display: s.pane === 'preview' ? 'block' : 'none' },
+      goContent: () => this.go('content'),
+      saveDraft: () => { this.setState(st => ({ dirty: false, deploys: [{ ok: true, msg: 'Draft: ' + st.doc.title, sha: Math.random().toString(16).slice(2, 9), when: 'Just now' }, ...st.deploys] })); this.say('Draft committed to main · hidden on the site until published'); },
+      openPublish: () => this.setState({ publish: 'confirm', commitMsg: 'Publish: ' + d.title, sha: '' }),
+      closePublish: () => { this.timers.forEach(clearTimeout); this.setState({ publish: null }); },
+      publishOpen: !!s.publish, pubConfirm: s.publish === 'confirm', pubProgress: ['committing', 'building', 'live'].includes(s.publish), pubLive: s.publish === 'live',
+      publishTitle: s.publish === 'live' ? 'Published' : s.publish === 'confirm' ? 'Publish to GitHub' : 'Publishing…', pubDoneLabel: s.publish === 'live' ? 'Done' : 'Hide',
+      blocked, blockedText: miss.length + ' field' + (miss.length > 1 ? 's' : '') + ' missing in ' + badMetrics + ' metric' + (badMetrics > 1 ? 's' : '') + '. Every metric needs a value, unit, label, source, date and method.',
+      fixMetrics: () => { this.setState({ publish: null, pane: 'edit' }); setTimeout(() => { const el = document.getElementById('metrics'); if (el) { let p = el.parentElement; while (p && p.scrollHeight <= p.clientHeight) p = p.parentElement; const top = el.offsetTop - 16; if (p) p.scrollTop = top; else document.scrollingElement.scrollTop = top; } }, 50); },
+      changedFiles, commitMsg: s.commitMsg, onCommitMsg: e => this.setState({ commitMsg: e.target.value }), commit: this.commit,
+      commitStyle: { minHeight: 40, padding: '0 16px', border: 'none', background: blocked ? 'var(--rule)' : 'var(--ink)', color: blocked ? 'var(--muted)' : 'var(--bg)', borderRadius: 999, font: 'inherit', fontWeight: 500, cursor: blocked ? 'not-allowed' : 'pointer' },
+      pubSteps,
+      mediaChips, mediaTiles, hasSel: !!sm, sel,
+      altHint: sm && !sm.alt ? 'Required. Copy MDX is disabled until it has alt text.' : 'Used as alt in the Figure snippet.',
+      onAlt: e => { const v = e.target.value; this.setState(st => ({ media: st.media.map(m => m.id === st.sel ? { ...m, alt: v } : m) })); },
+      copySnippet: () => { if (!sm) return; if (!sm.alt) { this.say('Add alt text first'); return; } const t = '<Figure src="/images/' + sm.folder + '/' + sm.name + '" alt="' + sm.alt + '" caption="" />'; try { navigator.clipboard.writeText(t); } catch (e) {} this.say('Copied MDX snippet'); },
+      deleteMedia: () => { if (!sm || sm.used.length) return; this.setState(st => ({ media: st.media.filter(m => m.id !== st.sel), sel: null })); this.say('Deleted · removed from repo on next publish'); },
+      deleteStyle: { minHeight: 36, padding: '0 14px', border: '1px solid var(--rule)', background: 'none', color: sel.inUse ? 'var(--muted)' : 'var(--ink)', borderRadius: 999, font: 'inherit', fontSize: 13, cursor: sel.inUse ? 'not-allowed' : 'pointer', opacity: sel.inUse ? 0.6 : 1 },
+      onUpload: e => this.addFiles(e.target.files), onDragOver: e => e.preventDefault(), onDrop: e => { e.preventDefault(); this.addFiles(e.dataTransfer.files); },
+      settings: s.settings, availAria: String(s.settings.available),
+      toggleAvail: () => this.setState(st => ({ settings: { ...st.settings, available: !st.settings.available } })),
+      switchStyle: { width: 48, height: 28, flex: '0 0 48px', borderRadius: 999, border: '1px solid var(--ink)', background: s.settings.available ? 'var(--ink)' : 'transparent', position: 'relative', cursor: 'pointer', padding: 0 },
+      knobStyle: { position: 'absolute', top: 3, left: s.settings.available ? 23 : 3, width: 20, height: 20, borderRadius: 999, background: s.settings.available ? 'var(--bg)' : 'var(--ink)', transition: 'left .15s' },
+      onNote: e => { const v = e.target.value; this.setState(st => ({ settings: { ...st.settings, note: v } })); },
+      onEmail: e => { const v = e.target.value; this.setState(st => ({ settings: { ...st.settings, email: v } })); },
+      onCv: e => { const f = e.target.files && e.target.files[0]; if (f) this.setState(st => ({ settings: { ...st.settings, cv: f.name + ' · not committed yet' } })); },
+      saveSettings: () => { this.setState(st => ({ deploys: [{ ok: true, msg: 'Site: settings', sha: Math.random().toString(16).slice(2, 9), when: 'Just now' }, ...st.deploys] })); this.say('Committed content/site.json · deploying'); },
+      repoRows: [
+        { k: 'Status', v: '● Connected as @chukwuduzie' },
+        { k: 'Repository', v: 'github.com/chukwuduzie/portfolio' },
+        { k: 'Branch', v: 'main' },
+        { k: 'Content', v: 'content/projects · content/writing' },
+        { k: 'Images', v: 'public/images/{work,writing,site}' }
+      ],
+      integrations: [
+        { k: 'Vercel', v: 'portfolio · deploys on push to main', action: 'Open ↗' },
+        { k: 'Newsletter · Buttondown', v: 'API key ••••••••3f9a', action: 'Replace key' },
+        { k: 'Analytics · Plausible', v: 'chukwuduzie.dev · views and reactions', action: 'Open ↗' }
+      ],
+      sessions: [
+        { device: 'This device · Chrome on macOS', meta: 'Lagos · active now', action: 'Sign out' },
+        { device: 'Safari on iPhone', meta: 'Lagos · 2 days ago', action: 'Revoke' }
+      ],
+      toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
