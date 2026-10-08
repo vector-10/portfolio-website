@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    serverActions: { bodySizeLimit: "4mb" },
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 90],

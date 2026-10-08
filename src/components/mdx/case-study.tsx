@@ -1,7 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import type { Project } from "@/lib/content/schema";
 import { Arrow, Box, Diagram, Row, Stack } from "./diagram";
-import { DataTable, Pre } from "./shared";
+import { DataTable, MdxMetric, Pre } from "./shared";
 
 function Section({ label, last, children }: { label: string; last?: boolean; children: React.ReactNode }) {
   return (
@@ -86,6 +86,7 @@ export function caseStudyComponents(project: Project): MDXComponents {
     Stack,
     Decision,
     Snippet,
+    Metric: MdxMetric,
     Results: () =>
       project.results ? (
         <DataTable

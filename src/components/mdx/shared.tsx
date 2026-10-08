@@ -1,3 +1,6 @@
+import type { Metric } from "@/lib/content/schema";
+import { MetricWithContext } from "../metric";
+
 export function Pre({ className = "", ...props }: React.ComponentProps<"pre">) {
   return <pre className={`code-block ${className}`} {...props} />;
 }
@@ -27,6 +30,22 @@ export function DataTable({ head, rows }: { head: string[]; rows: string[][] }) 
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+export function MdxMetric(props: Partial<Metric>) {
+  const metric = {
+    value: props.value ?? "",
+    unit: props.unit ?? "",
+    label: props.label ?? "",
+    source: props.source === "Benchmark" ? "Benchmark" : "Production",
+    date: props.date ?? "",
+    method: props.method ?? "",
+  } as Metric;
+  return (
+    <div className="max-w-[760px] border-t border-ink">
+      <MetricWithContext metric={metric} />
     </div>
   );
 }

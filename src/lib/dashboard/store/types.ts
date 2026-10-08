@@ -1,6 +1,6 @@
 export type TreeEntry = { path: string; sha: string; size: number };
 
-export type FileChange = { path: string; content: Buffer | null };
+export type FileChange = { path: string; content: Buffer | null } | { path: string; blobSha: string };
 
 export type CommitInput = {
   message: string;
@@ -17,6 +17,7 @@ export interface ContentStore {
   tree(): Promise<TreeEntry[]>;
   read(path: string): Promise<{ content: Buffer; sha: string } | null>;
   commit(input: CommitInput): Promise<{ sha: string }>;
+  stageBlob(content: Buffer): Promise<string>;
   log(limit: number, path?: string): Promise<CommitInfo[]>;
 }
 

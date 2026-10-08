@@ -8,6 +8,7 @@ import { ConflictError, CONTENT_ROOTS, type ContentStore, type TreeEntry } from 
 
 const run = promisify(execFile);
 const root = process.cwd();
+const staged = new Map<string, Buffer>();
 
 const blobSha = (content: Buffer) =>
   createHash("sha1").update(`blob ${content.length}\0`).update(content).digest("hex");
@@ -34,6 +35,11 @@ export function localStore(): ContentStore {
 
   return {
     kind: "local",
+    async stageBlob(content) {
+      const sha = blobSha(content);
+      staged.set(sha, content);
+      return sha;
+    },
     repo: "local working tree",
     branch: "main",
     tree,
@@ -50,9 +56,11 @@ export function localStore(): ContentStore {
         .map(([file]) => file);
       if (conflicts.length) throw new ConflictError(conflicts);
 
-      for (const { path: file, content } of changes) {
-        const full = path.join(root, file);
-        if (content === null) await fs.rm(full, { force: true });
+      for (const change of changes) {
+        const full = path.join(root, change.path);
+        const content = "blobSha" in change ? staged.get(change.blobSha) : change.content;
+        if ("blobSha" in change && !content) throw new Error(`Staged image expired: ${change.path}`);
+        if (content === null || content === undefined) await fs.rm(full, { force: true });
         else {
           await fs.mkdir(path.dirname(full), { recursive: true });
           await fs.writeFile(full, content);

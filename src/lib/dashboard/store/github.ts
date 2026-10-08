@@ -19,8 +19,14 @@ export function githubStore(token: string, repoSlug: string, branch = "main"): C
       .map((e) => ({ path: e.path!, sha: e.sha!, size: e.size ?? 0 }));
   }
 
+  async function createBlob(content: Buffer) {
+    const { data } = await octokit.git.createBlob({ owner, repo, content: content.toString("base64"), encoding: "base64" });
+    return data.sha;
+  }
+
   return {
     kind: "github",
+    stageBlob: createBlob,
     repo: repoSlug,
     branch,
 
@@ -51,15 +57,11 @@ export function githubStore(token: string, repoSlug: string, branch = "main"): C
 
       const { data: parentCommit } = await octokit.git.getCommit({ owner, repo, commit_sha: parent });
       const entries = await Promise.all(
-        changes.map(async ({ path, content }) => {
-          if (content === null) return { path, mode: "100644" as const, type: "blob" as const, sha: null };
-          const { data } = await octokit.git.createBlob({
-            owner,
-            repo,
-            content: content.toString("base64"),
-            encoding: "base64",
-          });
-          return { path, mode: "100644" as const, type: "blob" as const, sha: data.sha };
+        changes.map(async (change) => {
+          const base = { path: change.path, mode: "100644" as const, type: "blob" as const };
+          if ("blobSha" in change) return { ...base, sha: change.blobSha };
+          if (change.content === null) return { ...base, sha: null };
+          return { ...base, sha: await createBlob(change.content) };
         }),
       );
       const { data: tree } = await octokit.git.createTree({

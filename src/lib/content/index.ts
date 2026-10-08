@@ -14,14 +14,17 @@ function readDir<T extends z.ZodType>(dir: string, schema: T) {
   return fs
     .readdirSync(full)
     .filter((f) => f.endsWith(".mdx"))
-    .map((file) => {
+    .flatMap((file) => {
       const raw = fs.readFileSync(path.join(full, file), "utf8");
       const { data, content } = matter(raw);
+      const draft = data.status !== "published";
+      if (draft && process.env.NODE_ENV !== "development") return [];
       const parsed = schema.safeParse({ slug: file.replace(/\.mdx$/, ""), ...data });
       if (!parsed.success) {
+        if (draft) return [];
         throw new Error(`Invalid frontmatter in content/${dir}/${file}:\n${parsed.error.message}`);
       }
-      return { meta: parsed.data as z.infer<T>, body: content };
+      return [{ meta: parsed.data as z.infer<T>, body: content }];
     });
 }
 
