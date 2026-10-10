@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { deployStatus, saveDoc, stageImage, type SaveResult } from "@/app/dashboard/actions";
+import { deploymentStatus, deployStatus, retryDeploy, saveDoc, stageImage, type SaveResult } from "@/app/dashboard/actions";
 import {
   emptyMetric,
   folderOf,
@@ -20,6 +20,7 @@ import { useToast } from "./toast";
 import { fieldClass, primaryButton, secondaryButton } from "./ui";
 
 type Media = { src: string; name: string };
+type Deploy = { id: string | null; state: string; url: string | null; inspectorUrl: string | null };
 type StoreInfo = { kind: "github" | "local"; repo: string; branch: string };
 type WorkingCopy = { doc: FormDoc; baseSha: string | null };
 
@@ -27,7 +28,7 @@ const label = "flex flex-col gap-1.5 text-xs text-muted";
 const input =
   "box-border min-h-9 w-full border border-rule bg-field px-2.5 text-sm text-ink focus:border-ink focus:outline-none";
 const sectionHead = "border-b border-ink pb-1.5 font-mono text-[11px] text-muted";
-const dashed = "min-h-9 cursor-pointer self-start border border-dashed border-ink bg-transparent px-3.5 text-[13px] text-ink";
+const dashed = "min-h-9 max-[819px]:min-h-11 cursor-pointer self-start border border-dashed border-ink bg-transparent px-3.5 text-[13px] text-ink";
 
 const SNIPPETS: [string, (project: boolean) => string][] = [
   ["## Heading", () => "\n## Heading\n\n"],
@@ -177,21 +178,35 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
       setPhase({ step: "done", label: "Saved to local files", meta: `${files} file${files === 1 ? "" : "s"} · dev mode, nothing deployed` });
       return;
     }
-    setPhase({ step: "building", commit: res.commit, files });
+    await track(res.commit, files, () => deployStatus(res.commit));
+  }
+
+  async function track(commit: string, files: number, poll: () => Promise<Deploy | null>) {
+    setPhase({ step: "building", commit, files });
     for (let attempt = 0; attempt < 100; attempt++) {
       await new Promise((r) => setTimeout(r, 3000));
-      const status = await deployStatus(res.commit);
+      const status = await poll();
       if (!status) {
         setPhase({
           step: "done",
           label: "Commit pushed to main",
-          meta: `${res.commit.slice(0, 7)} · Vercel deploys it automatically · connect Vercel in Settings to track the build`,
+          meta: `${commit.slice(0, 7)} · Vercel deploys it automatically · connect Vercel in Settings to track the build`,
         });
         return;
       }
-      if (status.state === "ready") return setPhase({ step: "live", commit: res.commit, files, url: status.url });
-      if (status.state === "error") return setPhase({ step: "failed", commit: res.commit, files, logs: status.inspectorUrl });
+      if (status.state === "ready") return setPhase({ step: "live", commit, files, url: status.url });
+      if (status.state === "error")
+        return setPhase({ step: "failed", commit, files, logs: status.inspectorUrl, deployment: status.id });
     }
+  }
+
+  async function retry() {
+    if (phase?.step !== "failed" || !phase.deployment) return;
+    const { commit, files, deployment } = phase;
+    setPhase({ ...phase, retrying: true, error: undefined });
+    const res = await retryDeploy(deployment);
+    if (!res.ok) return setPhase({ ...phase, retrying: false, error: res.error });
+    await track(commit, files, () => deploymentStatus(res.id));
   }
 
   function goToFirstProblem() {
@@ -221,7 +236,7 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
         <button
           type="button"
           onClick={() => router.push("/dashboard/content")}
-          className="min-h-9 cursor-pointer rounded-full border border-rule bg-transparent px-3 text-[13px] text-ink"
+          className="min-h-9 max-[819px]:min-h-11 cursor-pointer rounded-full border border-rule bg-transparent px-3 text-[13px] text-ink"
         >
           ← Content
         </button>
@@ -244,10 +259,10 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
             </button>
           ))}
         </div>
-        <button type="button" onClick={saveDraft} disabled={busy} className={`${secondaryButton} min-h-9 px-3.5 text-[13px]`}>
+        <button type="button" onClick={saveDraft} disabled={busy} className={`${secondaryButton} min-h-9 max-[819px]:min-h-11 px-3.5 text-[13px]`}>
           {busy ? "Saving…" : "Save draft"}
         </button>
-        <button type="button" onClick={openPublish} className={`${primaryButton} min-h-9 text-[13px]`}>
+        <button type="button" onClick={openPublish} className={`${primaryButton} min-h-9 max-[819px]:min-h-11 text-[13px]`}>
           Publish…
         </button>
       </div>
@@ -329,7 +344,7 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
                       <input value={doc.stack} onChange={(e) => set("stack", e.target.value)} className={input} />
                     </label>
                   </div>
-                  <label className="flex min-h-9 cursor-pointer items-center gap-2.5 text-sm text-ink">
+                  <label className="flex min-h-9 max-[819px]:min-h-11 cursor-pointer items-center gap-2.5 text-sm text-ink">
                     <input
                       type="checkbox"
                       checked={doc.featured}
@@ -376,20 +391,20 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
                         : "In repo"}
                     </span>
                   </div>
-                  <button type="button" onClick={() => set("cover", "")} className="min-h-8 cursor-pointer rounded-full border border-rule bg-transparent px-3 text-xs text-ink">
+                  <button type="button" onClick={() => set("cover", "")} className="min-h-8 max-[819px]:min-h-11 cursor-pointer rounded-full border border-rule bg-transparent px-3 text-xs text-ink">
                     Remove
                   </button>
                 </div>
               )}
               <div className="flex flex-wrap gap-2">
-                <label className="flex min-h-9 cursor-pointer items-center border border-dashed border-ink px-3.5 text-[13px] text-ink">
+                <label className="flex min-h-9 max-[819px]:min-h-11 cursor-pointer items-center border border-dashed border-ink px-3.5 text-[13px] text-ink">
                   Upload image
                   <input type="file" accept="image/*" onChange={(e) => upload(e.target.files)} className="hidden" />
                 </label>
                 <button
                   type="button"
                   onClick={() => setPicker((p) => !p)}
-                  className="min-h-9 cursor-pointer border border-rule bg-transparent px-3.5 text-[13px] text-ink"
+                  className="min-h-9 max-[819px]:min-h-11 cursor-pointer border border-rule bg-transparent px-3.5 text-[13px] text-ink"
                 >
                   {picker ? "Close library" : "Choose from media"}
                 </button>
@@ -453,7 +468,7 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
                           <button
                             type="button"
                             onClick={() => set("metrics", doc.metrics.filter((_, j) => j !== i))}
-                            className="min-h-7 cursor-pointer bg-transparent text-[11px] text-muted"
+                            className="min-h-7 max-[819px]:min-h-11 cursor-pointer bg-transparent text-[11px] text-muted"
                           >
                             Remove
                           </button>
@@ -543,7 +558,7 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
                         type="button"
                         aria-label="Remove link"
                         onClick={() => set("links", doc.links.filter((_, j) => j !== i))}
-                        className="min-h-9 w-9 cursor-pointer border border-rule bg-transparent text-muted"
+                        className="min-h-9 w-9 max-[819px]:min-h-11 max-[819px]:w-11 cursor-pointer border border-rule bg-transparent text-muted"
                       >
                         ×
                       </button>
@@ -569,7 +584,7 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
                     key={name}
                     type="button"
                     onClick={() => insert(make(isProject))}
-                    className="min-h-8 cursor-pointer border border-rule bg-field px-3 font-mono text-xs text-ink hover:border-ink"
+                    className="min-h-8 max-[819px]:min-h-11 cursor-pointer border border-rule bg-field px-3 font-mono text-xs text-ink hover:border-ink"
                   >
                     {name}
                   </button>
@@ -614,6 +629,7 @@ export default function Editor({ initial, media, store }: { initial: FormDoc; me
           onCommit={() => runPublish(false)}
           onOverwrite={() => runPublish(true)}
           onFixMetrics={goToFirstProblem}
+          onRetry={retry}
           onClose={() => setPhase(null)}
         />
       )}

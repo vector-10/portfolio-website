@@ -5,7 +5,7 @@ import { z } from "zod";
 import { requireOwner } from "@/lib/dashboard/data";
 import { folderOf, publishIssues, toFrontmatter, type FormDoc } from "@/lib/dashboard/doc";
 import { ConflictError, getStore } from "@/lib/dashboard/store";
-import { deploymentsFor, vercelConfigured } from "@/lib/dashboard/vercel";
+import { deploymentById, deploymentsFor, redeploy, vercelConfigured } from "@/lib/dashboard/vercel";
 
 const text = z.string().max(200_000);
 
@@ -111,7 +111,18 @@ export async function saveDoc(input: z.input<typeof SaveInput>, overwrite = fals
 export async function deployStatus(commit: string) {
   await requireOwner();
   if (!vercelConfigured() || getStore().kind === "local") return null;
-  return (await deploymentsFor([commit]))[commit] ?? { state: "pending" as const, url: null, inspectorUrl: null };
+  return (await deploymentsFor([commit]))[commit] ?? { id: null, state: "pending" as const, url: null, inspectorUrl: null };
+}
+
+export async function deploymentStatus(id: string) {
+  await requireOwner();
+  return deploymentById(z.string().min(1).parse(id));
+}
+
+export async function retryDeploy(id: string): Promise<{ ok: true; id: string } | { ok: false; error: string }> {
+  await requireOwner();
+  const next = await redeploy(z.string().min(1).parse(id));
+  return next ? { ok: true, id: next } : { ok: false, error: "Vercel didn't accept the retry. Open the logs to see why." };
 }
 
 const MediaInput = z.object({

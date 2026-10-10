@@ -8,7 +8,15 @@ export type PublishPhase =
   | { step: "committing" }
   | { step: "building"; commit: string; files: number }
   | { step: "live"; commit: string; files: number; url: string | null }
-  | { step: "failed"; commit: string; files: number; logs: string | null }
+  | {
+      step: "failed";
+      commit: string;
+      files: number;
+      logs: string | null;
+      deployment: string | null;
+      retrying?: boolean;
+      error?: string;
+    }
   | { step: "done"; label: string; meta: string };
 
 const GLYPH = { done: "✓", active: "◌", pending: "○", failed: "✕" } as const;
@@ -24,6 +32,7 @@ export function PublishDialog({
   onCommit,
   onOverwrite,
   onFixMetrics,
+  onRetry,
   onClose,
 }: {
   phase: PublishPhase;
@@ -36,6 +45,7 @@ export function PublishDialog({
   onCommit: () => void;
   onOverwrite: () => void;
   onFixMetrics: () => void;
+  onRetry: () => void;
   onClose: () => void;
 }) {
   useEffect(() => {
@@ -78,7 +88,7 @@ export function PublishDialog({
       >
         <div className="flex items-baseline justify-between gap-3">
           <div className="font-serif text-[26px] leading-[1.1] tracking-[-0.02em]">{title}</div>
-          <button type="button" onClick={onClose} aria-label="Close" className="min-h-9 min-w-9 cursor-pointer bg-transparent text-xl text-muted">
+          <button type="button" onClick={onClose} aria-label="Close" className="min-h-9 min-w-9 max-[819px]:min-h-11 max-[819px]:min-w-11 cursor-pointer bg-transparent text-xl text-muted">
             ×
           </button>
         </div>
@@ -93,7 +103,7 @@ export function PublishDialog({
                     <li key={b}>{b}</li>
                   ))}
                 </ul>
-                <button type="button" onClick={onFixMetrics} className="min-h-8 self-start rounded-full border border-ink bg-transparent px-3.5 text-[13px] text-ink">
+                <button type="button" onClick={onFixMetrics} className="min-h-8 max-[819px]:min-h-11 self-start rounded-full border border-ink bg-transparent px-3.5 text-[13px] text-ink">
                   Go to the first problem
                 </button>
               </div>
@@ -158,11 +168,21 @@ export function PublishDialog({
                 </div>
               ))}
             </div>
+            {phase.step === "failed" && phase.error && (
+              <div role="alert" className="border border-dashed border-ink bg-soft px-3.5 py-3 text-[13px]">
+                {phase.error}
+              </div>
+            )}
             <div className="flex flex-wrap justify-end gap-2">
               {phase.step === "failed" && phase.logs && (
                 <a href={phase.logs} target="_blank" rel="noopener" className={secondaryButton}>
                   Vercel logs ↗
                 </a>
+              )}
+              {phase.step === "failed" && phase.deployment && (
+                <button type="button" onClick={onRetry} disabled={phase.retrying} className={secondaryButton}>
+                  {phase.retrying ? "Retrying…" : "Retry deploy"}
+                </button>
               )}
               {phase.step === "live" && (
                 <a href={livePath} target="_blank" rel="noopener" className={secondaryButton}>

@@ -48,14 +48,14 @@ export const tiers = [
     teaser: "Your product built end to end, from MVP to launch. For founders with an idea and a deadline.",
     desc: "Your product built end to end, from MVP to launch.",
     price: "$3k – $5k",
-    time: "Per project · 4 – 8 weeks",
+    time: "Per project · 6 – 8 weeks",
     items: ["Web app and API", "Auth, payments and admin", "Database design and hosting", "Weekly demos on a live link", "30 days of post-launch fixes"],
     fit: ["You need a first version live", "You have a clear problem and a budget", "You want one person accountable"],
   },
   {
     name: "Embedded engineer",
-    teaser: "Senior engineering capacity inside your team. For startups that need to ship more, reliably.",
-    desc: "Senior engineering capacity inside your team, part- or full-time.",
+    teaser: "Solid engineering capacity inside your team. For startups that need to ship more, reliably.",
+    desc: "Solid engineering capacity inside your team, part- or full-time.",
     price: "$2.5k",
     time: "Per month · contract",
     items: ["Feature development", "Backend and infrastructure work", "Code review and mentoring", "Incident support", "Joins your standups and tools"],
@@ -67,7 +67,7 @@ export const problems = [
   { q: "You have an idea and a deadline, but no one to build it.", a: "I take it from rough notes or designs to a live product people can pay for." },
   { q: "Your MVP works, but it slows down or breaks as users grow.", a: "I find what will fail first and fix it without stopping the product." },
   { q: "Payments are failing, duplicated or impossible to reconcile.", a: "This is my deepest specialty. I've rebuilt payout systems handling billions of naira." },
-  { q: "Your team needs senior backend help, but not a full-time hire yet.", a: "I join as an embedded engineer, ship features and raise the bar for everyone else." },
+  { q: "Your team needs solid backend help, but not a full-time hire yet.", a: "I join as an embedded engineer, ship features and raise the bar for everyone else." },
 ];
 
 export const steps = [

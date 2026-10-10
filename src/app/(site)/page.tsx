@@ -9,7 +9,7 @@ import { PostLink, postMetaLine } from "@/components/post-link";
 import { ProjectRow } from "@/components/project-row";
 import { SectionHead } from "@/components/section-head";
 import { TestimonialRow } from "@/components/testimonial-row";
-import { homeMetrics, logos, site, testimonials, tiers } from "@/config/site";
+import { availability, homeMetrics, logos, site, testimonials, tiers } from "@/config/site";
 import { getPosts, getProjects } from "@/lib/content";
 import { pageMeta } from "@/lib/meta";
 
@@ -29,7 +29,7 @@ export default async function HomePage() {
       <section className="gutter box-content flex max-w-[1440px] flex-wrap items-center gap-[clamp(40px,6vw,96px)] pt-[clamp(56px,9vw,128px)] pb-[clamp(48px,7vw,96px)]">
         <div className="flex max-w-[760px] min-w-0 flex-[1_1_520px] flex-col gap-8">
           <div className="font-mono text-[13px] tracking-[0.02em] text-muted">
-            Software engineer · Problem solver{site.available ? " · Available for new projects" : ""}
+            Software engineer · Problem solver{site.available ? ` · ${availability || "Available for new projects"}` : ""}
           </div>
           <h1 className="text-[clamp(46px,7.2vw,112px)] leading-[0.98] tracking-[-0.035em]">
             I build full products, with the backend done right.

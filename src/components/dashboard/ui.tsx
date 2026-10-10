@@ -9,10 +9,10 @@ export const fieldClass = (bad = false) =>
   }`;
 
 export const primaryButton =
-  "inline-flex min-h-10 cursor-pointer items-center rounded-full border-0 bg-ink px-4 font-medium text-bg hover:no-underline disabled:cursor-not-allowed disabled:bg-rule disabled:text-muted";
+  "inline-flex min-h-10 max-[819px]:min-h-11 cursor-pointer items-center rounded-full border-0 bg-ink px-4 font-medium text-bg hover:no-underline disabled:cursor-not-allowed disabled:bg-rule disabled:text-muted";
 
 export const secondaryButton =
-  "inline-flex min-h-10 cursor-pointer items-center rounded-full border border-ink bg-transparent px-4 font-medium text-ink hover:no-underline";
+  "inline-flex min-h-10 max-[819px]:min-h-11 cursor-pointer items-center rounded-full border border-ink bg-transparent px-4 font-medium text-ink hover:no-underline";
 
 export function PageTitle({ children }: { children: React.ReactNode }) {
   return <h1 className="text-[34px] leading-none tracking-[-0.02em]">{children}</h1>;
