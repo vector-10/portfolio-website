@@ -13,7 +13,7 @@ const newsreader = Newsreader({
 
 const geist = Geist({
   variable: "--font-geist",
-  subsets: ["latin"],
+  subsets: ["latin"], 
   display: "swap",
 });
 

@@ -18,7 +18,7 @@ export function ProjectRow({ project, index, showStack }: { project: Project; in
           {project.role} · {project.timeframe}
         </div>
         <p className="mt-1 text-[clamp(18px,1.6vw,20px)] leading-[1.45]">{project.outcome}</p>
-        <div className="font-mono text-xs text-muted">{project.headlineMetric}</div>
+        {project.headlineMetric && <div className="font-mono text-xs text-muted">{project.headlineMetric}</div>}
         {showStack && <div className="text-sm text-muted">{project.stack.join(", ")}</div>}
         <div className="flex flex-wrap gap-6 pt-1 text-[15px] font-medium">
           <Link href={`/work/${project.slug}`}>Read case study →</Link>

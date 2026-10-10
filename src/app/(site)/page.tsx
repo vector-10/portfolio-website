@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ButtonLink } from "@/components/button";
+import { buttonClass, ButtonLink } from "@/components/button";
 import { ClosingBand } from "@/components/closing-band";
+import { ContactLink } from "@/components/contact-link";
 import { Avatar, Logo } from "@/components/media";
 import { MetricGrid } from "@/components/metric";
 import { PostLink, postMetaLine } from "@/components/post-link";
@@ -39,7 +40,7 @@ export default async function HomePage() {
             and scale.
           </p>
           <div className="flex flex-wrap gap-3">
-            <ButtonLink href={`mailto:${site.email}`}>Email me</ButtonLink>
+            <ContactLink className={buttonClass()}>Email me</ContactLink>
             <ButtonLink href="#work" variant="secondary">
               See the work
             </ButtonLink>
@@ -60,8 +61,8 @@ export default async function HomePage() {
       </section>
 
       {logos.length > 0 && (
-        <section className="gutter flex flex-wrap items-center gap-[clamp(24px,4vw,56px)] border-y border-rule py-7">
-          <div className="shrink-0 text-sm text-muted">Trusted by teams at</div>
+        <section className="gutter flex flex-wrap items-center gap-[clamp(24px,4vw,56px)] bg-inv-bg py-7 text-inv-ink">
+          <div className="shrink-0 text-sm opacity-75">Trusted by teams at</div>
           <div className="flex flex-[1_1_320px] flex-wrap items-center gap-[clamp(20px,3vw,40px)]">
             {logos.map((l, i) => (
               <Logo key={i} {...l} />

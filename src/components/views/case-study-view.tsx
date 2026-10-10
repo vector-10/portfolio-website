@@ -68,9 +68,11 @@ export function CaseStudyView({
         </div>
       </section>
 
-      <section className="gutter pb-[clamp(56px,7vw,96px)]">
-        <MetricGrid metrics={meta.metrics} />
-      </section>
+      {meta.metrics.length > 0 && (
+        <section className="gutter pb-[clamp(56px,7vw,96px)]">
+          <MetricGrid metrics={meta.metrics} />
+        </section>
+      )}
 
       <div className="gutter flex flex-wrap items-end justify-between gap-6 bg-inv-bg py-[clamp(40px,5vw,64px)] text-inv-ink">
         <h2 className="text-[clamp(36px,4.6vw,64px)] leading-none tracking-[-0.03em]">Technical deep dive</h2>

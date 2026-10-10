@@ -20,6 +20,7 @@ Content leads with the deep specialty (backend, async distributed systems, data 
 - **Assets:** `next/image` (AVIF/WebP), `next/font` self-hosted, no third-party asset domains.
 - **Extras:** `next/og` social cards, sitemap, robots, JSON-LD structured data (`Person` + `WebSite` in the root layout, `Article` per post). No RSS: removed on purpose 2026-10-08.
 - **Discoverability:** all crawlers allowed, including AI search and training bots (OAI-SearchBot, GPTBot, ClaudeBot, PerplexityBot). Don't block them. No `llms.txt`: evidence shows crawlers don't read it.
+- **Contact form:** every "Email me" link (`ContactLink`) opens one modal (`ContactDialog`, in the site layout). The form has email, subject and message fields. A Server Action (`src/app/(site)/actions.ts`) sends it through Resend to `site.email`, with the visitor's address as reply-to. A hidden honeypot field stops basic bots. Without JS, the links fall back to mailto. Needs `RESEND_API_KEY` and `CONTACT_FROM` (an address on the domain verified in Resend); without them the form shows the email address instead.
 
 ## Content rules
 - Project metrics always carry context: value, unit, how measured, production vs benchmark, date.
@@ -31,11 +32,14 @@ Before using any Next.js API or any library/tool feature, look up current best p
 ## Hard rule: ask before running commands
 Don't run CLI commands without the owner's permission. Read-only inspection (reading files, `git status`/`diff`/`log`, grep) is fine. Anything that starts a process or changes state needs a yes first, including `pnpm dev`/`build`/`install`, servers, scripts and git writes. The owner usually has `pnpm dev` running already, so never start another one; verify against theirs.
 
+## Hard rule: how to answer
+Give the facts straight, in short paragraphs. Answer only what was asked. No extra caveats or options. If you have a recommendation, add it at the end, clearly marked as one. The owner decides whether to take it.
+
 ## Workflow
 UI is designed first in Claude Design, then handed back here for implementation. Don't write UI layout code ahead of the design.
 
 ## Deferred features (build later, owner's call)
-Decision 2026-10-08: launch as a read-only site so people can read the work. No database, no forms, no API routes. The earlier code for these was deleted, so rebuild from this spec. All of them need Neon (`DATABASE_URL` in `.env.local`, never committed).
+Decision 2026-10-08: launch as a read-only site so people can read the work. No database, no forms, no API routes. Exception (2026-10-10): the contact form above. The earlier code for these was deleted, so rebuild from this spec. All of them need Neon (`DATABASE_URL` in `.env.local`, never committed).
 
 **Article reactions** ("Was this useful?")
 - Sits at the end of each local article (`src/app/writing/[slug]/page.tsx`, after `<ArticleBody>`): 1px `--ink` top rule, "Was this useful?" in 15px muted, then three pill toggles: Useful / Learned something / Want a follow-up, each with a Geist Mono 13px count. Inactive: `--rule` border; active: `--ink` fill, `--bg` text. Min height 44px.
@@ -80,9 +84,9 @@ Everything not ticked is placeholder copy and must be replaced before launch. Ne
 - [ ] How-it-works steps and FAQ answers (payment terms, time zone, etc.)
 - [ ] About: location line, "Where I go deep" specialties, stack by area, experience (company, role, dates, one outcome each)
 - [ ] About bio prose (in `src/app/about/page.tsx`)
-- [ ] Home "Results in production" metrics: value, unit, label, source (Production/Benchmark), method, date
+- [x] Home "Results in production" metrics: value, unit, label, source (Production/Benchmark), method, date
 - [ ] Testimonials: quote, name, title (+ avatar, optional)
-- [ ] Client logos for "Trusted by teams at" (or remove the strip)
+- [x] Client logos for "Trusted by teams at" (or remove the strip)
 - [ ] Talks and elsewhere: title, link, type · venue · date
 - [ ] Production domain → `NEXT_PUBLIC_SITE_URL` in Vercel
 
@@ -96,7 +100,7 @@ Everything not ticked is placeholder copy and must be replaced before launch. Ne
 - [ ] Résumé → `resume.pdf`
 - [ ] Project covers → `images/work/<slug>.png` (16:10, ≥1600×1000)
 - [ ] Article figures → `images/writing/<name>.png` (16:9, ≥1440×810)
-- [ ] Client logos → `images/logos/<name>.svg` (monochrome, ~120×32)
+- [x] Client logos → `images/logos/<name>.svg` (monochrome, ~120×32)
 - [ ] Testimonial avatars → `images/avatars/<name>.jpg` (square, ≥88×88)
 
 **Projects** (`content/projects/<slug>.mdx`, one per project; current five are placeholders)

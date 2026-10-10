@@ -26,18 +26,17 @@ export const nav = [
 ] as const;
 
 export const homeMetrics: Metric[] = [
-  { value: "7", unit: "weeks", label: "From first call to a live product with paying users", source: "Production", method: "kickoff to launch", date: "Feb 2026" },
-  { value: "₦2.4B", unit: "/mo", label: "Payments processed without manual reconciliation", source: "Production", method: "ledger totals", date: "Jun 2026" },
-  { value: "14k", unit: "events/s", label: "Sustained through a sales peak with no dropped events", source: "Production", method: "Kafka consumer lag, 7-day peak", date: "Mar 2026" },
-  { value: "120", unit: "ms", label: "Checkout response time for 99% of requests", source: "Production", method: "p99, 30-day window", date: "Aug 2026" },
+  { value: "6", unit: "weeks", label: "From idea to a client's logistics app live in production", source: "Production", method: "kickoff to launch", date: "Aug – Sep 2026" },
+  { value: "5,000", unit: "users", label: "Logistics app grown from its first user, with 1,000 daily active users", source: "Production", method: "counted in the production database", date: "Jan – Jul 2025" },
+  { value: "500+", unit: "concurrent users", label: "Customer-support chat on WebSockets, running stably", source: "Production", method: "counted in the production database", date: "Jan – Jul 2025" },
+  { value: "60%", unit: "lower cost", label: "Moved a startup from AWS to self-hosted servers, with p99 latency held at 150ms", source: "Production", method: "monthly bill before vs after; p99 from Grafana", date: "Mar – Aug 2025" },
 ];
 
 export const logos: { name: string; src?: string }[] = [
-  { name: "logo" },
-  { name: "logo" },
-  { name: "logo" },
-  { name: "logo" },
-  { name: "logo" },
+  { name: "First Software Systems", src: "/images/logos/first-software-systems.png" },
+  { name: "Eulav", src: "/images/logos/eulav.svg" },
+  { name: "HagoCloud", src: "/images/logos/hagocloud.png" },
+  { name: "TrustMan", src: "/images/logos/trustman.png" },
 ];
 
 export const availability = settings.note;

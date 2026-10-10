@@ -1,4 +1,5 @@
 import { site } from "@/config/site";
+import { ContactLink } from "./contact-link";
 
 export function ClosingBand({
   headline = "Building something? Tell me about it.",
@@ -14,14 +15,14 @@ export function ClosingBand({
   subject?: string;
 }) {
   const email = (
-    <a
-      href={`mailto:${site.email}${subject ? `?subject=${encodeURIComponent(subject)}` : ""}`}
+    <ContactLink
+      subject={subject}
       className={`border-b-2 border-inv-ink font-serif leading-[1.2] wrap-break-word hover:no-underline ${
         large ? "text-[clamp(26px,3vw,40px)] tracking-[-0.01em]" : "text-[clamp(24px,2.6vw,34px)]"
       }`}
     >
       {site.email}
-    </a>
+    </ContactLink>
   );
 
   return (

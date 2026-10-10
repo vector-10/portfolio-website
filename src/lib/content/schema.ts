@@ -25,7 +25,7 @@ export const ProjectSchema = z.object({
   stack: z.array(z.string()).min(1),
   links: z.array(z.object({ label: z.string(), href: z.string() })).default([]),
   metrics: z.array(MetricSchema),
-  headlineMetric: z.string().min(1),
+  headlineMetric: z.string().optional(),
   summary: z.object({
     problem: z.string().min(1),
     did: z.string().min(1),

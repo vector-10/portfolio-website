@@ -1,3 +1,4 @@
+import { ContactDialog } from "@/components/contact-dialog";
 import { Header } from "@/components/header";
 import { JsonLd, siteGraph } from "@/lib/json-ld";
 
@@ -7,6 +8,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       <JsonLd data={siteGraph} />
       <Header />
       {children}
+      <ContactDialog />
     </>
   );
 }

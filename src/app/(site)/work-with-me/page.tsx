@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
-import { ButtonLink } from "@/components/button";
+import { buttonClass, ButtonLink } from "@/components/button";
 import { ClosingBand } from "@/components/closing-band";
+import { ContactLink } from "@/components/contact-link";
 import { availability, faqs, problems, site, steps, tiers } from "@/config/site";
 
 export const metadata: Metadata = pageMeta(
@@ -11,7 +12,6 @@ export const metadata: Metadata = pageMeta(
 );
 
 const subject = "Project enquiry";
-const mailto = `mailto:${site.email}?subject=${encodeURIComponent(subject)}`;
 const sideH2 = "text-[clamp(32px,3.6vw,48px)] leading-[1.05] tracking-[-0.025em]";
 const sideContent = "col-span-2 min-w-0 max-[640px]:col-span-full";
 
@@ -45,7 +45,9 @@ export default function WorkWithMePage() {
           pricing, and you own everything I write.
         </p>
         <div className="flex flex-wrap gap-3">
-          <ButtonLink href={mailto}>Email me about a project</ButtonLink>
+          <ContactLink subject={subject} className={buttonClass()}>
+            Email me about a project
+          </ContactLink>
           <ButtonLink href="#options" variant="secondary">
             See pricing
           </ButtonLink>
@@ -88,12 +90,9 @@ export default function WorkWithMePage() {
               </div>
               <DashList label="Included" items={t.items} />
               <DashList label="Good fit if" items={t.fit}>
-                <a
-                  href={`mailto:${site.email}?subject=${encodeURIComponent(t.name)}`}
-                  className="mt-3.5 text-[15px] font-medium"
-                >
+                <ContactLink subject={t.name} className="mt-3.5 text-[15px] font-medium">
                   Email about this →
-                </a>
+                </ContactLink>
               </DashList>
             </div>
           ))}

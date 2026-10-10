@@ -18,7 +18,7 @@ export function MetricWithContext({ metric, variant = "case" }: { metric: Metric
         </div>
       ) : (
         <div className="font-mono text-xs leading-[1.6] text-muted">
-          {metric.source} · {metric.method} · {metric.date}
+          {[metric.source, metric.method, metric.date].filter(Boolean).join(" · ")}
         </div>
       )}
     </div>
